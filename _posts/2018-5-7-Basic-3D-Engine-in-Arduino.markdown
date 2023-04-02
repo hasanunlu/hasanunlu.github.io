@@ -4,7 +4,7 @@ title:  "Basic 3D Engine in Arduino"
 date:   2018-5-7 21:46:39 -0700
 # categories: jekyll update
 ---
-In this experiment, fundamental 3D computer graphics operations, such as rotation, is displayed in LCD using 2D projection of the original object. The frame rate is 45 frames per second, although the display refresh rate is significantly slower than the actual data throughput.s
+In this experiment, fundamental 3D computer graphics operations, such as rotation, is displayed in LCD using 2D projection of the original object. The frame rate is 45 frames per second, although the display refresh rate is significantly slower than the actual data throughput.
 
 Check out the video.
 <iframe width="720" height="540" src="https://youtube.com/embed/3_ugKHDYY54" frameborder="0"> </iframe>
