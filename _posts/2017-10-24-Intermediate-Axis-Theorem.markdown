@@ -7,7 +7,13 @@ date:   2017-10-24 21:46:39 -0700
 The intermediate axis theorem is an unintuitive concept in physics that occurs when a rigid object has incrementally larger moments of inertia for each of its orthogonal axes. When the object is spun around the axis with the intermediate moment of inertia, The direction of that axis oscillates.
 
 Check out this video for a demonstration: Dancing T-handle in zero-g
-<iframe width="720" height="540" src="https://www.youtube.com/embed/1n-HMSCDYtM" frameborder="0"> </iframe>
+<div class="video-holder">
+  <iframe width="560"
+          height="315" 
+          src="https://www.youtube.com/embed/1n-HMSCDYtM" 
+          frameborder="0" 
+          allowfullscreen></iframe>
+</div>
 
 We can write the following differential equations for the system.
 

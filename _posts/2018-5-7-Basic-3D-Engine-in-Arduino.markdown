@@ -7,8 +7,13 @@ date:   2018-5-7 21:46:39 -0700
 In this experiment, fundamental 3D computer graphics operations, such as rotation, is displayed in LCD using 2D projection of the original object. The frame rate is 45 frames per second, although the display refresh rate is significantly slower than the actual data throughput.
 
 Check out the video.
-<iframe width="720" height="540" src="https://youtube.com/embed/3_ugKHDYY54" frameborder="0"> </iframe>
-
+<div class="video-holder">
+  <iframe width="560"
+          height="315" 
+          src="https://www.youtube.com/embed/3_ugKHDYY54" 
+          frameborder="0" 
+          allowfullscreen></iframe>
+</div>
 ```c
 /*********************************************************************
 This is simple 3D object rotation and 2D projection example.

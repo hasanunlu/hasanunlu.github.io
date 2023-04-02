@@ -32,12 +32,28 @@
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/backup/2023-04-01-welcome-to-jekyll.html">Welcome to Jekyll!</a><a class="page-link" href="/about/">About</a></div>
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <script type="text/javascript" async
+        <style>
+  .video-holder {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+    overflow: hidden;
+  }
+  .video-holder iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<script type="text/javascript" async
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
   MathJax.Hub.Config({
     tex2jax: {
@@ -57,7 +73,7 @@
   <div class="post-content e-content" itemprop="articleBody">
     <p>This basic CPU runs on Spartan 3E FPGA with basic instructions. It is Von Neumann architecture. Each instruction is 32 bit. ALU(Arithmetic Logic Unit) is capable of 32-bit if operands are loaded from memory. Otherwise direct operations only support 14-bit. <a href="https://github.com/hasanunlu/simple_cpu">My github repo</a> has all necessary files (Design files, binary download, memory dump and example bubble sort assembly file). Unfortunately no interrupt vector support yet. But I will add that soon.</p>
 
-<p><strong>Instruction word bit breakdown</strong></p>
+<p><strong>Instruction Word Bit Field Breakdown</strong></p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| opcode  |   i   |     A     |     B     |
 |  3-bit  | 1-bit |   14-bit  |   14-bit  |
 </code></pre></div></div>

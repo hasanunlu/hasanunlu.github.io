@@ -4,8 +4,13 @@ title:  "Running LeNet-5 on RISC-V Micro-Controller with only 16 KBytes Memory"
 date:   2020-6-10 21:46:39 -0700
 # categories: jekyll update
 ---
-
-<iframe width="720" height="540" src="https://youtube.com/embed/nQN_5fDQbI4" frameborder="0"> </iframe>
+<div class="video-holder">
+  <iframe width="560"
+          height="315" 
+          src="https://www.youtube.com/embed/nQN_5fDQbI4" 
+          frameborder="0" 
+          allowfullscreen></iframe>
+</div>
 \
 ![Experiment Setup](/assets/conv_setup.png){:style="display:block; margin-left:auto; margin-right:auto"}
 <div align="center">

@@ -6,7 +6,7 @@ date:   2018-8-28 21:46:39 -0700
 ---
 This basic CPU runs on Spartan 3E FPGA with basic instructions. It is Von Neumann architecture. Each instruction is 32 bit. ALU(Arithmetic Logic Unit) is capable of 32-bit if operands are loaded from memory. Otherwise direct operations only support 14-bit. [My github repo](https://github.com/hasanunlu/simple_cpu) has all necessary files (Design files, binary download, memory dump and example bubble sort assembly file). Unfortunately no interrupt vector support yet. But I will add that soon.
 
-**Instruction word bit breakdown**
+**Instruction Word Bit Field Breakdown**
 ```
 | opcode  |   i   |     A     |     B     |
 |  3-bit  | 1-bit |   14-bit  |   14-bit  |

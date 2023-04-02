@@ -32,12 +32,28 @@
           </span>
         </label>
 
-        <div class="trigger"><a class="page-link" href="/backup/2023-04-01-welcome-to-jekyll.html">Welcome to Jekyll!</a><a class="page-link" href="/about/">About</a></div>
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
       </nav></div>
 </header>
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <script type="text/javascript" async
+        <style>
+  .video-holder {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+    overflow: hidden;
+  }
+  .video-holder iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<script type="text/javascript" async
   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
   MathJax.Hub.Config({
     tex2jax: {
@@ -58,8 +74,9 @@
     <p>In this experiment, fundamental 3D computer graphics operations, such as rotation, is displayed in LCD using 2D projection of the original object. The frame rate is 45 frames per second, although the display refresh rate is significantly slower than the actual data throughput.</p>
 
 <p>Check out the video.</p>
-<iframe width="720" height="540" src="https://youtube.com/embed/3_ugKHDYY54" frameborder="0"> </iframe>
-
+<div class="video-holder">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/3_ugKHDYY54" frameborder="0" allowfullscreen=""></iframe>
+</div>
 <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*********************************************************************
 This is simple 3D object rotation and 2D projection example.
 It uses 64x48 oled display with SSD1306 controller.
