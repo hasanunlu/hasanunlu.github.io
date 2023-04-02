@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-04-01T23:15:41-07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hasan Unlu’s Blog</title><entry><title type="html">Intermediate Axis Theorem</title><link href="http://localhost:4000/2017/10/24/Intermediate-Axis-Theorem.html" rel="alternate" type="text/html" title="Intermediate Axis Theorem" /><published>2017-10-24T21:46:39-07:00</published><updated>2017-10-24T21:46:39-07:00</updated><id>http://localhost:4000/2017/10/24/Intermediate-Axis-Theorem</id><content type="html" xml:base="http://localhost:4000/2017/10/24/Intermediate-Axis-Theorem.html"><![CDATA[<p>The intermediate axis theorem is an unintuitive concept in physics that occurs when a rigid object has incrementally larger moments of inertia for each of its orthogonal axes. When the object is spun around the axis with the intermediate moment of inertia, The direction of that axis oscillates.</p>
+
+<p>Check out this video for a demonstration: Dancing T-handle in zero-g</p>
+<iframe width="720" height="540" src="https://www.youtube.com/embed/1n-HMSCDYtM" frameborder="0"> </iframe>
+
+<p>We can write the following differential equations for the system.</p>
+
+\[I_{1}\dot\omega_{1} + (I_{3}-I_{2})\omega_{2}\omega_{3} = \tau_{1}\]
+
+\[I_{2}\dot\omega_{2} + (I_{1}-I_{3})\omega_{1}\omega_{3} = \tau_{2}\]
+
+\[I_{3}\dot\omega_{3} + (I_{2}-I_{1})\omega_{1}\omega_{2} = \tau_{3}\]
+
+<p>In this scenario, $\tau_{1}$, $\tau_{2}$ and $\tau_{3}$ are all zero since no external torque is being applied. Assume $I_1 &lt; I_2 &lt; I_3$, $w_1 \approx 0$, $w_3 \approx 0$ and $w_2 \neq 0$. In order to compute solutions for this ordinary differential equation system numerically, the following python code snippet can be used.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">odeint</span>
+
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">I1</span><span class="p">,</span> <span class="n">I2</span><span class="p">,</span> <span class="n">I3</span><span class="p">):</span>
+    <span class="n">omega_1</span><span class="p">,</span> <span class="n">omega_2</span><span class="p">,</span> <span class="n">omega_3</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="n">dydt</span> <span class="o">=</span> <span class="p">[(</span><span class="n">I2</span> <span class="o">-</span> <span class="n">I3</span><span class="p">)</span> <span class="o">*</span> <span class="n">omega_2</span> <span class="o">*</span> <span class="n">omega_3</span> <span class="o">/</span> <span class="n">I1</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">I3</span> <span class="o">-</span> <span class="n">I1</span><span class="p">)</span> <span class="o">*</span> <span class="n">omega_1</span> <span class="o">*</span> <span class="n">omega_3</span> <span class="o">/</span> <span class="n">I2</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">I1</span> <span class="o">-</span> <span class="n">I2</span><span class="p">)</span> <span class="o">*</span> <span class="n">omega_1</span> <span class="o">*</span> <span class="n">omega_2</span> <span class="o">/</span> <span class="n">I3</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">dydt</span>
+
+<span class="c1"># Inertia
+</span><span class="n">I1</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">I2</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">I3</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">]</span> <span class="c1"># Initial conditions
+</span>
+<span class="n">sol</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">I1</span><span class="p">,</span> <span class="n">I2</span><span class="p">,</span> <span class="n">I3</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sol</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="s">'b'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'w_1(t)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sol</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s">'r'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'w_2(t)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sol</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="s">'g'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'w_3(t)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s">'lower right'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'t'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>The numerical resolution of the differential equation system indicates that $w_2$ oscillates between $-4$ and $4$. During the transition in axis direction, $w_1$ and $w_3$ briefly become non-zero for a very short duration during the transitions.
+<img src="/assets/intermediate_axis.png" alt="Angular velocities" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[The intermediate axis theorem is an unintuitive concept in physics that occurs when a rigid object has incrementally larger moments of inertia for each of its orthogonal axes. When the object is spun around the axis with the intermediate moment of inertia, The direction of that axis oscillates.]]></summary></entry></feed>
