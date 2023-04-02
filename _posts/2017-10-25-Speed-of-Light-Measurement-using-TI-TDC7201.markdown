@@ -6,7 +6,7 @@ date:   2017-10-25 21:46:39 -0700
 ---
 In this experiment, the time delay of light in a 15-meter fiber cable is measured using the TDC7201 Time-to-Digital Converter. Commonly available components were utilized for this setup. The fiber cables employed are inexpensive Toslink optical cables. The measured delay in the 15-meter cable is 99.2 ns. In a vacuum, the light would travel the same distance in 50 ns. Generally, the refractive index of fiber cables is 1.3, but this specific cable seem different. In a previous test using a 10-meter cable of the same brand, the measured delay was 65.8 ns, indicating correlation between the results from the same cable type. Their refractive indexes are same.
 
-**Components list**
+**Component list**
 * Arduino Due or a similar microcontroller with SPI and 3.3V logic level
 * TI TDC7201 evaluation board [datasheet](http://www.ti.com/lit/ds/snas686/snas686.pdf)
 * Red light laser
@@ -17,10 +17,16 @@ In this experiment, the time delay of light in a 15-meter fiber cable is measure
 * Optical splitter
 
 ![Experiment Setup](/assets/tdc7201_setup.png)
-
+<div align="center">
+Experiment setup
+</div>
+\
 Arduino Due code
 
 ```c
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
 //#define OLED_LCD
 
 #ifdef OLED_LCD

@@ -1,8 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-04-02T00:30:38-07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hasan Unlu’s Blog</title><entry><title type="html">Full Speed Bit-Bang I2C for RISC-V Architecture HiFive-1 uC Board</title><link href="http://localhost:4000/2018/08/27/Full-Speed-Bit-Bang-I2C-for-RISC-V-Architecture-HiFive-1-uC-Board.html" rel="alternate" type="text/html" title="Full Speed Bit-Bang I2C for RISC-V Architecture HiFive-1 uC Board" /><published>2018-08-27T21:46:39-07:00</published><updated>2018-08-27T21:46:39-07:00</updated><id>http://localhost:4000/2018/08/27/Full-Speed-Bit-Bang-I2C-for-RISC-V-Architecture-HiFive-1-uC-Board</id><content type="html" xml:base="http://localhost:4000/2018/08/27/Full-Speed-Bit-Bang-I2C-for-RISC-V-Architecture-HiFive-1-uC-Board.html"><![CDATA[<p>The HiFive-1 represents the initial Risc-V board compatible with Arduino. Regrettably, it is only equipped with PWM, UART, and SPI hardware. During the past weekend, I developed a bit-bang I2C implementation that clocks up to 400KHz for my HiFive-1 board. The demonstration involves reading data from an MPU6050 sensor for all axes and displaying the Z-axis value in <em>g</em>.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-04-02T10:59:47-07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hasan Unlu’s Blog</title><entry><title type="html">Attempting to Comprehend Irrational Numbers Through a Rational Approach</title><link href="http://localhost:4000/2023/03/17/Attempting-to-Comprehend-Irrational-Numbers-Through-a-Rational-Approach.html" rel="alternate" type="text/html" title="Attempting to Comprehend Irrational Numbers Through a Rational Approach" /><published>2023-03-17T21:46:39-07:00</published><updated>2023-03-17T21:46:39-07:00</updated><id>http://localhost:4000/2023/03/17/Attempting-to-Comprehend-Irrational-Numbers-Through-a-Rational-Approach</id><content type="html" xml:base="http://localhost:4000/2023/03/17/Attempting-to-Comprehend-Irrational-Numbers-Through-a-Rational-Approach.html"><![CDATA[<p>Most of us like playing Jenga. For a moment, imagine that you are in a room with infinitely many identical Jenga blocks.</p>
+
+<p><img src="/assets/jenga.png" alt="Jenga blocks" style="display:block; margin-left:auto; margin-right:auto" /></p>
+<div align="center">
+Jenga blocks
+</div>
+<p><br />
+At some point, you started wondering a Jenga block’s length-to-width ratio. Let’s forget about depth. But you have no access to any measurement tool. However, you easily figure out how to find it and you start placing Jenga blocks vertically and horizontally.</p>
+
+<p><img src="/assets/ratio.png" alt="A solution finding length-to-width ratio" style="display:block; margin-left:auto; margin-right:auto" /></p>
+<div align="center">
+A solution finding length-to-width ratio
+</div>
+<p><br />
+Once they align, you count how many horizontal and vertical blocks are used. (number of vertical blocks / number of horizontal blocks) is length-to-width ratio.</p>
+
+\[\frac{\textrm{number of vertical blocks}}{\textrm{number of horizontal blocks}} = \frac{l}{w}\]
+
+<p>However you notice no alignment happens for these Jenga blocks. Actually you don’t know it is going to align or not. They get closer but they never align. What is special about the length-to-width ratio of these blocks?</p>
+
+<p><strong>The ratio is irrational number.</strong></p>
+
+<p>To represent an irrational number, you need infinitely many blocks. We are not able to represent an irrational number in finite quantity domain. The other fact is that the length-to-width ratio is real in your hand but there is no way to represent them in finite world. They are like symbols $\sqrt{2}$, $\pi$ etc. We can only know they exist.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Most of us like playing Jenga. For a moment, imagine that you are in a room with infinitely many identical Jenga blocks.]]></summary></entry><entry><title type="html">Running LeNet-5 on RISC-V Micro-Controller with only 16 KBytes Memory</title><link href="http://localhost:4000/2020/06/10/Running-LeNet-5-on-RISC-V-Micro-Controller-with-only-16-KBytes-Memory.html" rel="alternate" type="text/html" title="Running LeNet-5 on RISC-V Micro-Controller with only 16 KBytes Memory" /><published>2020-06-10T21:46:39-07:00</published><updated>2020-06-10T21:46:39-07:00</updated><id>http://localhost:4000/2020/06/10/Running-LeNet-5-on-RISC-V-Micro-Controller-with-only-16-KBytes-Memory</id><content type="html" xml:base="http://localhost:4000/2020/06/10/Running-LeNet-5-on-RISC-V-Micro-Controller-with-only-16-KBytes-Memory.html"><![CDATA[<iframe width="720" height="540" src="https://youtube.com/embed/nQN_5fDQbI4" frameborder="0"> </iframe>
+<p><br />
+<img src="/assets/conv_setup.png" alt="Experiment Setup" style="display:block; margin-left:auto; margin-right:auto" /></p>
+<div align="center">
+Experiment Setup
+</div>
+<p><br />
+Here is <a href="https://github.com/hasanunlu/neural_network_deployment_for_uC">the code</a> and <a href="https://arxiv.org/pdf/2007.01348.pdf">arxiv paper</a> that I wrote about memory optimizations.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Experiment Setup Here is the code and arxiv paper that I wrote about memory optimizations.]]></summary></entry><entry><title type="html">Full Speed Bit-Bang I2C for RISC-V Architecture HiFive-1 uC Board</title><link href="http://localhost:4000/2018/08/27/Full-Speed-Bit-Bang-I2C-for-RISC-V-Architecture-HiFive-1-uC-Board.html" rel="alternate" type="text/html" title="Full Speed Bit-Bang I2C for RISC-V Architecture HiFive-1 uC Board" /><published>2018-08-27T21:46:39-07:00</published><updated>2018-08-27T21:46:39-07:00</updated><id>http://localhost:4000/2018/08/27/Full-Speed-Bit-Bang-I2C-for-RISC-V-Architecture-HiFive-1-uC-Board</id><content type="html" xml:base="http://localhost:4000/2018/08/27/Full-Speed-Bit-Bang-I2C-for-RISC-V-Architecture-HiFive-1-uC-Board.html"><![CDATA[<p>The HiFive-1 represents the initial Risc-V board compatible with Arduino. Regrettably, it is only equipped with PWM, UART, and SPI hardware. During the past weekend, I developed a bit-bang I2C implementation that clocks up to 400KHz for my HiFive-1 board. The demonstration involves reading data from an MPU6050 sensor for all axes and displaying the Z-axis value in <em>g</em>.</p>
 
 <p><img src="/assets/i2c_prints.png" alt="Reading MPU6050" style="display:block; margin-left:auto; margin-right:auto" /></p>
-
-<p><img src="/assets/hifive1setup.png" alt="Experiment Setup" /></p>
+<div align="center">
+Reading MPU6050
+</div>
+<p><br />
+<br />
+<img src="/assets/hifive1setup.png" alt="Experiment setup" /></p>
+<div align="center">
+Experiment setup
+</div>
 
 <p>Full source code is <a href="https://github.com/hasanunlu/i2c_demo_for_HiFive1">here</a>.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[The HiFive-1 represents the initial Risc-V board compatible with Arduino. Regrettably, it is only equipped with PWM, UART, and SPI hardware. During the past weekend, I developed a bit-bang I2C implementation that clocks up to 400KHz for my HiFive-1 board. The demonstration involves reading data from an MPU6050 sensor for all axes and displaying the Z-axis value in g.]]></summary></entry><entry><title type="html">Basic 3D Engine in Arduino</title><link href="http://localhost:4000/2018/05/07/Basic-3D-Engine-in-Arduino.html" rel="alternate" type="text/html" title="Basic 3D Engine in Arduino" /><published>2018-05-07T21:46:39-07:00</published><updated>2018-05-07T21:46:39-07:00</updated><id>http://localhost:4000/2018/05/07/Basic-3D-Engine-in-Arduino</id><content type="html" xml:base="http://localhost:4000/2018/05/07/Basic-3D-Engine-in-Arduino.html"><![CDATA[<p>In this experiment, fundamental 3D computer graphics operations, such as rotation, is displayed in LCD using 2D projection of the original object. The frame rate is 45 frames per second, although the display refresh rate is significantly slower than the actual data throughput.</p>
 
@@ -191,7 +227,7 @@ and Adafruit_GFX libraries are used.
 <span class="p">}</span>
 </code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[In this experiment, fundamental 3D computer graphics operations, such as rotation, is displayed in LCD using 2D projection of the original object. The frame rate is 45 frames per second, although the display refresh rate is significantly slower than the actual data throughput.]]></summary></entry><entry><title type="html">Speed of Light Measurement using TI TDC7201</title><link href="http://localhost:4000/2017/10/25/Speed-of-Light-Measurement-using-TI-TDC7201.html" rel="alternate" type="text/html" title="Speed of Light Measurement using TI TDC7201" /><published>2017-10-25T21:46:39-07:00</published><updated>2017-10-25T21:46:39-07:00</updated><id>http://localhost:4000/2017/10/25/Speed-of-Light-Measurement-using-TI-TDC7201</id><content type="html" xml:base="http://localhost:4000/2017/10/25/Speed-of-Light-Measurement-using-TI-TDC7201.html"><![CDATA[<p>In this experiment, the time delay of light in a 15-meter fiber cable is measured using the TDC7201 Time-to-Digital Converter. Commonly available components were utilized for this setup. The fiber cables employed are inexpensive Toslink optical cables. The measured delay in the 15-meter cable is 99.2 ns. In a vacuum, the light would travel the same distance in 50 ns. Generally, the refractive index of fiber cables is 1.3, but this specific cable seem different. In a previous test using a 10-meter cable of the same brand, the measured delay was 65.8 ns, indicating correlation between the results from the same cable type. Their refractive indexes are same.</p>
 
-<p><strong>Components list</strong></p>
+<p><strong>Component list</strong></p>
 <ul>
   <li>Arduino Due or a similar microcontroller with SPI and 3.3V logic level</li>
   <li>TI TDC7201 evaluation board <a href="http://www.ti.com/lit/ds/snas686/snas686.pdf">datasheet</a></li>
@@ -204,10 +240,16 @@ and Adafruit_GFX libraries are used.
 </ul>
 
 <p><img src="/assets/tdc7201_setup.png" alt="Experiment Setup" /></p>
+<div align="center">
+Experiment setup
+</div>
+<p><br />
+Arduino Due code</p>
 
-<p>Arduino Due code</p>
-
-<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//#define OLED_LCD</span>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;Adafruit_GFX.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;Adafruit_SSD1306.h&gt;</span><span class="cp">
+</span>
+<span class="c1">//#define OLED_LCD</span>
 
 <span class="cp">#ifdef OLED_LCD
 #define OLED_RESET 4
