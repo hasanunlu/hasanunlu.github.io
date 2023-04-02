@@ -1,4 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-04-02T00:11:54-07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hasan Unlu’s Blog</title><entry><title type="html">Basic 3D Engine in Arduino</title><link href="http://localhost:4000/2018/05/07/Basic-3D-Engine-in-Arduino.html" rel="alternate" type="text/html" title="Basic 3D Engine in Arduino" /><published>2018-05-07T21:46:39-07:00</published><updated>2018-05-07T21:46:39-07:00</updated><id>http://localhost:4000/2018/05/07/Basic-3D-Engine-in-Arduino</id><content type="html" xml:base="http://localhost:4000/2018/05/07/Basic-3D-Engine-in-Arduino.html"><![CDATA[<p>In this experiment, fundamental 3D computer graphics operations, such as rotation, is displayed in LCD using 2D projection of the original object. The frame rate is 45 frames per second, although the display refresh rate is significantly slower than the actual data throughput.s</p>
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Basic 3D Engine in Arduino | Hasan Unlu’s Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Basic 3D Engine in Arduino" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In this experiment, fundamental 3D computer graphics operations, such as rotation, is displayed in LCD using 2D projection of the original object. The frame rate is 45 frames per second, although the display refresh rate is significantly slower than the actual data throughput.s" />
+<meta property="og:description" content="In this experiment, fundamental 3D computer graphics operations, such as rotation, is displayed in LCD using 2D projection of the original object. The frame rate is 45 frames per second, although the display refresh rate is significantly slower than the actual data throughput.s" />
+<link rel="canonical" href="http://localhost:4000/2018/05/07/Basic-3D-Engine-in-Arduino.html" />
+<meta property="og:url" content="http://localhost:4000/2018/05/07/Basic-3D-Engine-in-Arduino.html" />
+<meta property="og:site_name" content="Hasan Unlu’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-05-07T21:46:39-07:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Basic 3D Engine in Arduino" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2018-05-07T21:46:39-07:00","datePublished":"2018-05-07T21:46:39-07:00","description":"In this experiment, fundamental 3D computer graphics operations, such as rotation, is displayed in LCD using 2D projection of the original object. The frame rate is 45 frames per second, although the display refresh rate is significantly slower than the actual data throughput.s","headline":"Basic 3D Engine in Arduino","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/05/07/Basic-3D-Engine-in-Arduino.html"},"url":"http://localhost:4000/2018/05/07/Basic-3D-Engine-in-Arduino.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Hasan Unlu's Blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Hasan Unlu&#39;s Blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/backup/2023-04-01-welcome-to-jekyll.html">Welcome to Jekyll!</a><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+</script>
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Basic 3D Engine in Arduino</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-05-07T21:46:39-07:00" itemprop="datePublished">May 7, 2018
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In this experiment, fundamental 3D computer graphics operations, such as rotation, is displayed in LCD using 2D projection of the original object. The frame rate is 45 frames per second, although the display refresh rate is significantly slower than the actual data throughput.s</p>
 
 <p>Check out the video.</p>
 <iframe width="720" height="540" src="https://youtube.com/embed/3_ugKHDYY54" frameborder="0"> </iframe>
@@ -183,270 +240,35 @@ and Adafruit_GFX libraries are used.
    <span class="n">edges</span><span class="p">[</span><span class="mi">7</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
    <span class="n">edges</span><span class="p">[</span><span class="mi">7</span><span class="p">][</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[In this experiment, fundamental 3D computer graphics operations, such as rotation, is displayed in LCD using 2D projection of the original object. The frame rate is 45 frames per second, although the display refresh rate is significantly slower than the actual data throughput.s]]></summary></entry><entry><title type="html">Speed of Light Measurement using TI TDC7201</title><link href="http://localhost:4000/2017/10/25/Speed-of-Light-Measurement-using-TI-TDC7201.html" rel="alternate" type="text/html" title="Speed of Light Measurement using TI TDC7201" /><published>2017-10-25T21:46:39-07:00</published><updated>2017-10-25T21:46:39-07:00</updated><id>http://localhost:4000/2017/10/25/Speed-of-Light-Measurement-using-TI-TDC7201</id><content type="html" xml:base="http://localhost:4000/2017/10/25/Speed-of-Light-Measurement-using-TI-TDC7201.html"><![CDATA[<p>In this experiment, the time delay of light in a 15-meter fiber cable is measured using the TDC7201 Time-to-Digital Converter. Commonly available components were utilized for this setup. The fiber cables employed are inexpensive Toslink optical cables. The measured delay in the 15-meter cable is 99.2 ns. In a vacuum, the light would travel the same distance in 50 ns. Generally, the refractive index of fiber cables is 1.3, but this specific cable seem different. In a previous test using a 10-meter cable of the same brand, the measured delay was 65.8 ns, indicating correlation between the results from the same cable type. Their refractive indexes are same.</p>
-
-<p><strong>Components list</strong></p>
-<ul>
-  <li>Arduino Due or a similar microcontroller with SPI and 3.3V logic level</li>
-  <li>TI TDC7201 evaluation board <a href="http://www.ti.com/lit/ds/snas686/snas686.pdf">datasheet</a></li>
-  <li>Red light laser</li>
-  <li>2 photodiodes</li>
-  <li>7404 for basic laser diode driving (or any transistor-based driver would suffice)</li>
-  <li>OLED or another display (optional), as output is also provided through the serial terminal</li>
-  <li>15-meter optical cable</li>
-  <li>Optical splitter</li>
-</ul>
-
-<p><img src="/assets/tdc7201_setup.png" alt="Experiment Setup" /></p>
-
-<p>Arduino Due code</p>
-
-<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//#define OLED_LCD</span>
-
-<span class="cp">#ifdef OLED_LCD
-#define OLED_RESET 4
-#define NUMFLAKES 10
-#define XPOS 0
-#define YPOS 1
-#define DELTAY 2
-#define LOGO16_GLCD_HEIGHT 16 
-#define LOGO16_GLCD_WIDTH  16 
-</span><span class="n">Adafruit_SSD1306</span> <span class="nf">display</span><span class="p">(</span><span class="n">OLED_RESET</span><span class="p">);</span>
-<span class="cp">#endif
-</span>
-<span class="cp">#define CS        10
-#define EN        7
-#define TRIGG     4
-#define LASER     5
-#define FINISH    8
-#define FILT_SIZE 64
-#define TDC_CLK   8 //8 MHZ
-</span>
-<span class="k">enum</span> <span class="n">reg_list</span>
-<span class="p">{</span>
-  <span class="n">TDCx_CONFIG1</span><span class="p">,</span>
-  <span class="n">TDCx_CONFIG2</span><span class="p">,</span>
-  <span class="n">TDCx_INT_STATUS</span><span class="p">,</span>
-  <span class="n">TDCx_INT_MASK</span><span class="p">,</span>
-  <span class="n">TDCx_COARSE_CNTR_OVF_H</span><span class="p">,</span>
-  <span class="n">TDCx_COARSE_CNTR_OVF_L</span><span class="p">,</span>
-  <span class="n">TDCx_CLOCK_CNTR_OVF_H</span><span class="p">,</span>
-  <span class="n">TDCx_CLOCK_CNTR_OVF_L</span><span class="p">,</span>
-  <span class="n">TDCx_CLOCK_CNTR_STOP_MASK_H</span><span class="p">,</span>
-  <span class="n">TDCx_CLOCK_CNTR_STOP_MASK_L</span><span class="p">,</span>
-  <span class="n">TDCx_TIME1</span><span class="o">=</span><span class="mh">0x10</span><span class="p">,</span>
-  <span class="n">TDCx_CLOCK_COUNT1</span><span class="p">,</span>
-  <span class="n">TDCx_TIME2</span><span class="p">,</span>
-  <span class="n">TDCx_CLOCK_COUNT2</span><span class="p">,</span>
-  <span class="n">TDCx_TIME3</span><span class="p">,</span>
-  <span class="n">TDCx_CLOCK_COUNT3</span><span class="p">,</span>
-  <span class="n">TDCx_TIME4</span><span class="p">,</span>
-  <span class="n">TDCx_CLOCK_COUNT4</span><span class="p">,</span>
-  <span class="n">TDCx_TIME5</span><span class="p">,</span>
-  <span class="n">TDCx_CLOCK_COUNT5</span><span class="p">,</span>
-  <span class="n">TDCx_TIME6</span><span class="p">,</span>
-  <span class="n">TDCx_CALIBRATION1</span><span class="p">,</span>
-  <span class="n">TDCx_CALIBRATION2</span>
-<span class="p">};</span>
-<span class="k">enum</span> <span class="n">states</span>
-<span class="p">{</span>
-  <span class="n">START</span><span class="p">,</span>
-  <span class="n">MEASURE</span>
-<span class="p">};</span>
-
-<span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">trig_ready</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">done</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="kt">uint8_t</span> <span class="n">state</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="kt">double</span> <span class="n">last</span><span class="p">[</span><span class="n">FILT_SIZE</span><span class="p">];</span>
-<span class="kt">uint8_t</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-<span class="kt">double</span> <span class="n">mean</span><span class="p">;</span>
-
-<span class="kt">uint8_t</span> <span class="nf">readRegister</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">reg_add</span><span class="p">)</span> 
-<span class="p">{</span>
-  <span class="n">SPI</span><span class="p">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">CS</span><span class="p">,</span> <span class="n">reg_add</span><span class="p">,</span> <span class="n">SPI_CONTINUE</span><span class="p">);</span>
-  <span class="k">return</span> <span class="n">SPI</span><span class="p">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">CS</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="n">SPI_LAST</span><span class="p">);</span>
-<span class="p">}</span>
-
-
-<span class="kt">void</span> <span class="nf">writeRegister</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">reg_add</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">data</span><span class="p">)</span> 
-<span class="p">{</span>
-  <span class="n">SPI</span><span class="p">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">CS</span><span class="p">,</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">6</span> <span class="o">+</span> <span class="n">reg_add</span><span class="p">,</span> <span class="n">SPI_CONTINUE</span><span class="p">);</span>
-  <span class="n">SPI</span><span class="p">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">CS</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">SPI_LAST</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kt">uint32_t</span> <span class="nf">read3</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">reg_add</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">SPI</span><span class="p">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">CS</span><span class="p">,</span> <span class="n">reg_add</span><span class="p">,</span> <span class="n">SPI_CONTINUE</span><span class="p">);</span>
-  <span class="kt">uint32_t</span> <span class="n">data</span> <span class="o">=</span> <span class="n">SPI</span><span class="p">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">CS</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="n">SPI_CONTINUE</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">16</span><span class="p">;</span>
-  <span class="n">data</span> <span class="o">+=</span> <span class="n">SPI</span><span class="p">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">CS</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="n">SPI_CONTINUE</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">;</span>
-  <span class="n">data</span> <span class="o">+=</span> <span class="n">SPI</span><span class="p">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">CS</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="n">SPI_LAST</span><span class="p">);</span>
-  <span class="k">return</span> <span class="n">data</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">trigger</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">trig_ready</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">finish</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">done</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
-
-<span class="cp">#ifdef OLED_LCD
-</span>  <span class="c1">// initialize with the I2C addr 0x3C (for the 128x32)</span>
-  <span class="n">display</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">SSD1306_SWITCHCAPVCC</span><span class="p">,</span> <span class="mh">0x3C</span><span class="p">);</span>  
-  <span class="n">display</span><span class="p">.</span><span class="n">clearDisplay</span><span class="p">();</span>
-  
-  <span class="n">display</span><span class="p">.</span><span class="n">setTextSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-  <span class="n">display</span><span class="p">.</span><span class="n">setTextColor</span><span class="p">(</span><span class="n">WHITE</span><span class="p">);</span>
-  <span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-  <span class="n">display</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"TDC"</span><span class="p">);</span> 
-  <span class="n">display</span><span class="p">.</span><span class="n">display</span><span class="p">();</span>
-<span class="cp">#endif
-</span>
-  <span class="c1">// initialize digital pin LED_BUILTIN as an output.</span>
-  <span class="n">SPI</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">CS</span><span class="p">);</span>
-  <span class="n">SPI</span><span class="p">.</span><span class="n">beginTransaction</span><span class="p">(</span><span class="n">SPISettings</span><span class="p">(</span><span class="mi">50000</span><span class="p">,</span> <span class="n">MSBFIRST</span><span class="p">,</span> <span class="n">SPI_MODE0</span><span class="p">));</span>
-  <span class="n">SPI</span><span class="p">.</span><span class="n">setClockDivider</span><span class="p">(</span><span class="n">CS</span><span class="p">,</span> <span class="mi">84</span><span class="p">);</span>
-
-  <span class="n">pinMode</span><span class="p">(</span><span class="n">LED_BUILTIN</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
-  <span class="n">pinMode</span><span class="p">(</span><span class="n">LASER</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
-  <span class="n">pinMode</span><span class="p">(</span><span class="n">EN</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
-  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">LASER</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span> 
-
-  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">EN</span><span class="p">,</span> <span class="n">LOW</span><span class="p">);</span> 
-  <span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span> 
-  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">EN</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span> 
-  <span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>  
-
-<span class="cp">#ifdef OLED_LCD
-</span>  <span class="n">display</span><span class="p">.</span><span class="n">clearDisplay</span><span class="p">();</span>
-  <span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-  <span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"0x"</span><span class="p">);</span> 
-  <span class="n">display</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">readRegister</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">HEX</span><span class="p">);</span>
-  <span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"0x"</span><span class="p">);</span> 
-  <span class="n">display</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">readRegister</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">HEX</span><span class="p">);</span>
-  <span class="n">display</span><span class="p">.</span><span class="n">display</span><span class="p">();</span>
-<span class="cp">#endif
-</span>
-  <span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
-
-  <span class="n">pinMode</span><span class="p">(</span><span class="n">TRIGG</span><span class="p">,</span> <span class="n">INPUT_PULLUP</span><span class="p">);</span>
-  <span class="n">attachInterrupt</span><span class="p">(</span><span class="n">TRIGG</span><span class="p">,</span> <span class="n">trigger</span><span class="p">,</span> <span class="n">RISING</span><span class="p">);</span>
-  
-  <span class="n">pinMode</span><span class="p">(</span><span class="n">FINISH</span><span class="p">,</span> <span class="n">INPUT_PULLUP</span><span class="p">);</span>
-  <span class="n">attachInterrupt</span><span class="p">(</span><span class="n">FINISH</span><span class="p">,</span> <span class="n">finish</span><span class="p">,</span> <span class="n">FALLING</span><span class="p">);</span>
-  <span class="n">interrupts</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="kt">double</span> <span class="nf">tof</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="kt">double</span> <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">read3</span><span class="p">(</span><span class="n">TDCx_CALIBRATION2</span><span class="p">);</span>
-  <span class="n">diff</span> <span class="o">-=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">read3</span><span class="p">(</span><span class="n">TDCx_CALIBRATION1</span><span class="p">);</span>
-  <span class="n">diff</span> <span class="o">/=</span> <span class="p">(</span><span class="mi">10</span><span class="p">.</span><span class="mi">0</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
-  <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1000</span><span class="p">.</span><span class="mi">0</span> <span class="o">/</span> <span class="n">TDC_CLK</span><span class="p">)</span> <span class="o">/</span> <span class="n">diff</span><span class="p">;</span>
-  <span class="n">diff</span> <span class="o">*=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">read3</span><span class="p">(</span><span class="n">TDCx_TIME1</span><span class="p">);</span>
-  <span class="k">return</span> <span class="n">diff</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span> <span class="p">{</span>
-
-  <span class="k">switch</span><span class="p">(</span><span class="n">state</span><span class="p">){</span>
-  <span class="k">case</span> <span class="mi">0</span><span class="p">:</span>
-    <span class="n">writeRegister</span><span class="p">(</span><span class="n">TDCx_CONFIG1</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">);</span>
-    <span class="n">state</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="k">break</span><span class="p">;</span>
-  <span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">trig_ready</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="n">trig_ready</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-      <span class="n">digitalWrite</span><span class="p">(</span><span class="n">LASER</span><span class="p">,</span> <span class="n">LOW</span><span class="p">);</span> 
-      <span class="n">state</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="k">break</span><span class="p">;</span>  
-  <span class="k">case</span> <span class="mi">2</span><span class="p">:</span>
-    <span class="n">delay</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">done</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="n">done</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-      <span class="n">digitalWrite</span><span class="p">(</span><span class="n">LASER</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span> 
-      <span class="n">state</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> 
-    <span class="p">}</span>
-  <span class="k">break</span><span class="p">;</span>  
-  <span class="k">case</span> <span class="mi">3</span><span class="p">:</span>
-    <span class="n">last</span><span class="p">[</span><span class="o">++</span><span class="n">i</span> <span class="o">%</span> <span class="n">FILT_SIZE</span><span class="p">]</span> <span class="o">=</span> <span class="n">tof</span><span class="p">();</span>
-    <span class="n">mean</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">for</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">FILT_SIZE</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
-      <span class="n">mean</span> <span class="o">+=</span> <span class="n">last</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
-    
-    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">mean</span> <span class="o">/</span> <span class="n">FILT_SIZE</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-
-<span class="cp">#ifdef OLED_LCD
-</span>    <span class="n">noInterrupts</span><span class="p">();</span>
-    
-    <span class="n">display</span><span class="p">.</span><span class="n">clearDisplay</span><span class="p">();</span>
-    <span class="n">display</span><span class="p">.</span><span class="n">setTextSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-    <span class="n">display</span><span class="p">.</span><span class="n">setTextColor</span><span class="p">(</span><span class="n">WHITE</span><span class="p">);</span>
-    <span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-    <span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">mean</span> <span class="o">/</span> <span class="n">FILT_SIZE</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> 
-    <span class="n">display</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">" ns"</span><span class="p">);</span>
-    <span class="n">display</span><span class="p">.</span><span class="n">display</span><span class="p">();</span>
-    <span class="n">interrupts</span><span class="p">();</span>
-<span class="cp">#endif
-</span>    <span class="n">state</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="k">break</span><span class="p">;</span>
-  <span class="nl">default:</span>
-  <span class="k">break</span><span class="p">;</span>
-  <span class="p">}</span> 
-<span class="p">}</span>
-</code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[In this experiment, the time delay of light in a 15-meter fiber cable is measured using the TDC7201 Time-to-Digital Converter. Commonly available components were utilized for this setup. The fiber cables employed are inexpensive Toslink optical cables. The measured delay in the 15-meter cable is 99.2 ns. In a vacuum, the light would travel the same distance in 50 ns. Generally, the refractive index of fiber cables is 1.3, but this specific cable seem different. In a previous test using a 10-meter cable of the same brand, the measured delay was 65.8 ns, indicating correlation between the results from the same cable type. Their refractive indexes are same.]]></summary></entry><entry><title type="html">Intermediate Axis Theorem</title><link href="http://localhost:4000/2017/10/24/Intermediate-Axis-Theorem.html" rel="alternate" type="text/html" title="Intermediate Axis Theorem" /><published>2017-10-24T21:46:39-07:00</published><updated>2017-10-24T21:46:39-07:00</updated><id>http://localhost:4000/2017/10/24/Intermediate-Axis-Theorem</id><content type="html" xml:base="http://localhost:4000/2017/10/24/Intermediate-Axis-Theorem.html"><![CDATA[<p>The intermediate axis theorem is an unintuitive concept in physics that occurs when a rigid object has incrementally larger moments of inertia for each of its orthogonal axes. When the object is spun around the axis with the intermediate moment of inertia, The direction of that axis oscillates.</p>
-
-<p>Check out this video for a demonstration: Dancing T-handle in zero-g</p>
-<iframe width="720" height="540" src="https://www.youtube.com/embed/1n-HMSCDYtM" frameborder="0"> </iframe>
-
-<p>We can write the following differential equations for the system.</p>
-
-\[I_{1}\dot\omega_{1} + (I_{3}-I_{2})\omega_{2}\omega_{3} = \tau_{1}\]
-
-\[I_{2}\dot\omega_{2} + (I_{1}-I_{3})\omega_{1}\omega_{3} = \tau_{2}\]
-
-\[I_{3}\dot\omega_{3} + (I_{2}-I_{1})\omega_{1}\omega_{2} = \tau_{3}\]
-
-<p>In this scenario, $\tau_{1}$, $\tau_{2}$ and $\tau_{3}$ are all zero since no external torque is being applied. Assume $I_1 &lt; I_2 &lt; I_3$, $w_1 \approx 0$, $w_3 \approx 0$ and $w_2 \neq 0$. In order to compute solutions for this ordinary differential equation system numerically, the following python code snippet can be used.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">odeint</span>
-
-<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">I1</span><span class="p">,</span> <span class="n">I2</span><span class="p">,</span> <span class="n">I3</span><span class="p">):</span>
-    <span class="n">omega_1</span><span class="p">,</span> <span class="n">omega_2</span><span class="p">,</span> <span class="n">omega_3</span> <span class="o">=</span> <span class="n">y</span>
-    <span class="n">dydt</span> <span class="o">=</span> <span class="p">[(</span><span class="n">I2</span> <span class="o">-</span> <span class="n">I3</span><span class="p">)</span> <span class="o">*</span> <span class="n">omega_2</span> <span class="o">*</span> <span class="n">omega_3</span> <span class="o">/</span> <span class="n">I1</span><span class="p">,</span>
-            <span class="p">(</span><span class="n">I3</span> <span class="o">-</span> <span class="n">I1</span><span class="p">)</span> <span class="o">*</span> <span class="n">omega_1</span> <span class="o">*</span> <span class="n">omega_3</span> <span class="o">/</span> <span class="n">I2</span><span class="p">,</span>
-            <span class="p">(</span><span class="n">I1</span> <span class="o">-</span> <span class="n">I2</span><span class="p">)</span> <span class="o">*</span> <span class="n">omega_1</span> <span class="o">*</span> <span class="n">omega_2</span> <span class="o">/</span> <span class="n">I3</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">dydt</span>
-
-<span class="c1"># Inertia
-</span><span class="n">I1</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">I2</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">I3</span> <span class="o">=</span> <span class="mi">3</span>
-
-<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-
-<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">]</span> <span class="c1"># Initial conditions
-</span>
-<span class="n">sol</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">I1</span><span class="p">,</span> <span class="n">I2</span><span class="p">,</span> <span class="n">I3</span><span class="p">))</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sol</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="s">'b'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'w_1(t)'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sol</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s">'r'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'w_2(t)'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sol</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="s">'g'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'w_3(t)'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s">'lower right'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'t'</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">()</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p>The numerical resolution of the differential equation system indicates that $w_2$ oscillates between $-4$ and $4$. During the transition in axis direction, $w_1$ and $w_3$ briefly become non-zero for a very short duration during the transitions.
-<img src="/assets/intermediate_axis.png" alt="Angular velocities" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[The intermediate axis theorem is an unintuitive concept in physics that occurs when a rigid object has incrementally larger moments of inertia for each of its orthogonal axes. When the object is spun around the axis with the intermediate moment of inertia, The direction of that axis oscillates.]]></summary></entry></feed>
+  </div><a class="u-url" href="/2018/05/07/Basic-3D-Engine-in-Arduino.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Hasan Unlu&#39;s Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Hasan Unlu&#39;s Blog</li><li><a class="u-email" href="mailto:hasanunlu9@gmail.com">hasanunlu9@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/hasanunlu"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">hasanunlu</span></a></li><li><a href="https://www.twitter.com/hasanunlu9"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">hasanunlu9</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
