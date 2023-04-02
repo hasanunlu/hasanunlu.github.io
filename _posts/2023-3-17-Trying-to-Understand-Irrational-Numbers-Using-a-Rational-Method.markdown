@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Attempting to Comprehend Irrational Numbers Through a Rational Approach"
+title:  "Trying to Understand Irrational Numbers Using a Rational Way"
 date:   2023-3-17 21:46:39 -0700
 # categories: jekyll update
 ---
