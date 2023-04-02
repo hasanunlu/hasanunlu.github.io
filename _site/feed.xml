@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-04-02T10:59:47-07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hasan Unlu’s Blog</title><entry><title type="html">Attempting to Comprehend Irrational Numbers Through a Rational Approach</title><link href="http://localhost:4000/2023/03/17/Attempting-to-Comprehend-Irrational-Numbers-Through-a-Rational-Approach.html" rel="alternate" type="text/html" title="Attempting to Comprehend Irrational Numbers Through a Rational Approach" /><published>2023-03-17T21:46:39-07:00</published><updated>2023-03-17T21:46:39-07:00</updated><id>http://localhost:4000/2023/03/17/Attempting-to-Comprehend-Irrational-Numbers-Through-a-Rational-Approach</id><content type="html" xml:base="http://localhost:4000/2023/03/17/Attempting-to-Comprehend-Irrational-Numbers-Through-a-Rational-Approach.html"><![CDATA[<p>Most of us like playing Jenga. For a moment, imagine that you are in a room with infinitely many identical Jenga blocks.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-04-02T12:00:57-07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hasan Unlu’s Blog</title><entry><title type="html">Attempting to Comprehend Irrational Numbers Through a Rational Approach</title><link href="http://localhost:4000/2023/03/17/Attempting-to-Comprehend-Irrational-Numbers-Through-a-Rational-Approach.html" rel="alternate" type="text/html" title="Attempting to Comprehend Irrational Numbers Through a Rational Approach" /><published>2023-03-17T21:46:39-07:00</published><updated>2023-03-17T21:46:39-07:00</updated><id>http://localhost:4000/2023/03/17/Attempting-to-Comprehend-Irrational-Numbers-Through-a-Rational-Approach</id><content type="html" xml:base="http://localhost:4000/2023/03/17/Attempting-to-Comprehend-Irrational-Numbers-Through-a-Rational-Approach.html"><![CDATA[<p>Most of us like playing Jenga. For a moment, imagine that you are in a room with infinitely many identical Jenga blocks.</p>
 
 <p><img src="/assets/jenga.png" alt="Jenga blocks" style="display:block; margin-left:auto; margin-right:auto" /></p>
 <div align="center">
@@ -27,7 +27,99 @@ Once they align, you count how many horizontal and vertical blocks are used. (nu
 Experiment Setup
 </div>
 <p><br />
-Here is <a href="https://github.com/hasanunlu/neural_network_deployment_for_uC">the code</a> and <a href="https://arxiv.org/pdf/2007.01348.pdf">arxiv paper</a> that I wrote about memory optimizations.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Experiment Setup Here is the code and arxiv paper that I wrote about memory optimizations.]]></summary></entry><entry><title type="html">Full Speed Bit-Bang I2C for RISC-V Architecture HiFive-1 uC Board</title><link href="http://localhost:4000/2018/08/27/Full-Speed-Bit-Bang-I2C-for-RISC-V-Architecture-HiFive-1-uC-Board.html" rel="alternate" type="text/html" title="Full Speed Bit-Bang I2C for RISC-V Architecture HiFive-1 uC Board" /><published>2018-08-27T21:46:39-07:00</published><updated>2018-08-27T21:46:39-07:00</updated><id>http://localhost:4000/2018/08/27/Full-Speed-Bit-Bang-I2C-for-RISC-V-Architecture-HiFive-1-uC-Board</id><content type="html" xml:base="http://localhost:4000/2018/08/27/Full-Speed-Bit-Bang-I2C-for-RISC-V-Architecture-HiFive-1-uC-Board.html"><![CDATA[<p>The HiFive-1 represents the initial Risc-V board compatible with Arduino. Regrettably, it is only equipped with PWM, UART, and SPI hardware. During the past weekend, I developed a bit-bang I2C implementation that clocks up to 400KHz for my HiFive-1 board. The demonstration involves reading data from an MPU6050 sensor for all axes and displaying the Z-axis value in <em>g</em>.</p>
+Here is <a href="https://github.com/hasanunlu/neural_network_deployment_for_uC">the code</a> and <a href="https://arxiv.org/pdf/2007.01348.pdf">arxiv paper</a> that I wrote about memory optimizations.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Experiment Setup Here is the code and arxiv paper that I wrote about memory optimizations.]]></summary></entry><entry><title type="html">Basic CPU Design in Xilinx Spartan 3E FPGA</title><link href="http://localhost:4000/2018/08/28/Basic-CPU-in-Xilinx-Spartan-3E-FPGA.html" rel="alternate" type="text/html" title="Basic CPU Design in Xilinx Spartan 3E FPGA" /><published>2018-08-28T21:46:39-07:00</published><updated>2018-08-28T21:46:39-07:00</updated><id>http://localhost:4000/2018/08/28/Basic-CPU-in-Xilinx-Spartan-3E-FPGA</id><content type="html" xml:base="http://localhost:4000/2018/08/28/Basic-CPU-in-Xilinx-Spartan-3E-FPGA.html"><![CDATA[<p>This basic CPU runs on Spartan 3E FPGA with basic instructions. It is Von Neumann architecture. Each instruction is 32 bit. ALU(Arithmetic Logic Unit) is capable of 32-bit if operands are loaded from memory. Otherwise direct operations only support 14-bit. <a href="https://github.com/hasanunlu/simple_cpu">My github repo</a> has all necessary files (Design files, binary download, memory dump and example bubble sort assembly file). Unfortunately no interrupt vector support yet. But I will add that soon.</p>
+
+<p><strong>Instruction word bit breakdown</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| opcode  |   i   |     A     |     B     |
+|  3-bit  | 1-bit |   14-bit  |   14-bit  |
+</code></pre></div></div>
+<p><br />
+<strong>ADD</strong> -&gt; unsigned add</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{opcode, i} = {0, 0}
+*A &lt;- (*A) + (*B)
+</code></pre></div></div>
+<p><br />
+<strong>ADDi</strong> -&gt; unsigned add immediate</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{opcode, i} = {0, 1}
+*A &lt;- (*A) + B
+</code></pre></div></div>
+<p><br />
+<strong>MUL</strong> -&gt; unsigned multiply</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{opcode, i} = {7, 0}
+*A &lt;- (*A) * (*B)
+</code></pre></div></div>
+<p><br />
+<strong>MULi</strong> -&gt; unsigned multiply</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{opcode, i} = {7, 1}
+*A &lt;- (*A) * B
+</code></pre></div></div>
+<p><br />
+<strong>NAND</strong> -&gt; bitwise NAND</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{opcode, i} = {1, 0}
+*A &lt;- ~((*A) &amp; (*B))
+</code></pre></div></div>
+<p><br />
+<strong>NANDi</strong> -&gt; bitwise NAND immediate</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{opcode, i} = {1, 1}
+*A &lt;- ~((*A) &amp; B)
+</code></pre></div></div>
+<p><br />
+<strong>SRL</strong> -&gt; shift right if the shift amount <code class="language-plaintext highlighter-rouge">*B</code> is less than 32, otherwise shift left</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{opcode, i} = {2, 0}
+*A &lt;- (*B) &lt; 32 ? (*A) &gt;&gt; (*B) : (*A) &lt;&lt; ((*B) – 32)
+</code></pre></div></div>
+<p><br />
+<strong>SRLi</strong> -&gt; Shift Right if the shift amount <code class="language-plaintext highlighter-rouge">B</code> is less than 32, otherwise Shift Left</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{opcode, i} = {2, 1}
+*A &lt;- B &lt; 32 ? (*A) &gt;&gt; B : (*A) &lt;&lt; (B – 32)
+</code></pre></div></div>
+<p><br />
+<strong>LT</strong> -&gt; if <code class="language-plaintext highlighter-rouge">*A</code> is less than <code class="language-plaintext highlighter-rouge">*B</code> then <code class="language-plaintext highlighter-rouge">*A</code> is set to 1, otherwise to 0.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{opcode, i} = {3, 0}
+*A &lt;- (*A) &lt; (*B)
+</code></pre></div></div>
+<p><br />
+<strong>LTi</strong> -&gt; if <code class="language-plaintext highlighter-rouge">*A</code> is less than <code class="language-plaintext highlighter-rouge">B</code> then <code class="language-plaintext highlighter-rouge">*A</code> is set to 1, otherwise to 0.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{opcode, i} = {3, 1}
+*A &lt;- (*A) &lt; B
+</code></pre></div></div>
+<p><br />
+<strong>CP</strong> -&gt; copy <code class="language-plaintext highlighter-rouge">*B</code> to <code class="language-plaintext highlighter-rouge">*A</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{opcode, i} = {4, 0}
+*A &lt;- *B
+</code></pre></div></div>
+<p><br />
+<strong>CPi</strong> -&gt; copy <code class="language-plaintext highlighter-rouge">B</code> to <code class="language-plaintext highlighter-rouge">*A</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{opcode, i} = {4, 1}
+*A &lt;- B
+</code></pre></div></div>
+<p><br />
+<strong>CPI</strong> -&gt; copy <code class="language-plaintext highlighter-rouge">**B</code> to <code class="language-plaintext highlighter-rouge">*A</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{opcode, i} = {5, 0}
+*A &lt;- **B
+</code></pre></div></div>
+<p><br />
+<strong>CPIi</strong> -&gt; copy *B to **A</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{opcode, i} = {5, 1}
+**A &lt;- *B
+</code></pre></div></div>
+<p><br />
+<strong>BZJ</strong> -&gt; branch on zero</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{opcode, i} = {6, 0}
+PC &lt;- (*B) == 0 ? (*A) : (PC+1)
+</code></pre></div></div>
+<p><br />
+<strong>BZJi</strong> -&gt; jump</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{opcode, i} = {6, 1}
+PC &lt;- (*A) + B
+</code></pre></div></div>
+<p><br />
+Bubble sort algorithm written in this assembly code: <a href="https://raw.githubusercontent.com/hasanunlu/simple_cpu/master/bubble_sort.simplecpuasm.txt">bubble_sort.asm</a></p>
+
+<p><strong>References</strong></p>
+<ul>
+  <li>The instruction is outlined by H. Fatih Ugurdag in one his graduate FPGA design courses.</li>
+</ul>]]></content><author><name></name></author><summary type="html"><![CDATA[This basic CPU runs on Spartan 3E FPGA with basic instructions. It is Von Neumann architecture. Each instruction is 32 bit. ALU(Arithmetic Logic Unit) is capable of 32-bit if operands are loaded from memory. Otherwise direct operations only support 14-bit. My github repo has all necessary files (Design files, binary download, memory dump and example bubble sort assembly file). Unfortunately no interrupt vector support yet. But I will add that soon.]]></summary></entry><entry><title type="html">Full Speed Bit-Bang I2C for RISC-V Architecture HiFive-1 uC Board</title><link href="http://localhost:4000/2018/08/27/Full-Speed-Bit-Bang-I2C-for-RISC-V-Architecture-HiFive-1-uC-Board.html" rel="alternate" type="text/html" title="Full Speed Bit-Bang I2C for RISC-V Architecture HiFive-1 uC Board" /><published>2018-08-27T21:46:39-07:00</published><updated>2018-08-27T21:46:39-07:00</updated><id>http://localhost:4000/2018/08/27/Full-Speed-Bit-Bang-I2C-for-RISC-V-Architecture-HiFive-1-uC-Board</id><content type="html" xml:base="http://localhost:4000/2018/08/27/Full-Speed-Bit-Bang-I2C-for-RISC-V-Architecture-HiFive-1-uC-Board.html"><![CDATA[<p>The HiFive-1 represents the initial Risc-V board compatible with Arduino. Regrettably, it is only equipped with PWM, UART, and SPI hardware. During the past weekend, I developed a bit-bang I2C implementation that clocks up to 400KHz for my HiFive-1 board. The demonstration involves reading data from an MPU6050 sensor for all axes and displaying the Z-axis value in <em>g</em>.</p>
 
 <p><img src="/assets/i2c_prints.png" alt="Reading MPU6050" style="display:block; margin-left:auto; margin-right:auto" /></p>
 <div align="center">
