@@ -1,4 +1,251 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-04-02T15:49:28-07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hasan Unlu’s Blog</title><entry><title type="html">Trying to Understand Irrational Numbers Using a Rational Way</title><link href="http://localhost:4000/2023/03/17/Trying-to-Understand-Irrational-Numbers-Using-a-Rational-Method.html" rel="alternate" type="text/html" title="Trying to Understand Irrational Numbers Using a Rational Way" /><published>2023-03-17T21:46:39-07:00</published><updated>2023-03-17T21:46:39-07:00</updated><id>http://localhost:4000/2023/03/17/Trying-to-Understand-Irrational-Numbers-Using-a-Rational-Method</id><content type="html" xml:base="http://localhost:4000/2023/03/17/Trying-to-Understand-Irrational-Numbers-Using-a-Rational-Method.html"><![CDATA[<p>Most of us like playing Jenga. For a moment, imagine that you are in a room with infinitely many identical Jenga blocks.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-04-10T09:14:19-07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hasan Unlu’s Blog</title><entry><title type="html">Expanding Quake’s Famous Fast Inverse Square Root Algorithm</title><link href="http://localhost:4000/2023/04/09/Expanding-Quake-s-Famous-Fast-Inverse-Sqrt-Root-Algorithm.html" rel="alternate" type="text/html" title="Expanding Quake’s Famous Fast Inverse Square Root Algorithm" /><published>2023-04-09T10:46:39-07:00</published><updated>2023-04-09T10:46:39-07:00</updated><id>http://localhost:4000/2023/04/09/Expanding-Quake-s-Famous-Fast-Inverse-Sqrt-Root-Algorithm</id><content type="html" xml:base="http://localhost:4000/2023/04/09/Expanding-Quake-s-Famous-Fast-Inverse-Sqrt-Root-Algorithm.html"><![CDATA[<p>In 1999, an unintuitive method was employed in the Quake III Arena graphics library to quickly calculate surface normals for lighting and shading. The function calculating inverse square root is in below. The original code for the repository can be found <a href="https://archive.softwareheritage.org/browse/content/sha1_git:bb0faf6919fc60636b2696f32ec9b3c2adb247fe/?origin_url=https://github.com/id-Software/Quake-III-Arena&amp;path=code/game/q_math.c&amp;revision=dbe4ddb10315479fc00086f08e25d968b4b43c49&amp;snapshot=4ab9bcef131aaf449a7c01370aff8c91dcecbf5f#L549-L572">here</a>.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="nf">Q_rsqrt</span><span class="p">(</span> <span class="kt">float</span> <span class="n">number</span> <span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">long</span> <span class="n">i</span><span class="p">;</span>
+	<span class="kt">float</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+	<span class="k">const</span> <span class="kt">float</span> <span class="n">threehalfs</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">5</span><span class="n">F</span><span class="p">;</span>
+
+	<span class="n">x2</span> <span class="o">=</span> <span class="n">number</span> <span class="o">*</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="n">F</span><span class="p">;</span>
+	<span class="n">y</span>  <span class="o">=</span> <span class="n">number</span><span class="p">;</span>
+	<span class="n">i</span>  <span class="o">=</span> <span class="o">*</span> <span class="p">(</span> <span class="kt">long</span> <span class="o">*</span> <span class="p">)</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">;</span>                       <span class="c1">// evil floating point bit level hacking</span>
+	<span class="n">i</span>  <span class="o">=</span> <span class="mh">0x5f3759df</span> <span class="o">-</span> <span class="p">(</span> <span class="n">i</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span> <span class="p">);</span>               <span class="c1">// what the fuck? </span>
+	<span class="n">y</span>  <span class="o">=</span> <span class="o">*</span> <span class="p">(</span> <span class="kt">float</span> <span class="o">*</span> <span class="p">)</span> <span class="o">&amp;</span><span class="n">i</span><span class="p">;</span>
+	<span class="n">y</span>  <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="p">(</span> <span class="n">threehalfs</span> <span class="o">-</span> <span class="p">(</span> <span class="n">x2</span> <span class="o">*</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span> <span class="p">)</span> <span class="p">);</span>   <span class="c1">// 1st iteration</span>
+<span class="c1">//	y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed</span>
+
+	<span class="k">return</span> <span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The advantage stems from the way numbers are stored in floating-point format like $x=\pm(1+m_x)2^{e_x}$, which allows power operations to be converted into addition and subtraction in the exponent field. This assists in finding an initial approximation, with one or two Newton-Raphson iterations yielding highly accurate results for compute heavy functions, such as the inverse square root.
+<br />
+<br />
+<img src="/assets/ieee754_float.png" alt="IEEE 754 Single-Precision Format" style="display:block; margin-left:auto; margin-right:auto" /></p>
+<div align="center">
+IEEE 754 Single-Precision Format
+</div>
+<p><br />
+<br />
+In this article, I will derive a generic formula and code to apply this method for computing $x^{\frac{1}{m}}$ where $m \in Z$ and $m \neq 0$.
+<br />
+<br />
+<strong>First Step: Deriving Magic Number and Initial Guess</strong>
+<br />
+Let’s represent the floating-point number in its integer-casted form. For the time being, assume all values are positive, which means the sign bit is zero.
+<br />
+<br />
+$I_x = E_x \cdot L + M_x$ where $L=2^{23}$ for single precision floating point format.
+<br />
+<br />
+The floating point number’s value representaion: 
+<br />
+<br />
+$x = (1 + \frac{M_x}{L})\cdot 2^{E_x - B}$ where $B=127$ for single precision floating point format.
+<br />
+<br />
+Now we need to represent $I_x$ in terms of $x$. However dealing with $x$ in this form is not easy. Let’s take $log_2$ of both side.
+<br />
+<br />
+$log_2 x = log_2 (1 + \frac{M_x}{L}) + E_x - B$, we know that $\frac{M_x}{L} &lt; 1$.
+<br />
+<br />
+$log_2 x \approx \frac{M_x}{L} + \sigma + E_x - B$ where $\sigma$ is such constant to improve approximation accuracy. In the step three, we will calculate $\sigma$. Please also check $log(1+x) \approx x$ for near zero values.
+<br />
+<br />
+$log_2 x \approx  \frac{M_x}{L}  + \sigma + E_x - B$, subsitue $M_x$ with $I_x -  E_x \cdot L$
+<br />
+<br />
+$log_2 x \approx \frac{I_x -  E_x \cdot L}{L}  + \sigma + E_x - B$
+<br />
+<br />
+$log_2 x \approx \frac{I_x}{L} - E_x  + \sigma + E_x - B$
+<br />
+<br />
+$log_2 x \approx \frac{I_x}{L} + \sigma - B$
+<br />
+<br />
+The value we are trying to find is $y = x^{\frac{1}{m}}$.
+<br />
+<br />
+$log_2 y \approx \frac{I_y}{L} + \sigma - B$
+<br />
+<br />
+At the same time, $log_2 y = log_2 x^{\frac{1}{m}}$
+<br />
+<br />
+$log_2 y = \frac{1}{m}log_2 x$
+<br />
+<br />
+$\frac{I_y}{L} + \sigma - B \approx \frac{1}{m}(\frac{I_x}{L} + \sigma - B)$
+<br />
+<br />
+$\frac{I_y}{L} \approx \frac{I_x}{m\cdot L} + (\frac{1}{m} - 1)(\sigma - B)$
+<br />
+<br />
+$I_y \approx \frac{I_x}{m} + L(\frac{1}{m} - 1)(\sigma - B)$
+<br />
+<br />
+$I_y \approx \frac{I_x}{m} + (1 - \frac{1}{m})L(B - \sigma)$
+<br />
+<br />
+In here $(1 - \frac{1}{m})L(B - \sigma)$ corresponds magic number where $L=2^{23}$ and $B=127$ for IEEE 754 single precision format.
+<br />
+<br />
+<strong>Second Step: Newthon-Raphson Method</strong>
+<br />
+We need to find the $1/m$ power of a number, so if we define this as an unknown, the problem can be formulated as follows:
+<br />
+<br />
+$f(x) = x^{m} - a$ to find a root of this function which is $a^{\frac{1}{m}}$
+<br />
+<br />
+The Newthon-Raphson iteration for this $f(x)$ would be
+<br />
+<br />
+$x_{n+1} = x_n - \frac{f(x_n)}{f’(x_n)}$
+<br />
+<br />
+$x_{n+1} = x_n - \frac{x_n^m - a}{m\cdot x_n^{m-1}}$
+<br />
+<br />
+$x_{n+1} = x_n - \frac{1}{m}(x_n - a \cdot x_n^{1-m})$
+<br />
+<br />
+$x_{n+1} = \frac{(m - 1) \cdot x_n + a \cdot x_n^{1-m}}{m}$
+<br />
+<br />
+$x_{n+1} = \frac{x_n \cdot ( m - 1 + a \cdot x_n^{-m})}{m}$
+<br />
+<br />
+<strong>Third Step: Finding $\sigma$</strong>
+<br />
+There are several approaches to finding it. In this case, we will focus on minimizing the maximum error for any given value within the $[0, 1]$ interval. The error function can be defined as $|log_2 (x+1) - (x+\sigma)|$. This function has one local maximum and two interval edge points. The error amounts at the interval boundaries (at $0$ and $1$) are both equal to $\sigma$.
+<br />
+<br />
+<img src="/assets/error_graph.png" alt="Error Graph" style="display:block; margin-left:auto; margin-right:auto" /></p>
+<div align="center">
+Logx, x and Relative Error Graph
+</div>
+<p><br />
+Check Desmos <a href="https://www.desmos.com/calculator/gizsi2hjz3">here</a> to edit and play with approxmation variable.
+<br />
+<br />
+We need to get the derivative to find local maxima.
+<br />
+<br />
+$\frac{\partial error(x)}{\partial x}=\frac{1}{ln(2)*(x+1)} - 1 = 0$
+<br />
+<br />
+$x=1 - \frac{1}{ln(2)} = 0.44269504088$
+<br />
+<br />
+The error value at this local maxima should not exceed the error amounts at the boundaries.
+<br />
+<br />
+$log_2 (x+1) - (x+\sigma)=\sigma$ where $x=0.44269504088$.
+<br />
+<br />
+$log_2(0.44269504088 + 1) - 0.44269504088 = 2\sigma$
+<br />
+<br />
+$\sigma = (log_2(1.44269504088) - 0.44269504088)/2$
+<br />
+<br />
+$\sigma = 0.04303566602$
+<br />
+<br />
+Here is the generic code provided by me. You can modify and optimize it for specific $m$ values as needed.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Fast_1_M_Math</span>
+<span class="p">{</span>
+    <span class="nl">private:</span>
+    <span class="kt">int</span> <span class="n">magic_number</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">m</span><span class="p">;</span>
+
+    <span class="kt">float</span> <span class="n">integer_power</span><span class="p">(</span><span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">power</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">float</span> <span class="n">result</span> <span class="o">=</span> <span class="mf">1.</span><span class="n">f</span><span class="p">;</span>
+
+        <span class="k">while</span> <span class="p">(</span><span class="n">power</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">power</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="n">power</span> <span class="o">=</span> <span class="n">power</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">;</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">power</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nl">public:</span>
+
+    <span class="n">Fast_1_M_Math</span><span class="p">(</span><span class="kt">int</span> <span class="n">m_number</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">const</span> <span class="kt">float</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.04303566602</span><span class="p">;</span> <span class="c1">// Approximation constant</span>
+        <span class="k">const</span> <span class="kt">float</span> <span class="n">B</span> <span class="o">=</span> <span class="mf">127.</span><span class="n">f</span><span class="p">;</span> <span class="c1">// IEEE-754 single precision exponent offset</span>
+        <span class="k">const</span> <span class="kt">float</span> <span class="n">L</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">23</span><span class="p">;</span> <span class="c1">// IEEE-754 single prrecision mantissa length</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">m_number</span><span class="p">;</span>
+        <span class="kt">float</span> <span class="n">partial</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.</span><span class="n">f</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="kt">float</span><span class="p">)(</span><span class="n">m_number</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">B</span> <span class="o">-</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">*</span> <span class="n">L</span><span class="p">;</span>
+    	<span class="n">magic_number</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)(</span><span class="n">partial</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">float</span> <span class="n">get</span><span class="p">(</span><span class="kt">float</span> <span class="n">a</span><span class="p">)</span>
+    <span class="p">{</span>
+       	<span class="k">if</span> <span class="p">(</span><span class="n">m</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="p">((</span><span class="n">m</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="mf">0.</span><span class="n">f</span><span class="p">))</span>
+       	<span class="p">{</span>
+        	<span class="k">return</span> <span class="n">NAN</span><span class="p">;</span>
+       	<span class="p">}</span>
+
+       	<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="o">*</span><span class="p">((</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">a</span><span class="p">);</span>
+       	<span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">/</span> <span class="n">m</span> <span class="o">+</span> <span class="n">magic_number</span><span class="p">;</span>
+       	<span class="kt">float</span> <span class="n">x_n</span> <span class="o">=</span> <span class="o">*</span><span class="p">((</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">i</span><span class="p">);</span>
+
+    	<span class="k">if</span> <span class="p">(</span><span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    	<span class="p">{</span>
+            <span class="c1">// One iteration Newton-Raphson</span>
+            <span class="k">return</span> <span class="n">x_n</span> <span class="o">*</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">a</span> <span class="o">/</span> <span class="n">integer_power</span><span class="p">(</span><span class="n">x_n</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span> <span class="o">/</span> <span class="n">m</span><span class="p">;</span> 
+    	<span class="p">}</span>
+       	<span class="k">else</span>
+       	<span class="p">{</span>
+            <span class="c1">// One iteration Newton-Raphson</span>
+            <span class="k">return</span> <span class="n">x_n</span> <span class="o">*</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">a</span> <span class="o">*</span> <span class="n">integer_power</span><span class="p">(</span><span class="n">x_n</span><span class="p">,</span> <span class="o">-</span><span class="n">m</span><span class="p">))</span> <span class="o">/</span> <span class="n">m</span><span class="p">;</span>
+       	<span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Fast_1_M_Math</span> <span class="n">inverse_square</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">);</span>
+
+    <span class="kt">float</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">1123.4231231</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">a1</span> <span class="o">=</span> <span class="n">inverse_square</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="kt">float</span> <span class="n">a2</span> <span class="o">=</span>  <span class="mf">1.</span><span class="n">f</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"fast: "</span> <span class="o">&lt;&lt;</span> <span class="n">a1</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"lib: "</span> <span class="o">&lt;&lt;</span> <span class="n">a2</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p><br />
+<strong>References</strong></p>
+<ul>
+  <li>Lomont, Chris (February 2003). “Fast Inverse Square Root” (PDF). Retrieved 2009-02-13.</li>
+  <li>https://en.wikipedia.org/wiki/Fast_inverse_square_root</li>
+</ul>]]></content><author><name></name></author><summary type="html"><![CDATA[In 1999, an unintuitive method was employed in the Quake III Arena graphics library to quickly calculate surface normals for lighting and shading. The function calculating inverse square root is in below. The original code for the repository can be found here.]]></summary></entry><entry><title type="html">Trying to Understand Irrational Numbers Using a Rational Way</title><link href="http://localhost:4000/2023/03/17/Trying-to-Understand-Irrational-Numbers-Using-a-Rational-Method.html" rel="alternate" type="text/html" title="Trying to Understand Irrational Numbers Using a Rational Way" /><published>2023-03-17T21:46:39-07:00</published><updated>2023-03-17T21:46:39-07:00</updated><id>http://localhost:4000/2023/03/17/Trying-to-Understand-Irrational-Numbers-Using-a-Rational-Method</id><content type="html" xml:base="http://localhost:4000/2023/03/17/Trying-to-Understand-Irrational-Numbers-Using-a-Rational-Method.html"><![CDATA[<p>Most of us like playing Jenga. For a moment, imagine that you are in a room with infinitely many identical Jenga blocks.</p>
 
 <p><img src="/assets/jenga.png" alt="Jenga blocks" style="display:block; margin-left:auto; margin-right:auto" /></p>
 <div align="center">
