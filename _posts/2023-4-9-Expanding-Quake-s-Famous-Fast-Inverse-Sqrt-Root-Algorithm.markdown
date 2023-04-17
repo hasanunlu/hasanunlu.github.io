@@ -26,7 +26,7 @@ float Q_rsqrt( float number )
 }
 ```
 
-The advantage stems from the way numbers are stored in floating-point format like $x=\pm(1+m_x)2^{e_x}$, which allows power operations to be converted into addition and subtraction in the exponent field. This assists in finding an initial approximation, with one or two Newton-Raphson iterations yielding highly accurate results for compute heavy functions, such as the inverse square root.
+The advantage stems from the way numbers are stored in floating-point format like $x=\pm(1+m_x)2^{e_x}$, which allows power operations to be converted into addition and subtraction in the exponent field. Also $log_2(1+x)\approx x$ in the mantissa field. This assists in finding an initial approximation, with one or two Newton-Raphson iterations yielding highly accurate results for compute heavy functions, such as the inverse square root.
 \
 \
 ![IEEE 754 Single-Precision Format](/assets/ieee754_float.png){:style="display:block; margin-left:auto; margin-right:auto"}
@@ -100,7 +100,7 @@ $I_y \approx \frac{I_x}{m} + (1 - \frac{1}{m})L(B - \sigma)$
 In here $(1 - \frac{1}{m})L(B - \sigma)$ corresponds magic number where $L=2^{23}$ and $B=127$ for IEEE 754 single precision format.
 \
 \
-**Second Step: Newthon-Raphson Method**
+**Second Step: Newton-Raphson Method**
 \
 We need to find the $1/m$ power of a number, so if we define this as an unknown, the problem can be formulated as follows:
 \
@@ -136,7 +136,7 @@ There are several approaches to finding it. In this case, we will focus on minim
 Logx, x and Relative Error Graph
 </div>
 \
-Check Desmos [here](https://www.desmos.com/calculator/gizsi2hjz3) to edit and play with approxmation variable.
+Check Desmos graphing calculator [here](https://www.desmos.com/calculator/gizsi2hjz3) to edit and play with approxmation variable.
 \
 \
 We need to get the derivative to find local maxima.
