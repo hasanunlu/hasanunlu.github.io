@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-04-10T09:14:19-07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hasan Unlu’s Blog</title><entry><title type="html">Expanding Quake’s Famous Fast Inverse Square Root Algorithm</title><link href="http://localhost:4000/2023/04/09/Expanding-Quake-s-Famous-Fast-Inverse-Sqrt-Root-Algorithm.html" rel="alternate" type="text/html" title="Expanding Quake’s Famous Fast Inverse Square Root Algorithm" /><published>2023-04-09T10:46:39-07:00</published><updated>2023-04-09T10:46:39-07:00</updated><id>http://localhost:4000/2023/04/09/Expanding-Quake-s-Famous-Fast-Inverse-Sqrt-Root-Algorithm</id><content type="html" xml:base="http://localhost:4000/2023/04/09/Expanding-Quake-s-Famous-Fast-Inverse-Sqrt-Root-Algorithm.html"><![CDATA[<p>In 1999, an unintuitive method was employed in the Quake III Arena graphics library to quickly calculate surface normals for lighting and shading. The function calculating inverse square root is in below. The original code for the repository can be found <a href="https://archive.softwareheritage.org/browse/content/sha1_git:bb0faf6919fc60636b2696f32ec9b3c2adb247fe/?origin_url=https://github.com/id-Software/Quake-III-Arena&amp;path=code/game/q_math.c&amp;revision=dbe4ddb10315479fc00086f08e25d968b4b43c49&amp;snapshot=4ab9bcef131aaf449a7c01370aff8c91dcecbf5f#L549-L572">here</a>.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-05-22T23:40:23-07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hasan Unlu’s Blog</title><entry><title type="html">Expanding Quake’s Famous Fast Inverse Square Root Algorithm</title><link href="http://localhost:4000/2023/04/09/Expanding-Quake-s-Famous-Fast-Inverse-Sqrt-Root-Algorithm.html" rel="alternate" type="text/html" title="Expanding Quake’s Famous Fast Inverse Square Root Algorithm" /><published>2023-04-09T10:46:39-07:00</published><updated>2023-04-09T10:46:39-07:00</updated><id>http://localhost:4000/2023/04/09/Expanding-Quake-s-Famous-Fast-Inverse-Sqrt-Root-Algorithm</id><content type="html" xml:base="http://localhost:4000/2023/04/09/Expanding-Quake-s-Famous-Fast-Inverse-Sqrt-Root-Algorithm.html"><![CDATA[<p>In 1999, an unintuitive method was employed in the Quake III Arena graphics library to quickly calculate surface normals for lighting and shading. The function calculating inverse square root is in below. The original code for the repository can be found <a href="https://archive.softwareheritage.org/browse/content/sha1_git:bb0faf6919fc60636b2696f32ec9b3c2adb247fe/?origin_url=https://github.com/id-Software/Quake-III-Arena&amp;path=code/game/q_math.c&amp;revision=dbe4ddb10315479fc00086f08e25d968b4b43c49&amp;snapshot=4ab9bcef131aaf449a7c01370aff8c91dcecbf5f#L549-L572">here</a>.</p>
 
 <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="nf">Q_rsqrt</span><span class="p">(</span> <span class="kt">float</span> <span class="n">number</span> <span class="p">)</span>
 <span class="p">{</span>
@@ -18,7 +18,7 @@
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>The advantage stems from the way numbers are stored in floating-point format like $x=\pm(1+m_x)2^{e_x}$, which allows power operations to be converted into addition and subtraction in the exponent field. This assists in finding an initial approximation, with one or two Newton-Raphson iterations yielding highly accurate results for compute heavy functions, such as the inverse square root.
+<p>The advantage stems from the way numbers are stored in floating-point format like $x=\pm(1+m_x)2^{e_x}$, which allows power operations to be converted into addition and subtraction in the exponent field. Also $log_2(1+x)\approx x$ in the mantissa field. This assists in finding an initial approximation, with one or two Newton-Raphson iterations yielding highly accurate results for compute heavy functions, such as the inverse square root.
 <br />
 <br />
 <img src="/assets/ieee754_float.png" alt="IEEE 754 Single-Precision Format" style="display:block; margin-left:auto; margin-right:auto" /></p>
@@ -92,7 +92,7 @@ $I_y \approx \frac{I_x}{m} + (1 - \frac{1}{m})L(B - \sigma)$
 In here $(1 - \frac{1}{m})L(B - \sigma)$ corresponds magic number where $L=2^{23}$ and $B=127$ for IEEE 754 single precision format.
 <br />
 <br />
-<strong>Second Step: Newthon-Raphson Method</strong>
+<strong>Second Step: Newton-Raphson Method</strong>
 <br />
 We need to find the $1/m$ power of a number, so if we define this as an unknown, the problem can be formulated as follows:
 <br />
@@ -128,7 +128,7 @@ There are several approaches to finding it. In this case, we will focus on minim
 Logx, x and Relative Error Graph
 </div>
 <p><br />
-Check Desmos <a href="https://www.desmos.com/calculator/gizsi2hjz3">here</a> to edit and play with approxmation variable.
+Check Desmos graphing calculator <a href="https://www.desmos.com/calculator/gizsi2hjz3">here</a> to edit and play with approxmation variable.
 <br />
 <br />
 We need to get the derivative to find local maxima.
@@ -155,7 +155,7 @@ $\sigma = (log_2(1.44269504088) - 0.44269504088)/2$
 $\sigma = 0.04303566602$
 <br />
 <br />
-Here is the generic code provided by me. You can modify and optimize it for specific $m$ values as needed.</p>
+Here is the generic code for taking power of $1/m$. You can modify and optimize it for specific $m$ values as needed.</p>
 
 <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
 #include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
@@ -245,29 +245,29 @@ Here is the generic code provided by me. You can modify and optimize it for spec
 <ul>
   <li>Lomont, Chris (February 2003). “Fast Inverse Square Root” (PDF). Retrieved 2009-02-13.</li>
   <li>https://en.wikipedia.org/wiki/Fast_inverse_square_root</li>
-</ul>]]></content><author><name></name></author><summary type="html"><![CDATA[In 1999, an unintuitive method was employed in the Quake III Arena graphics library to quickly calculate surface normals for lighting and shading. The function calculating inverse square root is in below. The original code for the repository can be found here.]]></summary></entry><entry><title type="html">Trying to Understand Irrational Numbers Using a Rational Way</title><link href="http://localhost:4000/2023/03/17/Trying-to-Understand-Irrational-Numbers-Using-a-Rational-Method.html" rel="alternate" type="text/html" title="Trying to Understand Irrational Numbers Using a Rational Way" /><published>2023-03-17T21:46:39-07:00</published><updated>2023-03-17T21:46:39-07:00</updated><id>http://localhost:4000/2023/03/17/Trying-to-Understand-Irrational-Numbers-Using-a-Rational-Method</id><content type="html" xml:base="http://localhost:4000/2023/03/17/Trying-to-Understand-Irrational-Numbers-Using-a-Rational-Method.html"><![CDATA[<p>Most of us like playing Jenga. For a moment, imagine that you are in a room with infinitely many identical Jenga blocks.</p>
+</ul>]]></content><author><name></name></author><summary type="html"><![CDATA[In 1999, an unintuitive method was employed in the Quake III Arena graphics library to quickly calculate surface normals for lighting and shading. The function calculating inverse square root is in below. The original code for the repository can be found here.]]></summary></entry><entry><title type="html">Trying to Understand Irrational Numbers Using a Rational Way</title><link href="http://localhost:4000/2023/03/17/Trying-to-Understand-Irrational-Numbers-Using-a-Rational-Method.html" rel="alternate" type="text/html" title="Trying to Understand Irrational Numbers Using a Rational Way" /><published>2023-03-17T21:46:39-07:00</published><updated>2023-03-17T21:46:39-07:00</updated><id>http://localhost:4000/2023/03/17/Trying-to-Understand-Irrational-Numbers-Using-a-Rational-Method</id><content type="html" xml:base="http://localhost:4000/2023/03/17/Trying-to-Understand-Irrational-Numbers-Using-a-Rational-Method.html"><![CDATA[<p>Most people enjoy playing Jenga. Picture yourself in a room filled with an infinite number of identical Jenga blocks, disregarding their depth.</p>
 
 <p><img src="/assets/jenga.png" alt="Jenga blocks" style="display:block; margin-left:auto; margin-right:auto" /></p>
 <div align="center">
 Jenga blocks
 </div>
 <p><br />
-At some point, you started wondering a Jenga block’s length-to-width ratio. Let’s forget about depth. But you have no access to any measurement tool. However, you easily figure out how to find it and you start placing Jenga blocks vertically and horizontally.</p>
+You become curious about the length-to-width ratio of a Jenga block but lack any measuring tools. Nevertheless, you devise a method to determine this ratio by arranging the blocks vertically and horizontally.</p>
 
 <p><img src="/assets/ratio.png" alt="A solution finding length-to-width ratio" style="display:block; margin-left:auto; margin-right:auto" /></p>
 <div align="center">
 A solution finding length-to-width ratio
 </div>
 <p><br />
-Once they align, you count how many horizontal and vertical blocks are used. (number of vertical blocks / number of horizontal blocks) is length-to-width ratio.</p>
+To find the length-to-width ratio, you count the number of vertical and horizontal blocks used once they align (vertical blocks / horizontal blocks).</p>
 
 \[\frac{\textrm{number of vertical blocks}}{\textrm{number of horizontal blocks}} = \frac{l}{w}\]
 
-<p>However you notice no alignment happens for these Jenga blocks. Actually you don’t know it is going to align or not. They get closer but they never align. What is special about the length-to-width ratio of these blocks?</p>
+<p>However, you observe that these Jenga blocks never truly align, only coming closer to alignment. You wonder what is unique about their length-to-width ratio.</p>
 
-<p><strong>The ratio is irrational number.</strong></p>
+<p><strong>The answer is that the ratio is an irrational number.</strong></p>
 
-<p>To represent an irrational number, you need infinitely many blocks. We are not able to represent an irrational number in finite quantity domain. The other fact is that the length-to-width ratio is real in your hand but there is no way to represent them in finite world. They are like symbols $\sqrt{2}$, $\pi$ etc. We can only know they exist.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Most of us like playing Jenga. For a moment, imagine that you are in a room with infinitely many identical Jenga blocks.]]></summary></entry><entry><title type="html">Running LeNet-5 on RISC-V Micro-Controller with only 16 KBytes Memory</title><link href="http://localhost:4000/2020/06/10/Running-LeNet-5-on-RISC-V-Micro-Controller-with-only-16-KBytes-Memory.html" rel="alternate" type="text/html" title="Running LeNet-5 on RISC-V Micro-Controller with only 16 KBytes Memory" /><published>2020-06-10T21:46:39-07:00</published><updated>2020-06-10T21:46:39-07:00</updated><id>http://localhost:4000/2020/06/10/Running-LeNet-5-on-RISC-V-Micro-Controller-with-only-16-KBytes-Memory</id><content type="html" xml:base="http://localhost:4000/2020/06/10/Running-LeNet-5-on-RISC-V-Micro-Controller-with-only-16-KBytes-Memory.html"><![CDATA[<div class="video-holder">
+<p>To represent an irrational number, you would need an infinite number of blocks, as it is impossible to represent such a number within a finite domain. The length-to-width ratio is a real value in your hand, yet it cannot be represented in a finite world. Irrational numbers like $\sqrt{2}$ and $\pi$ are merely symbols that indicate their existence.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Most people enjoy playing Jenga. Picture yourself in a room filled with an infinite number of identical Jenga blocks, disregarding their depth.]]></summary></entry><entry><title type="html">Running LeNet-5 on RISC-V Micro-Controller with only 16 KBytes Memory</title><link href="http://localhost:4000/2020/06/10/Running-LeNet-5-on-RISC-V-Micro-Controller-with-only-16-KBytes-Memory.html" rel="alternate" type="text/html" title="Running LeNet-5 on RISC-V Micro-Controller with only 16 KBytes Memory" /><published>2020-06-10T21:46:39-07:00</published><updated>2020-06-10T21:46:39-07:00</updated><id>http://localhost:4000/2020/06/10/Running-LeNet-5-on-RISC-V-Micro-Controller-with-only-16-KBytes-Memory</id><content type="html" xml:base="http://localhost:4000/2020/06/10/Running-LeNet-5-on-RISC-V-Micro-Controller-with-only-16-KBytes-Memory.html"><![CDATA[<div class="video-holder">
   <iframe width="560" height="315" src="https://www.youtube.com/embed/nQN_5fDQbI4" frameborder="0" allowfullscreen=""></iframe>
 </div>
 <p><br />

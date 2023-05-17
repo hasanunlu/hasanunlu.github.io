@@ -11,7 +11,6 @@ Most people enjoy playing Jenga. Picture yourself in a room filled with an infin
 Jenga blocks
 </div>
 \
-
 You become curious about the length-to-width ratio of a Jenga block but lack any measuring tools. Nevertheless, you devise a method to determine this ratio by arranging the blocks vertically and horizontally.
 
 ![A solution finding length-to-width ratio](/assets/ratio.png){:style="display:block; margin-left:auto; margin-right:auto"}
@@ -19,7 +18,6 @@ You become curious about the length-to-width ratio of a Jenga block but lack any
 A solution finding length-to-width ratio
 </div>
 \
-
 To find the length-to-width ratio, you count the number of vertical and horizontal blocks used once they align (vertical blocks / horizontal blocks).
 
 $$\frac{\textrm{number of vertical blocks}}{\textrm{number of horizontal blocks}} = \frac{l}{w}$$
