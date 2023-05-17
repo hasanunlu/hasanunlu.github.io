@@ -4,26 +4,28 @@ title:  "Trying to Understand Irrational Numbers Using a Rational Way"
 date:   2023-3-17 21:46:39 -0700
 # categories: jekyll update
 ---
-Most of us like playing Jenga. For a moment, imagine that you are in a room with infinitely many identical Jenga blocks.
+Most people enjoy playing Jenga. Picture yourself in a room filled with an infinite number of identical Jenga blocks, disregarding their depth.
 
 ![Jenga blocks](/assets/jenga.png){:style="display:block; margin-left:auto; margin-right:auto"}
 <div align="center">
 Jenga blocks
 </div>
 \
-At some point, you started wondering a Jenga block’s length-to-width ratio. Let’s forget about depth. But you have no access to any measurement tool. However, you easily figure out how to find it and you start placing Jenga blocks vertically and horizontally.
+
+You become curious about the length-to-width ratio of a Jenga block but lack any measuring tools. Nevertheless, you devise a method to determine this ratio by arranging the blocks vertically and horizontally.
 
 ![A solution finding length-to-width ratio](/assets/ratio.png){:style="display:block; margin-left:auto; margin-right:auto"}
 <div align="center">
 A solution finding length-to-width ratio
 </div>
 \
-Once they align, you count how many horizontal and vertical blocks are used. (number of vertical blocks / number of horizontal blocks) is length-to-width ratio.
+
+To find the length-to-width ratio, you count the number of vertical and horizontal blocks used once they align (vertical blocks / horizontal blocks).
 
 $$\frac{\textrm{number of vertical blocks}}{\textrm{number of horizontal blocks}} = \frac{l}{w}$$
 
-However you notice no alignment happens for these Jenga blocks. Actually you don’t know it is going to align or not. They get closer but they never align. What is special about the length-to-width ratio of these blocks?
+However, you observe that these Jenga blocks never truly align, only coming closer to alignment. You wonder what is unique about their length-to-width ratio.
 
-**The ratio is irrational number.**
+**The answer is that the ratio is an irrational number.**
 
-To represent an irrational number, you need infinitely many blocks. We are not able to represent an irrational number in finite quantity domain. The other fact is that the length-to-width ratio is real in your hand but there is no way to represent them in finite world. They are like symbols $\sqrt{2}$, $\pi$ etc. We can only know they exist.
+To represent an irrational number, you would need an infinite number of blocks, as it is impossible to represent such a number within a finite domain. The length-to-width ratio is a real value in your hand, yet it cannot be represented in a finite world. Irrational numbers like $\sqrt{2}$ and $\pi$ are merely symbols that indicate their existence.
