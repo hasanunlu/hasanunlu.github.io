@@ -250,6 +250,59 @@ int main()
 }
 ```
 \
+**Expanding it to Exponential Function**
+\
+If we set our function as $y = 2^x$. We get $log_2 y = log_2 2^x$.
+\
+\
+Logarithm cancels out. $log_2 y = x$
+\
+\
+We know that $log_2 y \approx \frac{I_y}{L} + \sigma - B$
+\
+\
+$x \approx \frac{I_y}{L} + \sigma - B$
+\
+\
+$I_y \approx L*(x-\sigma+B)$
+\
+\
+Newton-Raphson method would be useful for one more level of accuracy, however the iteration step requires logarithm so it isn't cheap to calculate.
+
+```c++
+float fastPowerOfTwo(float x)
+{
+    const float sigma = 0.04303566602; // Approximation constant
+    const float B = 127.f; // IEEE-754 single precision exponent offset
+    const float L = 1 << 23; // IEEE-754 single prrecision mantissa length
+
+    float I_y = L * (x - sigma + B);
+    int I = (int)(I_y);
+    float y = *((float *)&I);
+    return y;
+}
+```
+\
+The popular function in general is natural exponent function. Base two can be converted into natural exponent using the following base change rule.
+\
+$e^x = 2^{\frac{x}{ln(2)}}$
+
+```c++
+float fastExp(float x)
+{
+    const float one_over_ln2 = 1.44269504089f;
+    const float sigma = 0.04303566602; // Approximation constant
+    const float B = 127.f; // IEEE-754 single precision exponent offset
+    const float L = 1 << 23; // IEEE-754 single prrecision mantissa length
+
+    float I_y = L * (x * one_over_ln2 - sigma + B);
+    int I = (int)(I_y);
+    float y = *((float *)&I);
+    return y;
+}
+```
+
+
 **References**
 - Lomont, Chris (February 2003). "Fast Inverse Square Root" (PDF). Retrieved 2009-02-13.
 - https://en.wikipedia.org/wiki/Fast_inverse_square_root
