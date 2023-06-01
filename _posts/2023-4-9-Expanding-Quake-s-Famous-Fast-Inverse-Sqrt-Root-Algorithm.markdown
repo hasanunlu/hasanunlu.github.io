@@ -310,6 +310,8 @@ float fastExp(float x)
     {
         fractional_exponent = 255.f;
     }
+    
+    float I_y = L * fractional_exponent;
     unsigned int I = (unsigned int)(I_y);
     float y = *((float *)&I);
     return y;
