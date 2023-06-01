@@ -275,9 +275,17 @@ float fastPowerOfTwo(float x)
     const float sigma = 0.04303566602; // Approximation constant
     const float B = 127.f; // IEEE-754 single precision exponent offset
     const float L = 1 << 23; // IEEE-754 single prrecision mantissa length
+    
+    // Need to deal with overflows in exponent region
+    float fractional_exponent = x - sigma + B;
 
-    float I_y = L * (x - sigma + B);
-    int I = (int)(I_y);
+    if (fractional_exponent > 255.f)
+    {
+        fractional_exponent = 255.f;
+    }
+
+    float I_y = L * fractional_exponent;
+    unsigned int I = (unsigned int)(I_y);
     float y = *((float *)&I);
     return y;
 }
@@ -295,8 +303,14 @@ float fastExp(float x)
     const float B = 127.f; // IEEE-754 single precision exponent offset
     const float L = 1 << 23; // IEEE-754 single prrecision mantissa length
 
-    float I_y = L * (x * one_over_ln2 - sigma + B);
-    int I = (int)(I_y);
+    // Need to deal with overflows in exponent region
+    float fractional_exponent = x * one_over_ln2 - sigma + B;
+
+    if (fractional_exponent > 255.f)
+    {
+        fractional_exponent = 255.f;
+    }
+    unsigned int I = (unsigned int)(I_y);
     float y = *((float *)&I);
     return y;
 }
