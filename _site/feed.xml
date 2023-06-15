@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-06-14T20:29:48-07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hasan Unlu’s Blog</title><entry><title type="html">Motor Controller Software and Circuit for Dyson Vacuum Cleaner Motors</title><link href="http://localhost:4000/2023/06/14/Motor-Controller-Software-and-Circuit-for-Dyson-Vacuum-Cleaner-Motors.html" rel="alternate" type="text/html" title="Motor Controller Software and Circuit for Dyson Vacuum Cleaner Motors" /><published>2023-06-14T10:46:39-07:00</published><updated>2023-06-14T10:46:39-07:00</updated><id>http://localhost:4000/2023/06/14/Motor-Controller-Software-and-Circuit-for-Dyson-Vacuum-Cleaner-Motors</id><content type="html" xml:base="http://localhost:4000/2023/06/14/Motor-Controller-Software-and-Circuit-for-Dyson-Vacuum-Cleaner-Motors.html"><![CDATA[<p>Dyson V6 Setup</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-06-14T23:33:50-07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hasan Unlu’s Blog</title><entry><title type="html">Motor Controller Software and Circuit for Dyson Vacuum Cleaner Motors</title><link href="http://localhost:4000/2023/06/14/Motor-Controller-Software-and-Circuit-for-Dyson-Vacuum-Cleaner-Motors.html" rel="alternate" type="text/html" title="Motor Controller Software and Circuit for Dyson Vacuum Cleaner Motors" /><published>2023-06-14T10:46:39-07:00</published><updated>2023-06-14T10:46:39-07:00</updated><id>http://localhost:4000/2023/06/14/Motor-Controller-Software-and-Circuit-for-Dyson-Vacuum-Cleaner-Motors</id><content type="html" xml:base="http://localhost:4000/2023/06/14/Motor-Controller-Software-and-Circuit-for-Dyson-Vacuum-Cleaner-Motors.html"><![CDATA[<p>Dyson V6 Setup</p>
 <div class="video-holder">
   <iframe width="560" height="315" src="https://www.youtube.com/embed/YlLNd6wKVhU" frameborder="0" allowfullscreen=""></iframe>
 </div>
@@ -11,7 +11,16 @@ Dyson V10 Setup</p>
 <p><br />
 Dyson handheld vacuum cleaners utilize high RPM brushless DC motors. Specifications indicate that some models can reach as high as 125000 RPM. I’ve disassembled DC56, V6, and V10 models. Each has a brushless single-phase motor, with differing number of poles: two for the DC56, four for the V6, and eight for the V10. An earlier <a href="https://www.electronicsweekly.com/market-sectors/power/dyson-vacuums-104000rpm-brushless-dc-technology-2009-06/">article</a> about their V2 motor hinted that besides the mechanical design, the controlling software is the key. The electronics are relatively straightforward, including an H-bridge driver, microcontroller, and hall effect sensor. I’ve taken up the task and developed my own software to match Dyson’s factory performance. My software could potentially be used with all their brushless motors. The components I utilized include an Arduino Uno (8-bit ATmega328P microcontroller), H-bridge controller, and a hall effect sensor. Despite Dyson V10 employing a 32-bit ARM micro-controller, I managed to control it using an 8-bit Arduino, which is cheaper component.</p>
 
-<p><strong>1. Hall Effect Sensor</strong>
+<p align="center" width="100%">
+    <img width="30%" src="/assets/v6_setup.jpg" /> 
+    &emsp;&emsp;
+    <img width="37%" src="/assets/v10_setup.jpg" /> 
+</p>
+<div align="center">
+V6 and V10 Setup</div>
+<p><br />
+<br />
+<strong>1. Hall Effect Sensor</strong>
 <br />
 I reused the hall effect sensor from the original control board, but it can also be sourced from retailers such as Digikey, Adafruit, or Sparkfun. This sensor requires a pull-up resistor (~5k ohm) at the output pin.</p>
 
@@ -40,21 +49,19 @@ The software consists of one GPIO interrupt for the hall effect sensor and two t
 H-Bridge Forward and Backward Current Control
 </div>
 <p><br />
-<img src="/assets/low_speed.png" alt="The Scope Capture of the Pins" style="display:block; margin-left:auto; margin-right:auto" /></p>
+<img src="/assets/low_speed.png" alt="The Scope Capture of the Simple Controlling Approach" style="display:block; margin-left:auto; margin-right:auto" /></p>
 <div align="center">
-The Scope Capture of the Pins
+The Scope Capture of the Simple Controlling Approach
 </div>
 <p><br />
-Upon observing that enabling the H-bridge before the hall effect sensor’s rising/falling edge boosted speed, I introduced an adjustable time offset from the previous hall effect sensor edge and activated it after this offset. The system remains a closed-loop controlled by the hall effect sensor, however the pulse width control loop is phase-shifted. The higher RPM requires lower pulse width.</p>
+Upon observing that enabling the H-bridge before the hall effect sensor’s rising/falling edge boosted speed, this is because the hall effect sensor’s location with respect to the rotor. I introduced an adjustable time offset from the previous hall effect sensor edge and enabled H-bridge after this offset. The system remains a closed-loop controlled by the hall effect sensor, however the pulse width control loop is phase-shifted. Now, it is time to reduce pulse width to achieve higher RPMs. A new challenge emerged in getting the minimum pulse width, the timer interrupt service routine measuring pulse durations couldn’t be reduced after some point even when I set the minimum timer period. The problem was the Arduino library <em>digitalWrite(.)/digitalRead(.)</em> functions, which take tens of instruction cycles. I switched to direct GPIO port access to minimize latency in setting GPIOs.</p>
 
-<p>A new challenge emerged in getting the minimum pulse width, as the timer interrupt service routine measuring pulse durations couldn’t reduce even when I set the minimum timer period. The problem was the Arduino library <em>digitalWrite(.)/digitalRead(.)</em> functions, which take tens of instruction cycles. I switched to direct GPIO port access to minimize latency in setting GPIOs.</p>
-
-<p><strong>Optimized GPIO Setting</strong></p>
+<p><strong>Direct GPIO Port Access Compiled Assembly Code</strong></p>
 <pre><code class="language-assembly">  PORTD |= 0b00001000;
      4ae:       5b 9a           sbi     0x0b, 3 ; 11
 </code></pre>
 <p><br />
-<strong>Arduino Library <em>digitalWrite(.)</em></strong></p>
+<strong>Arduino Library <em>digitalWrite(.)</em> Compiled Assembly Code</strong></p>
 <pre><code class="language-assembly">void digitalWrite(uint8_t pin, uint8_t val)
 {
         uint8_t timer = digitalPinToTimer(pin);
@@ -110,11 +117,11 @@ Upon observing that enabling the H-bridge before the hall effect sensor’s risi
 }
 </code></pre>
 
-<p>Following phase shifting from the hall effect detections and GPIO setting optimization, I achieved 120,000 RPM for the Dyson V2, V6, and V10 with the same efficiency as the original models. The Dyson V6 scope captures is shown in the scope capture below.</p>
+<p>Following phase shifting from the hall effect detections and GPIO setting optimization, I achieved between 90000 and 120000 RPM for the Dyson V2, V6, and V10 with the same efficiency as the original models. The Dyson V6 signal capture at 120000 RPM is shown below.</p>
 
-<p><img src="/assets/high_speed.png" alt="120,000 RPM in Dyson V6" style="display:block; margin-left:auto; margin-right:auto" /></p>
+<p><img src="/assets/high_speed.png" alt="120000 RPM in Dyson V6" style="display:block; margin-left:auto; margin-right:auto" /></p>
 <div align="center">
-120,000 RPM in Dyson V6
+120000 RPM in Dyson V6
 </div>
 <p><br />
 My code supports Dyson V2, V6, and V10 motors. The high-level control loop uses a fixed look-up table for RPM transitions, although it can be converted into a PI control loop.
@@ -127,6 +134,7 @@ My code supports Dyson V2, V6, and V10 motors. The high-level control loop uses 
   <li>Avoid running the system excessively without proper cooling. The best cooling location is behind the motor, providing ample airflow. Position the H-bridge circuitry output of the airflow.</li>
 </ul>
 
+<p>For up-to-date code, you can check the repo <a href="https://github.com/hasanunlu/dyson_motor_controller">here</a>.</p>
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define HALL_EFFECT 2
 </span>
 <span class="c1">// H-Bridge Arduino Shield with BTN8982TA</span>
@@ -223,7 +231,6 @@ My code supports Dyson V2, V6, and V10 motors. The high-level control loop uses 
   <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span> <span class="o">-</span> <span class="mi">3</span><span class="p">,</span>
   <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span> <span class="o">-</span> <span class="mi">4</span><span class="p">,</span>
   <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span> <span class="o">-</span> <span class="mi">5</span><span class="p">,</span>
-  <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span> <span class="o">-</span> <span class="mi">6</span><span class="p">,</span>
 <span class="cp">#elif defined(DYSON_V2)
 </span>  <span class="mi">0</span><span class="p">,</span>
   <span class="mi">0</span><span class="p">,</span>
@@ -256,7 +263,6 @@ My code supports Dyson V2, V6, and V10 motors. The high-level control loop uses 
    <span class="mi">19</span><span class="p">,</span>
    <span class="mi">13</span><span class="p">,</span>
    <span class="mi">9</span><span class="p">,</span>
-   <span class="mi">9</span><span class="p">,</span>
 <span class="cp">#elif defined(DYSON_V2)
 </span>  <span class="mi">100</span><span class="p">,</span>
    <span class="mi">45</span><span class="p">,</span>
@@ -288,8 +294,7 @@ My code supports Dyson V2, V6, and V10 motors. The high-level control loop uses 
   <span class="p">{</span><span class="mf">10000.</span><span class="n">f</span><span class="p">,</span>   <span class="mf">35000.</span><span class="n">f</span><span class="p">},</span>
   <span class="p">{</span><span class="mf">30000.</span><span class="n">f</span><span class="p">,</span>   <span class="mf">65000.</span><span class="n">f</span><span class="p">},</span>
   <span class="p">{</span><span class="mf">60000.</span><span class="n">f</span><span class="p">,</span>   <span class="mf">80000.</span><span class="n">f</span><span class="p">},</span>
-  <span class="p">{</span><span class="mf">70000.</span><span class="n">f</span><span class="p">,</span>   <span class="mf">90000.</span><span class="n">f</span><span class="p">},</span>
-  <span class="p">{</span><span class="mf">80000.</span><span class="n">f</span><span class="p">,</span>  <span class="mf">140000.</span><span class="n">f</span><span class="p">}</span>
+  <span class="p">{</span><span class="mf">70000.</span><span class="n">f</span><span class="p">,</span>  <span class="mf">140000.</span><span class="n">f</span><span class="p">},</span>
 <span class="cp">#elif defined(DYSON_V2)
 </span>  <span class="p">{</span><span class="mf">0.</span><span class="n">f</span><span class="p">,</span>      <span class="mf">20000.</span><span class="n">f</span><span class="p">},</span>
   <span class="p">{</span><span class="mf">15000.</span><span class="n">f</span><span class="p">,</span>  <span class="mf">30000.</span><span class="n">f</span><span class="p">},</span>

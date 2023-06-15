@@ -26,6 +26,15 @@ Dyson V10 Setup
 \
 Dyson handheld vacuum cleaners utilize high RPM brushless DC motors. Specifications indicate that some models can reach as high as 125000 RPM. I've disassembled DC56, V6, and V10 models. Each has a brushless single-phase motor, with differing number of poles: two for the DC56, four for the V6, and eight for the V10. An earlier [article](https://www.electronicsweekly.com/market-sectors/power/dyson-vacuums-104000rpm-brushless-dc-technology-2009-06/) about their V2 motor hinted that besides the mechanical design, the controlling software is the key. The electronics are relatively straightforward, including an H-bridge driver, microcontroller, and hall effect sensor. I've taken up the task and developed my own software to match Dyson’s factory performance. My software could potentially be used with all their brushless motors. The components I utilized include an Arduino Uno (8-bit ATmega328P microcontroller), H-bridge controller, and a hall effect sensor. Despite Dyson V10 employing a 32-bit ARM micro-controller, I managed to control it using an 8-bit Arduino, which is cheaper component.
 
+<p align="center" width="100%">
+    <img width="30%" src="/assets/v6_setup.jpg"> 
+    &emsp;&emsp;
+    <img width="37%" src="/assets/v10_setup.jpg"> 
+</p>
+<div align="center">
+V6 and V10 Setup</div>
+\
+\
 **1. Hall Effect Sensor**
 \
 I reused the hall effect sensor from the original control board, but it can also be sourced from retailers such as Digikey, Adafruit, or Sparkfun. This sensor requires a pull-up resistor (~5k ohm) at the output pin.
@@ -55,22 +64,20 @@ The software consists of one GPIO interrupt for the hall effect sensor and two t
 H-Bridge Forward and Backward Current Control
 </div>
 \
-![The Scope Capture of the Pins](/assets/low_speed.png){:style="display:block; margin-left:auto; margin-right:auto"}
+![The Scope Capture of the Simple Controlling Approach](/assets/low_speed.png){:style="display:block; margin-left:auto; margin-right:auto"}
 <div align="center">
-The Scope Capture of the Pins
+The Scope Capture of the Simple Controlling Approach
 </div>
 \
-Upon observing that enabling the H-bridge before the hall effect sensor’s rising/falling edge boosted speed, I introduced an adjustable time offset from the previous hall effect sensor edge and activated it after this offset. The system remains a closed-loop controlled by the hall effect sensor, however the pulse width control loop is phase-shifted. The higher RPM requires lower pulse width.
+Upon observing that enabling the H-bridge before the hall effect sensor’s rising/falling edge boosted speed, this is because the hall effect sensor's location with respect to the rotor. I introduced an adjustable time offset from the previous hall effect sensor edge and enabled H-bridge after this offset. The system remains a closed-loop controlled by the hall effect sensor, however the pulse width control loop is phase-shifted. Now, it is time to reduce pulse width to achieve higher RPMs. A new challenge emerged in getting the minimum pulse width, the timer interrupt service routine measuring pulse durations couldn't be reduced after some point even when I set the minimum timer period. The problem was the Arduino library *digitalWrite(.)/digitalRead(.)* functions, which take tens of instruction cycles. I switched to direct GPIO port access to minimize latency in setting GPIOs.
 
-A new challenge emerged in getting the minimum pulse width, as the timer interrupt service routine measuring pulse durations couldn't reduce even when I set the minimum timer period. The problem was the Arduino library *digitalWrite(.)/digitalRead(.)* functions, which take tens of instruction cycles. I switched to direct GPIO port access to minimize latency in setting GPIOs. 
-
-**Optimized GPIO Setting**
+**Direct GPIO Port Access Compiled Assembly Code**
 ```assembly
   PORTD |= 0b00001000;
      4ae:       5b 9a           sbi     0x0b, 3 ; 11
 ```
 \
-**Arduino Library *digitalWrite(.)***
+**Arduino Library *digitalWrite(.)* Compiled Assembly Code**
 ```assembly
 void digitalWrite(uint8_t pin, uint8_t val)
 {
@@ -127,11 +134,11 @@ void digitalWrite(uint8_t pin, uint8_t val)
 }
 ```
 
-Following phase shifting from the hall effect detections and GPIO setting optimization, I achieved 120,000 RPM for the Dyson V2, V6, and V10 with the same efficiency as the original models. The Dyson V6 scope captures is shown in the scope capture below.
+Following phase shifting from the hall effect detections and GPIO setting optimization, I achieved between 90000 and 120000 RPM for the Dyson V2, V6, and V10 with the same efficiency as the original models. The Dyson V6 signal capture at 120000 RPM is shown below.
 
-![120,000 RPM in Dyson V6](/assets/high_speed.png){:style="display:block; margin-left:auto; margin-right:auto"}
+![120000 RPM in Dyson V6](/assets/high_speed.png){:style="display:block; margin-left:auto; margin-right:auto"}
 <div align="center">
-120,000 RPM in Dyson V6
+120000 RPM in Dyson V6
 </div>
 \
 My code supports Dyson V2, V6, and V10 motors. The high-level control loop uses a fixed look-up table for RPM transitions, although it can be converted into a PI control loop.
@@ -142,6 +149,7 @@ My code supports Dyson V2, V6, and V10 motors. The high-level control loop uses 
 - I recommend using a current limit during the development phase to protect your mosfets, though it will need to be removed to reach high RPMs.
 - Avoid running the system excessively without proper cooling. The best cooling location is behind the motor, providing ample airflow. Position the H-bridge circuitry output of the airflow.
 
+For up-to-date code, you can check the repo [here](https://github.com/hasanunlu/dyson_motor_controller).
 ```cpp
 #define HALL_EFFECT 2
 
@@ -239,7 +247,6 @@ const uint8_t early_pulse_cycles[]
   REF_CYCLE_FROM_DISABLE_TO_ENABLE - 3,
   REF_CYCLE_FROM_DISABLE_TO_ENABLE - 4,
   REF_CYCLE_FROM_DISABLE_TO_ENABLE - 5,
-  REF_CYCLE_FROM_DISABLE_TO_ENABLE - 6,
 #elif defined(DYSON_V2)
   0,
   0,
@@ -272,7 +279,6 @@ const uint8_t pulse_cycle_arr[]
    19,
    13,
    9,
-   9,
 #elif defined(DYSON_V2)
   100,
    45,
@@ -304,8 +310,7 @@ const float rpm_thresholds[][2]
   {10000.f,   35000.f},
   {30000.f,   65000.f},
   {60000.f,   80000.f},
-  {70000.f,   90000.f},
-  {80000.f,  140000.f}
+  {70000.f,  140000.f},
 #elif defined(DYSON_V2)
   {0.f,      20000.f},
   {15000.f,  30000.f},
