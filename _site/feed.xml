@@ -1,4 +1,570 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-05-22T23:40:23-07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hasan Unlu’s Blog</title><entry><title type="html">Expanding Quake’s Famous Fast Inverse Square Root Algorithm</title><link href="http://localhost:4000/2023/04/09/Expanding-Quake-s-Famous-Fast-Inverse-Sqrt-Root-Algorithm.html" rel="alternate" type="text/html" title="Expanding Quake’s Famous Fast Inverse Square Root Algorithm" /><published>2023-04-09T10:46:39-07:00</published><updated>2023-04-09T10:46:39-07:00</updated><id>http://localhost:4000/2023/04/09/Expanding-Quake-s-Famous-Fast-Inverse-Sqrt-Root-Algorithm</id><content type="html" xml:base="http://localhost:4000/2023/04/09/Expanding-Quake-s-Famous-Fast-Inverse-Sqrt-Root-Algorithm.html"><![CDATA[<p>In 1999, an unintuitive method was employed in the Quake III Arena graphics library to quickly calculate surface normals for lighting and shading. The function calculating inverse square root is in below. The original code for the repository can be found <a href="https://archive.softwareheritage.org/browse/content/sha1_git:bb0faf6919fc60636b2696f32ec9b3c2adb247fe/?origin_url=https://github.com/id-Software/Quake-III-Arena&amp;path=code/game/q_math.c&amp;revision=dbe4ddb10315479fc00086f08e25d968b4b43c49&amp;snapshot=4ab9bcef131aaf449a7c01370aff8c91dcecbf5f#L549-L572">here</a>.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-06-14T20:29:48-07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Hasan Unlu’s Blog</title><entry><title type="html">Motor Controller Software and Circuit for Dyson Vacuum Cleaner Motors</title><link href="http://localhost:4000/2023/06/14/Motor-Controller-Software-and-Circuit-for-Dyson-Vacuum-Cleaner-Motors.html" rel="alternate" type="text/html" title="Motor Controller Software and Circuit for Dyson Vacuum Cleaner Motors" /><published>2023-06-14T10:46:39-07:00</published><updated>2023-06-14T10:46:39-07:00</updated><id>http://localhost:4000/2023/06/14/Motor-Controller-Software-and-Circuit-for-Dyson-Vacuum-Cleaner-Motors</id><content type="html" xml:base="http://localhost:4000/2023/06/14/Motor-Controller-Software-and-Circuit-for-Dyson-Vacuum-Cleaner-Motors.html"><![CDATA[<p>Dyson V6 Setup</p>
+<div class="video-holder">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/YlLNd6wKVhU" frameborder="0" allowfullscreen=""></iframe>
+</div>
+<p><br />
+<br />
+Dyson V10 Setup</p>
+<div class="video-holder">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/e8ecWtvUDWA" frameborder="0" allowfullscreen=""></iframe>
+</div>
+<p><br />
+Dyson handheld vacuum cleaners utilize high RPM brushless DC motors. Specifications indicate that some models can reach as high as 125000 RPM. I’ve disassembled DC56, V6, and V10 models. Each has a brushless single-phase motor, with differing number of poles: two for the DC56, four for the V6, and eight for the V10. An earlier <a href="https://www.electronicsweekly.com/market-sectors/power/dyson-vacuums-104000rpm-brushless-dc-technology-2009-06/">article</a> about their V2 motor hinted that besides the mechanical design, the controlling software is the key. The electronics are relatively straightforward, including an H-bridge driver, microcontroller, and hall effect sensor. I’ve taken up the task and developed my own software to match Dyson’s factory performance. My software could potentially be used with all their brushless motors. The components I utilized include an Arduino Uno (8-bit ATmega328P microcontroller), H-bridge controller, and a hall effect sensor. Despite Dyson V10 employing a 32-bit ARM micro-controller, I managed to control it using an 8-bit Arduino, which is cheaper component.</p>
+
+<p><strong>1. Hall Effect Sensor</strong>
+<br />
+I reused the hall effect sensor from the original control board, but it can also be sourced from retailers such as Digikey, Adafruit, or Sparkfun. This sensor requires a pull-up resistor (~5k ohm) at the output pin.</p>
+
+<p><img src="/assets/hall_effect_sensor_pinout.png" alt="Hall Effect Sensor Pinout" style="display:block; margin-left:auto; margin-right:auto" /></p>
+<div align="center">
+Hall Effect Sensor Pinout
+</div>
+<p><br />
+<br />
+<strong>2. H-Bridge Driver</strong>
+<br />
+Several H-Bridge options are available on the market, but considering these beasts can consume ~500 watts, it’s preferable to choose robust ones. I bought <a href="https://www.digikey.com/en/products/detail/infineon-technologies/DCMOTORCONTRBTN8982TOBO1/5878319">H-Bridge with BTN8982TA from Digikey</a> and <a href="https://www.amazon.com/s?k=BTS7960B+43A&amp;crid=24E1NQH2DHS0G&amp;sprefix=bts7960b+43a%2Caps%2C134&amp;ref=nb_sb_noss_2">BTS7960B 43A</a> in Amazon. The former proved more reliable and also comes as an Arduino shield, making wiring simpler. The user manual for BTN8982TA board is <a href="https://www.infineon.com/dgdl/Infineon-Motor_Control_Shield_with_BTN8982TA_for_Arduino-UserManual-v02_00-EN.pdf?fileId=5546d4624ca27d02014cb20b89867eed">here</a>.
+<br />
+<br />
+<strong>3. Powersupply</strong>
+<br />
+A power supply capable of delivering 25V at a minimum of 600 watts is necessary.
+<br />
+<br />
+<strong>4. Control Software</strong>
+<br />
+The software consists of one GPIO interrupt for the hall effect sensor and two timer interrupts for control loop and pulse length measurement. My initial approach was straightforward: each time the hall effect sensor detected a rising or falling edge, I switched the current direction on the H-bridge driver. This approach allowed me to achieve 60000 RPM with no issues, but higher RPMs were unattainable. Here is my scope capture of V6 motor with this approach.</p>
+
+<p><img src="/assets/h_bridge.jpg" alt="H-Bridge Forward and Backward Current Control" style="display:block; margin-left:auto; margin-right:auto" /></p>
+<div align="center">
+H-Bridge Forward and Backward Current Control
+</div>
+<p><br />
+<img src="/assets/low_speed.png" alt="The Scope Capture of the Pins" style="display:block; margin-left:auto; margin-right:auto" /></p>
+<div align="center">
+The Scope Capture of the Pins
+</div>
+<p><br />
+Upon observing that enabling the H-bridge before the hall effect sensor’s rising/falling edge boosted speed, I introduced an adjustable time offset from the previous hall effect sensor edge and activated it after this offset. The system remains a closed-loop controlled by the hall effect sensor, however the pulse width control loop is phase-shifted. The higher RPM requires lower pulse width.</p>
+
+<p>A new challenge emerged in getting the minimum pulse width, as the timer interrupt service routine measuring pulse durations couldn’t reduce even when I set the minimum timer period. The problem was the Arduino library <em>digitalWrite(.)/digitalRead(.)</em> functions, which take tens of instruction cycles. I switched to direct GPIO port access to minimize latency in setting GPIOs.</p>
+
+<p><strong>Optimized GPIO Setting</strong></p>
+<pre><code class="language-assembly">  PORTD |= 0b00001000;
+     4ae:       5b 9a           sbi     0x0b, 3 ; 11
+</code></pre>
+<p><br />
+<strong>Arduino Library <em>digitalWrite(.)</em></strong></p>
+<pre><code class="language-assembly">void digitalWrite(uint8_t pin, uint8_t val)
+{
+        uint8_t timer = digitalPinToTimer(pin);
+     476:       e5 e7           ldi     r30, 0x75       ; 117
+     478:       f0 e0           ldi     r31, 0x00       ; 0
+     47a:       84 91           lpm     r24, Z
+        uint8_t bit = digitalPinToBitMask(pin);
+     47c:       e1 eb           ldi     r30, 0xB1       ; 177
+     47e:       f0 e0           ldi     r31, 0x00       ; 0
+     480:       d4 91           lpm     r29, Z
+        uint8_t port = digitalPinToPort(pin);
+     482:       ed e9           ldi     r30, 0x9D       ; 157
+     484:       f0 e0           ldi     r31, 0x00       ; 0
+     486:       c4 91           lpm     r28, Z
+        volatile uint8_t *out;
+
+        if (port == NOT_A_PIN) return;
+     488:       cc 23           and     r28, r28
+     48a:       89 f0           breq    .+34            ; 0x4ae &lt;_Z7forwardv+0x3c&gt;
+
+        // If the pin that support PWM output, we need to turn it off
+        // before doing a digital write.
+        if (timer != NOT_ON_TIMER) turnOffPWM(timer);
+     48c:       81 11           cpse    r24, r1
+     48e:       0e 94 8c 00     call    0x118   ; 0x118 &lt;turnOffPWM&gt;
+
+        out = portOutputRegister(port);
+     492:       ec 2f           mov     r30, r28
+     494:       f0 e0           ldi     r31, 0x00       ; 0
+     496:       ee 0f           add     r30, r30
+     498:       ff 1f           adc     r31, r31
+     49a:       ea 57           subi    r30, 0x7A       ; 122
+     49c:       ff 4f           sbci    r31, 0xFF       ; 255
+     49e:       a5 91           lpm     r26, Z+
+     4a0:       b4 91           lpm     r27, Z
+
+        uint8_t oldSREG = SREG;
+     4a2:       8f b7           in      r24, 0x3f       ; 63
+        cli();
+     4a4:       f8 94           cli
+
+        if (val == LOW) {
+                *out &amp;= ~bit;
+        } else {
+                *out |= bit;
+     4a6:       ec 91           ld      r30, X
+     4a8:       ed 2b           or      r30, r29
+     4aa:       ec 93           st      X, r30
+        }
+
+        SREG = oldSREG;
+     4ac:       8f bf           out     0x3f, r24       ; 63
+}
+</code></pre>
+
+<p>Following phase shifting from the hall effect detections and GPIO setting optimization, I achieved 120,000 RPM for the Dyson V2, V6, and V10 with the same efficiency as the original models. The Dyson V6 scope captures is shown in the scope capture below.</p>
+
+<p><img src="/assets/high_speed.png" alt="120,000 RPM in Dyson V6" style="display:block; margin-left:auto; margin-right:auto" /></p>
+<div align="center">
+120,000 RPM in Dyson V6
+</div>
+<p><br />
+My code supports Dyson V2, V6, and V10 motors. The high-level control loop uses a fixed look-up table for RPM transitions, although it can be converted into a PI control loop.
+<br />
+<br />
+<strong>Some Issues and Tips</strong></p>
+<ul>
+  <li>The V10 does not ramp-up as smoothly as the original Dyson V10, but the top RPM efficiency is equivalent.</li>
+  <li>I recommend using a current limit during the development phase to protect your mosfets, though it will need to be removed to reach high RPMs.</li>
+  <li>Avoid running the system excessively without proper cooling. The best cooling location is behind the motor, providing ample airflow. Position the H-bridge circuitry output of the airflow.</li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define HALL_EFFECT 2
+</span>
+<span class="c1">// H-Bridge Arduino Shield with BTN8982TA</span>
+<span class="cp">#define R_INH 12
+#define L_INH 13
+#define R_IN   3
+#define L_IN  11
+#define R_IS  A0
+#define L_IS  A1
+</span>
+<span class="c1">// CURRENT_LIMIT_ANALOG_COUNTER / 1023 * 5 * 19.5A = I_LIMIT</span>
+<span class="cp">#define CURRENT_LIMIT_ANALOG_COUNTER      1000 
+#define ENABLE_CURRENT_LIMIT_CHECK        false
+</span>
+<span class="cp">#define REF_CYCLE_FROM_DISABLE_TO_ENABLE  8
+</span>
+<span class="c1">// #define DYSON_V2</span>
+<span class="c1">// #define DYSON_V6</span>
+<span class="cp">#define DYSON_V10
+</span>
+<span class="kt">void</span> <span class="nf">disable_driver</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="c1">// digitalWrite(R_INH, 0);</span>
+  <span class="c1">// digitalWrite(L_INH, 0);</span>
+  <span class="n">PORTB</span> <span class="o">&amp;=</span> <span class="mb">0b11001111</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">enable_driver</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="c1">// digitalWrite(R_INH, 1);</span>
+  <span class="c1">// digitalWrite(L_INH, 1);</span>
+  <span class="n">PORTB</span> <span class="o">|=</span> <span class="mb">0b00110000</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">forward</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="c1">// digitalWrite(R_IN, 1);</span>
+  <span class="c1">// digitalWrite(L_IN, 0);</span>
+  <span class="n">PORTD</span> <span class="o">|=</span> <span class="mb">0b00001000</span><span class="p">;</span>
+  <span class="n">PORTB</span> <span class="o">&amp;=</span> <span class="mb">0b11110111</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">reverse</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="c1">// digitalWrite(R_IN, 0);</span>
+  <span class="c1">// digitalWrite(L_IN, 1);</span>
+  <span class="n">PORTD</span> <span class="o">&amp;=</span> <span class="mb">0b11110111</span><span class="p">;</span>
+  <span class="n">PORTB</span> <span class="o">|=</span> <span class="mb">0b00001000</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">head_start</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="c1">// Poking</span>
+  <span class="n">reverse</span><span class="p">();</span>
+  <span class="n">delayMicroseconds</span><span class="p">(</span><span class="mi">4000</span><span class="p">);</span>
+  <span class="n">forward</span><span class="p">();</span>
+  <span class="n">delayMicroseconds</span><span class="p">(</span><span class="mi">4000</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">HALL_EFFECT</span><span class="p">))</span>
+    <span class="p">{</span>
+      <span class="n">reverse</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+      <span class="n">forward</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="n">delayMicroseconds</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cp">#define FIRST_STATE 0
+</span>
+<span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">early_pulse_cycles</span><span class="p">[]</span>
+<span class="p">{</span>
+<span class="cp">#ifdef DYSON_V10
+</span>  <span class="mi">0</span><span class="p">,</span>
+  <span class="mi">0</span><span class="p">,</span>
+  <span class="mi">0</span><span class="p">,</span>
+  <span class="mi">0</span><span class="p">,</span>
+  <span class="mi">0</span><span class="p">,</span>
+  <span class="mi">0</span><span class="p">,</span>
+  <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span><span class="p">,</span>
+  <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span><span class="p">,</span>
+  <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span> <span class="o">-</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span> <span class="o">-</span> <span class="mi">4</span><span class="p">,</span>
+<span class="cp">#elif defined(DYSON_V6)
+</span>  <span class="mi">0</span><span class="p">,</span>
+  <span class="mi">0</span><span class="p">,</span>
+  <span class="mi">0</span><span class="p">,</span>
+  <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span> <span class="o">-</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span> <span class="o">-</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span> <span class="o">-</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span> <span class="o">-</span> <span class="mi">6</span><span class="p">,</span>
+<span class="cp">#elif defined(DYSON_V2)
+</span>  <span class="mi">0</span><span class="p">,</span>
+  <span class="mi">0</span><span class="p">,</span>
+  <span class="mi">0</span><span class="p">,</span>
+  <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span> <span class="o">-</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="n">REF_CYCLE_FROM_DISABLE_TO_ENABLE</span> <span class="o">-</span> <span class="mi">4</span><span class="p">,</span>
+<span class="cp">#endif
+</span><span class="p">};</span>
+
+<span class="k">const</span> <span class="kt">uint8_t</span> <span class="n">pulse_cycle_arr</span><span class="p">[]</span>
+<span class="p">{</span>
+<span class="cp">#ifdef DYSON_V10
+</span>  <span class="mi">170</span><span class="p">,</span>
+  <span class="mi">130</span><span class="p">,</span>
+   <span class="mi">60</span><span class="p">,</span>
+   <span class="mi">42</span><span class="p">,</span>
+   <span class="mi">24</span><span class="p">,</span>
+   <span class="mi">15</span><span class="p">,</span>
+   <span class="mi">13</span><span class="p">,</span>
+   <span class="mi">10</span><span class="p">,</span>
+   <span class="mi">6</span><span class="p">,</span>
+   <span class="mi">3</span><span class="p">,</span>
+   <span class="mi">1</span><span class="p">,</span>
+   <span class="mi">1</span><span class="p">,</span>
+   <span class="mi">1</span><span class="p">,</span>
+<span class="cp">#elif defined(DYSON_V6)
+</span>  <span class="mi">150</span><span class="p">,</span>
+   <span class="mi">42</span><span class="p">,</span>
+   <span class="mi">24</span><span class="p">,</span>
+   <span class="mi">19</span><span class="p">,</span>
+   <span class="mi">13</span><span class="p">,</span>
+   <span class="mi">9</span><span class="p">,</span>
+   <span class="mi">9</span><span class="p">,</span>
+<span class="cp">#elif defined(DYSON_V2)
+</span>  <span class="mi">100</span><span class="p">,</span>
+   <span class="mi">45</span><span class="p">,</span>
+   <span class="mi">34</span><span class="p">,</span>
+   <span class="mi">25</span><span class="p">,</span>
+   <span class="mi">25</span><span class="p">,</span>
+<span class="cp">#endif
+</span><span class="p">};</span>
+
+<span class="k">const</span> <span class="kt">float</span> <span class="n">rpm_thresholds</span><span class="p">[][</span><span class="mi">2</span><span class="p">]</span>
+<span class="p">{</span>
+<span class="cp">#ifdef DYSON_V10
+</span>  <span class="p">{</span>   <span class="mf">0.</span><span class="n">f</span><span class="p">,</span>     <span class="mf">300.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span> <span class="mf">700.</span><span class="n">f</span><span class="p">,</span>    <span class="mf">1200.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span> <span class="mf">2000.</span><span class="n">f</span><span class="p">,</span>   <span class="mf">5000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span> <span class="mf">3750.</span><span class="n">f</span><span class="p">,</span>   <span class="mf">7500.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span> <span class="mf">5000.</span><span class="n">f</span><span class="p">,</span>  <span class="mf">14000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">12000.</span><span class="n">f</span><span class="p">,</span>  <span class="mf">20000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">22000.</span><span class="n">f</span><span class="p">,</span>  <span class="mf">30000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">25000.</span><span class="n">f</span><span class="p">,</span>  <span class="mf">40000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">35000.</span><span class="n">f</span><span class="p">,</span>  <span class="mf">50000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">45000.</span><span class="n">f</span><span class="p">,</span>  <span class="mf">70000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">60000.</span><span class="n">f</span><span class="p">,</span>  <span class="mf">85000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">70000.</span><span class="n">f</span><span class="p">,</span>  <span class="mf">90000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">70000.</span><span class="n">f</span><span class="p">,</span> <span class="mf">140000.</span><span class="n">f</span><span class="p">},</span>
+<span class="cp">#elif defined(DYSON_V6)
+</span>  <span class="p">{</span><span class="mf">0.</span><span class="n">f</span><span class="p">,</span>       <span class="mf">10000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">7500.</span><span class="n">f</span><span class="p">,</span>    <span class="mf">15000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">10000.</span><span class="n">f</span><span class="p">,</span>   <span class="mf">35000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">30000.</span><span class="n">f</span><span class="p">,</span>   <span class="mf">65000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">60000.</span><span class="n">f</span><span class="p">,</span>   <span class="mf">80000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">70000.</span><span class="n">f</span><span class="p">,</span>   <span class="mf">90000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">80000.</span><span class="n">f</span><span class="p">,</span>  <span class="mf">140000.</span><span class="n">f</span><span class="p">}</span>
+<span class="cp">#elif defined(DYSON_V2)
+</span>  <span class="p">{</span><span class="mf">0.</span><span class="n">f</span><span class="p">,</span>      <span class="mf">20000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">15000.</span><span class="n">f</span><span class="p">,</span>  <span class="mf">30000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">20000.</span><span class="n">f</span><span class="p">,</span>  <span class="mf">70000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">60000.</span><span class="n">f</span><span class="p">,</span> <span class="mf">100000.</span><span class="n">f</span><span class="p">},</span>
+  <span class="p">{</span><span class="mf">80000.</span><span class="n">f</span><span class="p">,</span> <span class="mf">150000.</span><span class="n">f</span><span class="p">}</span>
+<span class="cp">#endif
+</span><span class="p">};</span>
+
+<span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">state</span> <span class="o">=</span> <span class="n">FIRST_STATE</span><span class="p">;</span>
+<span class="k">volatile</span> <span class="kt">float</span> <span class="n">speed</span> <span class="o">=</span> <span class="mf">0.</span><span class="n">f</span><span class="p">;</span> <span class="c1">// in RPM</span>
+<span class="k">volatile</span> <span class="kt">bool</span> <span class="n">hall_value</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+<span class="k">volatile</span> <span class="kt">bool</span> <span class="n">early_pulse_enable</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+
+<span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">forward_cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">reverse_cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">forward_cnt_happenned</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">reverse_cnt_happenned</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">inhibit_cnt_forward</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">inhibit_cnt_reverse</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">pulse_duration</span><span class="p">;</span>
+<span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">early_pulse_cnt_from_inhibit</span><span class="p">;</span>
+<span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">disable_to_hall_effect</span><span class="p">;</span>
+
+<span class="k">volatile</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">time_rising</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">volatile</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">time_falling</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">volatile</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">delta_time_high</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">volatile</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">delta_time_low</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+ 
+<span class="kt">void</span> <span class="n">hall_effect_int</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">early_pulse_enable</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">enable_driver</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="c1">// hall_value = digitalRead(HALL_EFFECT);</span>
+  <span class="n">hall_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">PIND</span> <span class="o">&amp;</span> <span class="mb">0b00000100</span><span class="p">);</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">hall_value</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">time_rising</span> <span class="o">=</span> <span class="n">micros</span><span class="p">();</span>
+    <span class="n">delta_time_high</span> <span class="o">=</span> <span class="n">time_rising</span> <span class="o">-</span> <span class="n">time_falling</span><span class="p">;</span>
+    <span class="n">forward_cnt_happenned</span> <span class="o">=</span> <span class="n">forward_cnt</span><span class="p">;</span>
+    <span class="n">forward_cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">inhibit_cnt_forward</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span>
+  <span class="p">{</span>
+    <span class="n">time_falling</span> <span class="o">=</span> <span class="n">micros</span><span class="p">();</span>
+    <span class="n">delta_time_low</span> <span class="o">=</span> <span class="n">time_falling</span> <span class="o">-</span> <span class="n">time_rising</span><span class="p">;</span>
+    <span class="n">reverse_cnt_happenned</span> <span class="o">=</span> <span class="n">reverse_cnt</span><span class="p">;</span>
+    <span class="n">reverse_cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">inhibit_cnt_reverse</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="c1">// Measures number of cycles between driver-off and hall effect sensor change</span>
+    <span class="n">disable_to_hall_effect</span> <span class="o">=</span> <span class="n">inhibit_cnt_forward</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">ISR</span><span class="p">(</span><span class="n">TIMER1_COMPA_vect</span><span class="p">){</span>
+  <span class="n">TCNT1</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// Clear for every interrupt</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">hall_value</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">forward_cnt</span> <span class="o">&gt;=</span> <span class="n">pulse_duration</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">inhibit_cnt_forward</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="p">{</span>
+        <span class="n">disable_driver</span><span class="p">();</span>
+        <span class="n">reverse</span><span class="p">();</span>
+      <span class="p">}</span>
+      <span class="n">inhibit_cnt_forward</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+      <span class="n">forward_cnt</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">early_pulse_enable</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">inhibit_cnt_forward</span> <span class="o">==</span> <span class="n">early_pulse_cnt_from_inhibit</span><span class="p">)</span>
+      <span class="p">{</span>
+        <span class="n">enable_driver</span><span class="p">();</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">else</span>
+  <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">reverse_cnt</span> <span class="o">&gt;=</span> <span class="n">pulse_duration</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">inhibit_cnt_reverse</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="p">{</span>
+        <span class="n">disable_driver</span><span class="p">();</span>
+        <span class="n">forward</span><span class="p">();</span>
+      <span class="p">}</span>
+      <span class="n">inhibit_cnt_reverse</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+      <span class="n">reverse_cnt</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">early_pulse_enable</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">inhibit_cnt_reverse</span> <span class="o">==</span> <span class="n">early_pulse_cnt_from_inhibit</span><span class="p">)</span>
+      <span class="p">{</span>
+        <span class="n">enable_driver</span><span class="p">();</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">ISR</span><span class="p">(</span><span class="n">TIMER2_COMPA_vect</span><span class="p">){</span>
+  <span class="n">TCNT2</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// Clear for every interrupt</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="o">++</span><span class="n">cnt</span> <span class="o">&gt;=</span> <span class="mi">25</span><span class="p">)</span> <span class="c1">// 25 * 10ms = 250ms</span>
+  <span class="p">{</span>
+    <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  
+    <span class="k">if</span> <span class="p">(</span><span class="n">speed</span> <span class="o">&gt;</span> <span class="n">rpm_thresholds</span><span class="p">[</span><span class="n">state</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="p">{</span>
+      <span class="n">state</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+  
+    <span class="k">if</span> <span class="p">(</span><span class="n">speed</span> <span class="o">&lt;</span> <span class="n">rpm_thresholds</span><span class="p">[</span><span class="n">state</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="p">{</span>
+      <span class="n">state</span><span class="o">--</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Update pulse control parameters</span>
+    <span class="n">pulse_duration</span> <span class="o">=</span> <span class="n">pulse_cycle_arr</span><span class="p">[</span><span class="n">state</span><span class="p">];</span>
+    <span class="n">early_pulse_cnt_from_inhibit</span> <span class="o">=</span>  <span class="n">early_pulse_cycles</span><span class="p">[</span><span class="n">state</span><span class="p">];</span>
+    <span class="n">early_pulse_enable</span> <span class="o">=</span> <span class="n">early_pulse_cycles</span><span class="p">[</span><span class="n">state</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">setup</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+  
+    <span class="n">pinMode</span><span class="p">(</span><span class="n">HALL_EFFECT</span><span class="p">,</span> <span class="n">INPUT</span><span class="p">);</span>
+    <span class="n">pinMode</span><span class="p">(</span><span class="n">HALL_EFFECT</span><span class="p">,</span> <span class="n">INPUT_PULLUP</span><span class="p">);</span>
+    <span class="n">pinMode</span><span class="p">(</span><span class="n">R_IS</span><span class="p">,</span> <span class="n">INPUT</span><span class="p">);</span>
+    <span class="n">pinMode</span><span class="p">(</span><span class="n">L_IS</span><span class="p">,</span> <span class="n">INPUT</span><span class="p">);</span>
+    <span class="n">pinMode</span><span class="p">(</span><span class="n">R_INH</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+    <span class="n">pinMode</span><span class="p">(</span><span class="n">L_INH</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+    <span class="n">pinMode</span><span class="p">(</span><span class="n">R_IN</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+    <span class="n">pinMode</span><span class="p">(</span><span class="n">L_IN</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+
+    <span class="n">disable_driver</span><span class="p">();</span>
+
+    <span class="n">cli</span><span class="p">();</span>
+
+    <span class="n">attachInterrupt</span><span class="p">(</span><span class="n">digitalPinToInterrupt</span><span class="p">(</span><span class="n">HALL_EFFECT</span><span class="p">),</span> <span class="n">hall_effect_int</span><span class="p">,</span> <span class="n">CHANGE</span><span class="p">);</span>
+  
+    <span class="c1">// Timer 1</span>
+    <span class="n">TCCR1A</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// Reset entire TCCR1A to 0 </span>
+    <span class="n">TCCR1B</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// Reset entire TCCR1B to 0</span>
+    <span class="n">TCNT1</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// Clear timer1 counter</span>
+  
+    <span class="c1">// Compare A</span>
+    <span class="n">TCCR1B</span> <span class="o">|=</span> <span class="n">B00000010</span><span class="p">;</span> <span class="c1">// CS12 CS11 CS10 -&gt; 010 -&gt; CLK / 8</span>
+    <span class="n">TIMSK1</span> <span class="o">|=</span> <span class="n">B00000010</span><span class="p">;</span> <span class="c1">// Set OCIE1A 1 -&gt; compare match for A</span>
+    <span class="n">OCR1A</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span> <span class="c1">// 16 MHz / 8 / 12 -&gt; 6us</span>
+  
+    <span class="c1">// Timer 2</span>
+    <span class="n">TCCR2A</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// Reset entire TCCR2A to 0 </span>
+    <span class="n">TCCR2B</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// Reset entire TCCR2B to 0</span>
+
+    <span class="c1">// Compare A</span>
+    <span class="n">TCCR2B</span> <span class="o">|=</span> <span class="n">B00000101</span><span class="p">;</span> <span class="c1">// CS12 CS11 CS10 -&gt; 101 -&gt; CLK / 1024 </span>
+    <span class="n">TIMSK2</span> <span class="o">|=</span> <span class="n">B00000010</span><span class="p">;</span> <span class="c1">//Set OCIE1A to 1 -&gt; compare match for A</span>
+    <span class="n">OCR2A</span> <span class="o">=</span> <span class="mi">157</span><span class="p">;</span> <span class="c1">// 16 MHz / 1024 / 157 -&gt; ~10 ms</span>
+
+    <span class="n">enable_driver</span><span class="p">();</span>
+    <span class="n">head_start</span><span class="p">();</span>
+
+    <span class="c1">// Initial condition setup</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">FIRST_STATE</span><span class="p">;</span>
+    <span class="n">pulse_duration</span> <span class="o">=</span> <span class="n">pulse_cycle_arr</span><span class="p">[</span><span class="n">FIRST_STATE</span><span class="p">];</span>
+    <span class="n">early_pulse_cnt_from_inhibit</span> <span class="o">=</span>  <span class="n">early_pulse_cycles</span><span class="p">[</span><span class="n">FIRST_STATE</span><span class="p">];</span>
+    <span class="n">early_pulse_enable</span> <span class="o">=</span> <span class="n">early_pulse_cycles</span><span class="p">[</span><span class="n">FIRST_STATE</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">;</span>
+  
+    <span class="n">sei</span><span class="p">();</span> <span class="c1">// Enable back the interrupts</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">loop</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">float</span> <span class="n">period_time</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)(</span><span class="n">delta_time_high</span> <span class="o">+</span> <span class="n">delta_time_low</span><span class="p">);</span>
+
+<span class="cp">#ifdef DYSON_V10 // 8 poles, single phase
+</span>  <span class="n">speed</span> <span class="o">=</span> <span class="p">(</span><span class="n">period_time</span> <span class="o">!=</span> <span class="mf">0.</span><span class="n">f</span><span class="p">)</span> <span class="o">?</span> <span class="p">(</span><span class="mf">15.</span><span class="n">f</span> <span class="o">*</span> <span class="mf">1000000.</span><span class="n">f</span> <span class="o">/</span> <span class="n">period_time</span><span class="p">)</span> <span class="o">:</span> <span class="mf">0.</span><span class="n">f</span><span class="p">;</span>
+<span class="cp">#elif defined(DYSON_V6) // 4 poles, single phase
+</span>  <span class="n">speed</span> <span class="o">=</span> <span class="p">(</span><span class="n">period_time</span> <span class="o">!=</span> <span class="mf">0.</span><span class="n">f</span><span class="p">)</span> <span class="o">?</span> <span class="p">(</span><span class="mf">30.</span><span class="n">f</span> <span class="o">*</span> <span class="mf">1000000.</span><span class="n">f</span> <span class="o">/</span> <span class="n">period_time</span><span class="p">)</span> <span class="o">:</span> <span class="mf">0.</span><span class="n">f</span><span class="p">;</span>
+<span class="cp">#elif defined(DYSON_V2) // 2 poles, single phase
+</span>  <span class="n">speed</span> <span class="o">=</span> <span class="p">(</span><span class="n">period_time</span> <span class="o">!=</span> <span class="mf">0.</span><span class="n">f</span><span class="p">)</span> <span class="o">?</span> <span class="p">(</span><span class="mf">60.</span><span class="n">f</span> <span class="o">*</span> <span class="mf">1000000.</span><span class="n">f</span> <span class="o">/</span> <span class="n">period_time</span><span class="p">)</span> <span class="o">:</span> <span class="mf">0.</span><span class="n">f</span><span class="p">;</span>
+<span class="cp">#endif
+</span>
+  <span class="c1">// These are custom inputs for debugging</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">())</span>
+  <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">data</span> <span class="o">=</span> <span class="n">Serial</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">data</span> <span class="o">==</span> <span class="sc">'a'</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">pulse_duration</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">data</span> <span class="o">==</span> <span class="sc">'z'</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">pulse_duration</span><span class="o">--</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">data</span> <span class="o">==</span> <span class="sc">'w'</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">early_pulse_cnt_from_inhibit</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">data</span> <span class="o">==</span> <span class="sc">'q'</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">early_pulse_cnt_from_inhibit</span><span class="o">--</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">data</span> <span class="o">==</span> <span class="sc">'e'</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">early_pulse_enable</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">data</span> <span class="o">==</span> <span class="sc">'s'</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">cli</span><span class="p">();</span>
+      <span class="n">disable_driver</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">int</span> <span class="n">is_r</span> <span class="o">=</span> <span class="n">analogRead</span><span class="p">(</span><span class="n">R_IS</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">is_l</span> <span class="o">=</span> <span class="n">analogRead</span><span class="p">(</span><span class="n">L_IS</span><span class="p">);</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">ENABLE_CURRENT_LIMIT_CHECK</span> <span class="o">&amp;&amp;</span> <span class="p">((</span><span class="n">is_r</span> <span class="o">&gt;</span> <span class="n">CURRENT_LIMIT_ANALOG_COUNTER</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">is_l</span> <span class="o">&gt;</span> <span class="n">CURRENT_LIMIT_ANALOG_COUNTER</span><span class="p">)))</span>
+  <span class="p">{</span>
+    <span class="n">cli</span><span class="p">();</span>
+    <span class="n">disable_driver</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">" speed: "</span><span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">speed</span><span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">" RPM"</span><span class="p">);</span>
+  
+  <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">" state: "</span><span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">state</span><span class="p">);</span>
+
+  <span class="c1">// Serial.print("high: ");</span>
+  <span class="c1">// Serial.print(delta_time_high);</span>
+  <span class="c1">// Serial.print(" low: ");</span>
+  <span class="c1">// Serial.print(delta_time_low);</span>
+
+  <span class="c1">// Serial.print(" forward_cnt: ");</span>
+  <span class="c1">// Serial.print(forward_cnt_happenned);</span>
+  <span class="c1">// Serial.print(" reverse_cnt: ");</span>
+  <span class="c1">// Serial.print(reverse_cnt_happenned);</span>
+
+  <span class="c1">// Serial.print(" disable_to_hall_effect: ");</span>
+  <span class="c1">// Serial.print(disable_to_hall_effect);</span>
+  <span class="c1">// Serial.print(" is_r: ");</span>
+  <span class="c1">// Serial.print(is_r);</span>
+  <span class="c1">// Serial.print(" is_l: ");</span>
+  <span class="c1">// Serial.print(is_l);</span>
+  <span class="c1">// Serial.print(" pulse_duration: ");</span>
+  <span class="c1">// Serial.print(pulse_duration);</span>
+  <span class="c1">// Serial.print(" early_pulse_enable: ");</span>
+  <span class="c1">// Serial.print(early_pulse_enable);</span>
+  <span class="c1">// Serial.print(" early_pulse_cnt_from_inhibit: ");</span>
+  <span class="c1">// Serial.println(early_pulse_cnt_from_inhibit);</span>
+<span class="p">}</span>
+</code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[Dyson V6 Setup Dyson V10 Setup Dyson handheld vacuum cleaners utilize high RPM brushless DC motors. Specifications indicate that some models can reach as high as 125000 RPM. I’ve disassembled DC56, V6, and V10 models. Each has a brushless single-phase motor, with differing number of poles: two for the DC56, four for the V6, and eight for the V10. An earlier article about their V2 motor hinted that besides the mechanical design, the controlling software is the key. The electronics are relatively straightforward, including an H-bridge driver, microcontroller, and hall effect sensor. I’ve taken up the task and developed my own software to match Dyson’s factory performance. My software could potentially be used with all their brushless motors. The components I utilized include an Arduino Uno (8-bit ATmega328P microcontroller), H-bridge controller, and a hall effect sensor. Despite Dyson V10 employing a 32-bit ARM micro-controller, I managed to control it using an 8-bit Arduino, which is cheaper component.]]></summary></entry><entry><title type="html">Expanding Quake’s Famous Fast Inverse Square Root Algorithm</title><link href="http://localhost:4000/2023/04/09/Expanding-Quake-s-Famous-Fast-Inverse-Sqrt-Root-Algorithm.html" rel="alternate" type="text/html" title="Expanding Quake’s Famous Fast Inverse Square Root Algorithm" /><published>2023-04-09T10:46:39-07:00</published><updated>2023-04-09T10:46:39-07:00</updated><id>http://localhost:4000/2023/04/09/Expanding-Quake-s-Famous-Fast-Inverse-Sqrt-Root-Algorithm</id><content type="html" xml:base="http://localhost:4000/2023/04/09/Expanding-Quake-s-Famous-Fast-Inverse-Sqrt-Root-Algorithm.html"><![CDATA[<p>In 1999, an unintuitive method was employed in the Quake III Arena graphics library to quickly calculate surface normals for lighting and shading. The function calculating inverse square root is in below. The original code for the repository can be found <a href="https://archive.softwareheritage.org/browse/content/sha1_git:bb0faf6919fc60636b2696f32ec9b3c2adb247fe/?origin_url=https://github.com/id-Software/Quake-III-Arena&amp;path=code/game/q_math.c&amp;revision=dbe4ddb10315479fc00086f08e25d968b4b43c49&amp;snapshot=4ab9bcef131aaf449a7c01370aff8c91dcecbf5f#L549-L572">here</a>.</p>
 
 <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="nf">Q_rsqrt</span><span class="p">(</span> <span class="kt">float</span> <span class="n">number</span> <span class="p">)</span>
 <span class="p">{</span>
@@ -241,7 +807,73 @@ Here is the generic code for taking power of $1/m$. You can modify and optimize 
 <span class="p">}</span>
 </code></pre></div></div>
 <p><br />
-<strong>References</strong></p>
+<strong>Expanding it to Exponential Function</strong>
+<br />
+If we set our function as $y = 2^x$. We get $log_2 y = log_2 2^x$.
+<br />
+<br />
+Logarithm cancels out. $log_2 y = x$
+<br />
+<br />
+We know that $log_2 y \approx \frac{I_y}{L} + \sigma - B$
+<br />
+<br />
+$x \approx \frac{I_y}{L} + \sigma - B$
+<br />
+<br />
+$I_y \approx L*(x-\sigma+B)$
+<br />
+<br />
+Newton-Raphson method would be useful for one more level of accuracy, however the iteration step requires logarithm so it isn’t cheap to calculate.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="nf">fastPowerOfTwo</span><span class="p">(</span><span class="kt">float</span> <span class="n">x</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="kt">float</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.04303566602</span><span class="p">;</span> <span class="c1">// Approximation constant</span>
+    <span class="k">const</span> <span class="kt">float</span> <span class="n">B</span> <span class="o">=</span> <span class="mf">127.</span><span class="n">f</span><span class="p">;</span> <span class="c1">// IEEE-754 single precision exponent offset</span>
+    <span class="k">const</span> <span class="kt">float</span> <span class="n">L</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">23</span><span class="p">;</span> <span class="c1">// IEEE-754 single prrecision mantissa length</span>
+    
+    <span class="c1">// Need to deal with overflows in exponent region</span>
+    <span class="kt">float</span> <span class="n">fractional_exponent</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">sigma</span> <span class="o">+</span> <span class="n">B</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">fractional_exponent</span> <span class="o">&gt;</span> <span class="mf">255.</span><span class="n">f</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">fractional_exponent</span> <span class="o">=</span> <span class="mf">255.</span><span class="n">f</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">float</span> <span class="n">I_y</span> <span class="o">=</span> <span class="n">L</span> <span class="o">*</span> <span class="n">fractional_exponent</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">I</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="p">)(</span><span class="n">I_y</span><span class="p">);</span>
+    <span class="kt">float</span> <span class="n">y</span> <span class="o">=</span> <span class="o">*</span><span class="p">((</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">I</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p><br />
+The popular function in general is natural exponent function. Base two can be converted into natural exponent using the following base change rule.
+<br />
+$e^x = 2^{\frac{x}{ln(2)}}$</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="nf">fastExp</span><span class="p">(</span><span class="kt">float</span> <span class="n">x</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="kt">float</span> <span class="n">one_over_ln2</span> <span class="o">=</span> <span class="mf">1.44269504089</span><span class="n">f</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">float</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.04303566602</span><span class="p">;</span> <span class="c1">// Approximation constant</span>
+    <span class="k">const</span> <span class="kt">float</span> <span class="n">B</span> <span class="o">=</span> <span class="mf">127.</span><span class="n">f</span><span class="p">;</span> <span class="c1">// IEEE-754 single precision exponent offset</span>
+    <span class="k">const</span> <span class="kt">float</span> <span class="n">L</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">23</span><span class="p">;</span> <span class="c1">// IEEE-754 single prrecision mantissa length</span>
+
+    <span class="c1">// Need to deal with overflows in exponent region</span>
+    <span class="kt">float</span> <span class="n">fractional_exponent</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">one_over_ln2</span> <span class="o">-</span> <span class="n">sigma</span> <span class="o">+</span> <span class="n">B</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">fractional_exponent</span> <span class="o">&gt;</span> <span class="mf">255.</span><span class="n">f</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">fractional_exponent</span> <span class="o">=</span> <span class="mf">255.</span><span class="n">f</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="kt">float</span> <span class="n">I_y</span> <span class="o">=</span> <span class="n">L</span> <span class="o">*</span> <span class="n">fractional_exponent</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">I</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="p">)(</span><span class="n">I_y</span><span class="p">);</span>
+    <span class="kt">float</span> <span class="n">y</span> <span class="o">=</span> <span class="o">*</span><span class="p">((</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">I</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>References</strong></p>
 <ul>
   <li>Lomont, Chris (February 2003). “Fast Inverse Square Root” (PDF). Retrieved 2009-02-13.</li>
   <li>https://en.wikipedia.org/wiki/Fast_inverse_square_root</li>
