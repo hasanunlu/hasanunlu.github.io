@@ -24,7 +24,7 @@ Dyson V10 Setup
           allowfullscreen></iframe>
 </div>
 \
-Dyson handheld vacuum cleaners utilize high RPM brushless DC motors. Specifications indicate that some models can reach as high as 125000 RPM. I've disassembled DC56, V6, and V10 models. Each has a brushless single-phase motor, with differing number of poles: two for the DC56, four for the V6, and eight for the V10. An earlier [article](https://www.electronicsweekly.com/market-sectors/power/dyson-vacuums-104000rpm-brushless-dc-technology-2009-06/) about their V2 motor hinted that besides the mechanical design, the controlling software is the key. The electronics are relatively straightforward, including an H-bridge driver, microcontroller, and hall effect sensor. I've taken up the task and developed my own software to match Dyson’s factory performance. My software could potentially be used with all their brushless motors. The components I utilized include an Arduino Uno (8-bit ATmega328P microcontroller), H-bridge controller, and a hall effect sensor. Despite Dyson V10 employing a 32-bit ARM micro-controller, I managed to control it using an 8-bit Arduino, which is cheaper component.
+Dyson handheld vacuum cleaners utilize high RPM brushless DC motors. Specifications indicate that some models can reach as high as 125000 RPM. I've disassembled DC56(V2), V6, and V10 models. Each has a brushless single-phase motor, with differing number of poles: two for the DC56, four for the V6, and eight for the V10. An earlier [article](https://www.electronicsweekly.com/market-sectors/power/dyson-vacuums-104000rpm-brushless-dc-technology-2009-06/) about their DC56(V2) motor hinted that besides the mechanical design, the controlling software is the key. The electronics are relatively straightforward, including an H-bridge driver, microcontroller, and hall effect sensor. I've taken up the task and developed my own software to match Dyson’s factory performance. My software could potentially be used with all their brushless motors. The components I utilized include an Arduino Uno (8-bit ATmega328P microcontroller), H-bridge controller, and a hall effect sensor. Despite Dyson V10 employing a 32-bit ARM micro-controller, I managed to control it using an 8-bit Arduino, which is cheaper component.
 
 <p align="center" width="100%">
     <img width="30%" src="/assets/v6_setup.jpg"> 
@@ -69,7 +69,7 @@ H-Bridge Forward and Backward Current Control
 The Scope Capture of the Simple Controlling Approach
 </div>
 \
-Upon observing that enabling the H-bridge before the hall effect sensor’s rising/falling edge boosted speed, this is because the hall effect sensor's location with respect to the rotor. I introduced an adjustable time offset from the previous hall effect sensor edge and enabled H-bridge after this offset. The system remains a closed-loop controlled by the hall effect sensor, however the pulse width control loop is phase-shifted. Now, it is time to reduce pulse width to achieve higher RPMs. A new challenge emerged in getting the minimum pulse width, the timer interrupt service routine measuring pulse durations couldn't be reduced after some point even when I set the minimum timer period. The problem was the Arduino library *digitalWrite(.)/digitalRead(.)* functions, which take tens of instruction cycles. I switched to direct GPIO port access to minimize latency in setting GPIOs.
+Upon observing that enabling the H-bridge before the hall effect sensor’s rising/falling edge boosted speed, this is because the hall effect sensor's location with respect to the coils. I introduced an adjustable time offset from the previous hall effect sensor edge and enabled H-bridge after this offset. The system remains a closed-loop controlled by the hall effect sensor, however the pulse width control loop is phase-shifted. Now, it is time to reduce pulse width to achieve higher RPMs. A new challenge emerged in getting the minimum pulse width, the timer interrupt service routine measuring pulse durations couldn't be reduced after some point even when I set the minimum timer period. The problem was the Arduino library *digitalWrite(.)/digitalRead(.)* functions, which take tens of instruction cycles. I switched to direct GPIO port access to minimize latency in setting GPIOs.
 
 **Direct GPIO Port Access Compiled Assembly Code**
 ```assembly
@@ -134,14 +134,14 @@ void digitalWrite(uint8_t pin, uint8_t val)
 }
 ```
 
-Following phase shifting from the hall effect detections and GPIO setting optimization, I achieved between 90000 and 120000 RPM for the Dyson V2, V6, and V10 with the same efficiency as the original models. The Dyson V6 signal capture at 120000 RPM is shown below.
+Following phase shifting from the hall effect detections and GPIO setting optimization, I achieved between 90000 and 120000 RPM for the Dyson DC56(V2), V6, and V10 with the same efficiency as the original models. The Dyson V6 signal capture at 120000 RPM is shown below.
 
 ![120000 RPM in Dyson V6](/assets/high_speed.png){:style="display:block; margin-left:auto; margin-right:auto"}
 <div align="center">
 120000 RPM in Dyson V6
 </div>
 \
-My code supports Dyson V2, V6, and V10 motors. The high-level control loop uses a fixed look-up table for RPM transitions, although it can be converted into a PI control loop.
+My code supports Dyson DC56(V2), V6, and V10 motors. The high-level control loop uses a fixed look-up table for RPM transitions, although it can be converted into a PI control loop.
 \
 \
 **Some Issues and Tips**
