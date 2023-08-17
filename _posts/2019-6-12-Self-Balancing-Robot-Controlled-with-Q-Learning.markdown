@@ -13,4 +13,8 @@ I implemented Q-learning as a substitute for the PID controller in a self-balanc
           frameborder="0" 
           allowfullscreen></iframe>
 </div>
-
+\
+![Poster Presentation](/assets/94.png){:style="display:block; margin-left:auto; margin-right:auto"}
+<div align="center">
+Poster Presentation
+</div>
