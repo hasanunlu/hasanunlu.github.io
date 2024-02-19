@@ -111,4 +111,4 @@ PC <- (*A) + B
 Bubble sort algorithm written in this assembly code: [bubble_sort.asm](https://raw.githubusercontent.com/hasanunlu/simple_cpu/master/bubble_sort.simplecpuasm.txt)
 
 **References**
-* The instruction is outlined by H. Fatih Ugurdag in one his graduate FPGA design courses.
+* The instructions are outlined by H. Fatih Ugurdag in one his graduate FPGA design courses.
