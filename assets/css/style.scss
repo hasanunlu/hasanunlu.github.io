@@ -252,8 +252,10 @@ th { font-weight: 600; color: var(--text-muted); }
   line-height: 1.15;
 }
 .intro__lede {
+  font-family: var(--font-serif);
   color: var(--text-muted);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  line-height: 1.55;
   max-width: 38rem;
   margin: 0;
 }
@@ -399,6 +401,88 @@ th { font-weight: 600; color: var(--text-muted); }
 }
 .post-nav a:hover { color: var(--accent); }
 .post-nav__back { margin-right: auto; }
+
+/* ---------- Syntax highlighting (Rouge) ---------- */
+.highlight, .highlight .w { color: var(--text); }
+
+.highlight .c,  .highlight .ch, .highlight .cd, .highlight .cm,
+.highlight .cpf, .highlight .c1, .highlight .cs,
+.highlight .cp { color: #8a8278; font-style: italic; }                /* comments */
+
+.highlight .k,  .highlight .kn, .highlight .kp, .highlight .kr,
+.highlight .kv, .highlight .kc, .highlight .kd, .highlight .kt
+                                              { color: #b3541e; }    /* keywords -> accent */
+
+.highlight .s,  .highlight .sb, .highlight .sc, .highlight .dl,
+.highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx,
+.highlight .s1, .highlight .sa                { color: #6b7f2c; }    /* strings -> olive */
+.highlight .sr                                { color: #2e856e; }
+.highlight .si, .highlight .se                { color: #b3541e; }
+
+.highlight .m,  .highlight .mb, .highlight .mf, .highlight .mh,
+.highlight .mi, .highlight .il, .highlight .mo, .highlight .mx,
+.highlight .ss                                { color: #6b7f2c; }    /* numbers -> olive */
+
+.highlight .nb                                { color: #9c6b00; }    /* builtins -> warm gold */
+.highlight .nf, .highlight .fm                { color: #9c6b00; }    /* functions */
+.highlight .nc, .highlight .nn, .highlight .no, .highlight .ne,
+.highlight .nl                                { color: #9c6b00; }    /* class/namespace */
+.highlight .na, .highlight .nv, .highlight .vc,
+.highlight .vg, .highlight .vi                { color: #2c6e8a; }    /* attrs/vars */
+.highlight .nt                                { color: #b3541e; }    /* tags */
+
+.highlight .o,  .highlight .ow                { color: #7a7a7a; }    /* operators */
+.highlight .p,  .highlight .pi                { color: #7a7a7a; }    /* punctuation */
+
+.highlight .err { color: #b00020; background: transparent; }
+.highlight .gh { color: #6b6b6b; font-weight: 600; }
+.highlight .gd { color: #b00020; background: #fbeaea; }
+.highlight .gi { color: #2e7d32; background: #eaf5ec; }
+.highlight .gu { color: #6b6b6b; }
+.highlight .gs { font-weight: 600; }
+.highlight .ge { font-style: italic; }
+
+@media (prefers-color-scheme: dark) {
+  .highlight .c,  .highlight .ch, .highlight .cd, .highlight .cm,
+  .highlight .cpf, .highlight .c1, .highlight .cs,
+  .highlight .cp { color: #7a7a7a; }
+
+  .highlight .k,  .highlight .kn, .highlight .kp, .highlight .kr,
+  .highlight .kv, .highlight .kc, .highlight .kd, .highlight .kt
+                                                { color: #e09467; }
+  .highlight .s,  .highlight .sb, .highlight .sc, .highlight .dl,
+  .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx,
+  .highlight .s1, .highlight .sa                { color: #b8c66f; }
+  .highlight .sr                                { color: #7fc8a9; }
+  .highlight .si, .highlight .se                { color: #e09467; }
+
+  .highlight .m,  .highlight .mb, .highlight .mf, .highlight .mh,
+  .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx,
+  .highlight .ss                                { color: #b8c66f; }
+
+  .highlight .nb,
+  .highlight .nf, .highlight .fm,
+  .highlight .nc, .highlight .nn, .highlight .no, .highlight .ne,
+  .highlight .nl                                { color: #d4a86a; }
+  .highlight .na, .highlight .nv, .highlight .vc,
+  .highlight .vg, .highlight .vi                { color: #7fb3d4; }
+  .highlight .nt                                { color: #e09467; }
+
+  .highlight .o,  .highlight .ow                { color: #9a9a9a; }
+  .highlight .p,  .highlight .pi                { color: #9a9a9a; }
+}
+
+/* Make sure Rouge tables don't have the global table styling */
+.highlight table, .highlight td, .highlight th {
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+.highlight .gutter, .highlight .lineno {
+  color: var(--text-faint);
+  padding-right: 0.8em;
+  user-select: none;
+}
 
 /* ---------- Page (about, etc.) ---------- */
 .page {
