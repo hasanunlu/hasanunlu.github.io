@@ -1,0 +1,503 @@
+@charset "UTF-8";
+/* =========================================================
+   Hasan Unlu's Blog — clean redesign
+   ========================================================= */
+:root {
+  --bg: #ffffff;
+  --bg-soft: #fafaf8;
+  --text: #1f1f1f;
+  --text-muted: #6b6b6b;
+  --text-faint: #9a9a9a;
+  --rule: #e8e6e1;
+  --accent: #b3541e; /* warm muted terracotta */
+  --accent-soft: #f4ece4;
+  --code-bg: #f5f3ef;
+  --code-border: #e8e6e1;
+  --selection: #ffe9d6;
+  --font-serif: "Iowan Old Style", "Charter", "Source Serif Pro",
+                Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI",
+                Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas,
+                "Liberation Mono", monospace;
+  --measure: 42rem;
+  --wide: 52rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16161a;
+    --bg-soft: #1d1d22;
+    --text: #ececec;
+    --text-muted: #a4a4a8;
+    --text-faint: #6e6e74;
+    --rule: #2a2a30;
+    --accent: #e09467;
+    --accent-soft: #2a221c;
+    --code-bg: #1f1f24;
+    --code-border: #2a2a30;
+    --selection: #3a2a1c;
+  }
+}
+/* ---------- Reset-ish ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-serif);
+  font-size: 19px;
+  line-height: 1.7;
+  font-feature-settings: "kern", "liga", "onum";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--selection);
+}
+
+img, svg, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ---------- Layout ---------- */
+.container {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.container--wide {
+  max-width: var(--wide);
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg);
+}
+
+.site-header__inner {
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.site-title {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.site-title:hover {
+  color: var(--accent);
+}
+
+.site-nav {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.site-nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.site-nav a:hover {
+  color: var(--accent);
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  margin-top: 6rem;
+  padding: 2.5rem 0 3rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--text-faint);
+}
+
+.site-footer__inner {
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.site-footer a {
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-right: 1rem;
+}
+
+.site-footer a:hover {
+  color: var(--accent);
+}
+
+/* ---------- Typography ---------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  color: var(--text);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  margin: 2.4em 0 0.6em;
+  font-weight: 650;
+}
+
+h1 {
+  font-size: 2.1rem;
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+h4 {
+  font-size: 1.05rem;
+}
+
+p {
+  margin: 0 0 1.2em;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  transition: border-color 120ms ease;
+}
+
+a:hover {
+  border-bottom-color: var(--accent);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 3rem 0;
+}
+
+blockquote {
+  margin: 1.5em 0;
+  padding: 0.2em 1.25em;
+  border-left: 3px solid var(--accent);
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+ul, ol {
+  padding-left: 1.4em;
+}
+
+li {
+  margin: 0.25em 0;
+}
+
+/* ---------- Code ---------- */
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+
+:not(pre) > code {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: 6px;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  line-height: 1.55;
+  margin: 1.5em 0;
+}
+
+pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+/* Rouge / highlight wrapper */
+.highlight, figure.highlight {
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: 6px;
+  margin: 1.5em 0;
+  overflow: hidden;
+}
+
+.highlight pre, figure.highlight pre {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+/* ---------- Tables ---------- */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5em 0;
+  font-size: 0.95em;
+  font-family: var(--font-sans);
+}
+
+th, td {
+  text-align: left;
+  padding: 0.55em 0.8em;
+  border-bottom: 1px solid var(--rule);
+}
+
+th {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* ---------- Home page ---------- */
+.intro {
+  padding: 3.5rem 0 1rem;
+}
+
+.intro__kicker {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 0.8rem;
+}
+
+.intro__title {
+  font-family: var(--font-sans);
+  font-size: 2.4rem;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.6rem;
+  line-height: 1.15;
+}
+
+.intro__lede {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  max-width: 38rem;
+  margin: 0;
+}
+
+.post-list-heading {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 4rem 0 0.5rem;
+  font-weight: 600;
+}
+
+.post-year {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-faint);
+  margin: 2.5rem 0 0.5rem;
+  letter-spacing: 0.04em;
+}
+
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.post-list__item {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 1.25rem;
+  align-items: baseline;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--rule);
+  margin: 0;
+}
+
+.post-list__date {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.post-list__title {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.post-list__title a {
+  color: var(--text);
+  border-bottom: 0;
+}
+
+.post-list__title a:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 540px) {
+  .post-list__item {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+}
+/* ---------- Post (article) ---------- */
+.post {
+  padding: 3rem 0 1rem;
+}
+
+.post-header {
+  margin-bottom: 2.5rem;
+}
+
+.post-title {
+  font-family: var(--font-sans);
+  font-size: 2.2rem;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin: 0 0 0.6rem;
+}
+
+.post-meta {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--text-faint);
+  margin: 0;
+}
+
+.post-content {
+  font-size: 1rem;
+}
+
+.post-content > :first-child {
+  margin-top: 0;
+}
+
+.post-content img {
+  margin: 1.8em auto;
+  border-radius: 4px;
+}
+
+.post-content figure {
+  margin: 1.8em 0;
+  text-align: center;
+}
+
+.post-content figcaption {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text-faint);
+  margin-top: 0.6em;
+}
+
+/* MathJax overflow safety */
+.MathJax_Display, mjx-container[display=true] {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+
+/* Embedded video */
+.video-holder {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  overflow: hidden;
+  border-radius: 6px;
+  margin: 1.8em 0;
+  background: var(--code-bg);
+}
+
+.video-holder iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Post nav at the bottom */
+.post-nav {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.post-nav a {
+  color: var(--text-muted);
+  border-bottom: 0;
+}
+
+.post-nav a:hover {
+  color: var(--accent);
+}
+
+.post-nav__back {
+  margin-right: auto;
+}
+
+/* ---------- Page (about, etc.) ---------- */
+.page {
+  padding: 3rem 0 1rem;
+}
+
+.page-title {
+  font-family: var(--font-sans);
+  font-size: 2rem;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  margin: 0 0 1.5rem;
+}
+
+/*# sourceMappingURL=style.css.map */

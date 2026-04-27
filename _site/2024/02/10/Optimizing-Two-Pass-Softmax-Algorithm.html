@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Optimizing Two-Pass Softmax Algorithm | Hasan Unlu’s Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Optimizing Two-Pass Softmax Algorithm" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In 2020, Dukhan and Ablavatski introduced an efficient two-pass softmax algorithm that significantly enhanced the performance of inference engines. This innovation undoubtedly saves considerable computational resources." />
+<meta property="og:description" content="In 2020, Dukhan and Ablavatski introduced an efficient two-pass softmax algorithm that significantly enhanced the performance of inference engines. This innovation undoubtedly saves considerable computational resources." />
+<link rel="canonical" href="https://hasanunlu.github.io/2024/02/10/Optimizing-Two-Pass-Softmax-Algorithm.html" />
+<meta property="og:url" content="https://hasanunlu.github.io/2024/02/10/Optimizing-Two-Pass-Softmax-Algorithm.html" />
+<meta property="og:site_name" content="Hasan Unlu’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-02-10T11:46:39-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Optimizing Two-Pass Softmax Algorithm" />
+<meta name="google-site-verification" content="YjIAXZxWTp3HTY6PTqnTaBW75iKnjz8lM7W8zfAjgjU" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-02-10T11:46:39-06:00","datePublished":"2024-02-10T11:46:39-06:00","description":"In 2020, Dukhan and Ablavatski introduced an efficient two-pass softmax algorithm that significantly enhanced the performance of inference engines. This innovation undoubtedly saves considerable computational resources.","headline":"Optimizing Two-Pass Softmax Algorithm","mainEntityOfPage":{"@type":"WebPage","@id":"https://hasanunlu.github.io/2024/02/10/Optimizing-Two-Pass-Softmax-Algorithm.html"},"url":"https://hasanunlu.github.io/2024/02/10/Optimizing-Two-Pass-Softmax-Algorithm.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://hasanunlu.github.io/feed.xml" title="Hasan Unlu&apos;s Blog" /></head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-title" href="/">Hasan Unlu&#39;s Blog</a>
+      <nav class="site-nav"><a href="/about/">About</a><a href="/feed.xml">RSS</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+</script>
+
+<article class="container post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Optimizing Two-Pass Softmax Algorithm</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2024-02-10T11:46:39-06:00" itemprop="datePublished">
+        February 10, 2024
+      </time>
+    </p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In 2020, Dukhan and Ablavatski introduced an efficient two-pass softmax algorithm that significantly enhanced the performance of inference engines. This innovation undoubtedly saves considerable computational resources.</p>
+
+<p align="center">
+  <img src="/assets/two-pass-softmax.png" alt="Two Pass Softmax" style="width:50%;" />
+</p>
+<p align="center">
+  Two Pass Softmax Algorithm
+</p>
+<p><br />
+It’s worth noting that operations based on <strong>base 2</strong> can also be performed using <strong>base e</strong>. The process, which involves extracting the exponent and reconstructing the number with its exponent and mantissa, can be greatly simplified. Specifically, extracting the exponent becomes straightforward, and constructing the number using the exponent and mantissa boils down to a simple exponential (<strong>exp</strong>) calculation. Below is the revised version of the two-pass softmax algorithm, adapted to <strong>base e</strong>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+<span class="n">m_sum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">n_sum</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="p">.</span><span class="n">Infinity</span>
+
+<span class="c1"># 1st Pass
+</span><span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="n">X</span><span class="p">:</span>
+  <span class="n">n_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">n_sum</span><span class="p">,</span> <span class="n">xi</span><span class="p">)</span>
+  <span class="n">exp_xi</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">xi</span> <span class="o">-</span> <span class="n">n_max</span><span class="p">)</span>
+  <span class="n">m_sum</span> <span class="o">=</span> <span class="n">exp_xi</span> <span class="o">+</span> <span class="n">m_sum</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">n_sum</span> <span class="o">-</span> <span class="n">n_max</span><span class="p">)</span>
+  <span class="n">n_sum</span> <span class="o">=</span> <span class="n">n_max</span>
+
+<span class="n">norm</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">m_sum</span>
+
+<span class="c1"># 2nd Pass
+</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+  <span class="n">exp_xi</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">n_sum</span><span class="p">)</span>
+  <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">exp_xi</span> <span class="o">*</span> <span class="n">norm</span>
+
+
+<span class="c1"># Reference softmax implementation for comparison
+</span><span class="k">def</span> <span class="nf">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">e_x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">e_x</span> <span class="o">/</span> <span class="n">e_x</span><span class="p">.</span><span class="nb">sum</span><span class="p">()</span>
+
+<span class="n">np</span><span class="p">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">softmax</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">Y</span><span class="p">)</span>
+</code></pre></div></div>
+
+
+  </div>
+
+  <nav class="post-nav">
+    <a class="post-nav__back" href="/">← All posts</a>
+      <a href="/2023/06/14/Motor-Controller-Software-and-Circuit-for-Dyson-Vacuum-Cleaner-Motors.html">← Motor Controller Software and Circuit for Dyson Vacuum Cleaner Motors</a>
+      <a href="/2024/08/03/Kronecker-Product-as-a-Subset-of-ConvTranspose2d.html">Kronecker Product as a Subset of ConvTranspose2d  →</a>
+  </nav>
+
+  <a class="u-url" href="/2024/02/10/Optimizing-Two-Pass-Softmax-Algorithm.html" hidden></a>
+</article>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div>
+        © 2026 Hasan Unlu&#39;s Blog
+      </div>
+      <div><a href="https://github.com/hasanunlu">GitHub</a><a href="https://twitter.com/hasanunlu9">Twitter</a><a href="mailto:hasanunlu9@gmail.com">Email</a></div>
+    </div>
+  </footer>
+</body>
+</html>

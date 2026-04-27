@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Kronecker Product as a Subset of ConvTranspose2d | Hasan Unlu’s Blog</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Kronecker Product as a Subset of ConvTranspose2d" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="It seems that torch.kron is just a subset of ConvTranspose2d with the kernel size equal to the stride. I did a simple benchmark for the following tensor: torch.kron took 41 us, while ConvTranspose2d took 26 us. torch.kron could be replaced with ConvTranspose2d." />
+<meta property="og:description" content="It seems that torch.kron is just a subset of ConvTranspose2d with the kernel size equal to the stride. I did a simple benchmark for the following tensor: torch.kron took 41 us, while ConvTranspose2d took 26 us. torch.kron could be replaced with ConvTranspose2d." />
+<link rel="canonical" href="https://hasanunlu.github.io/2024/08/03/Kronecker-Product-as-a-Subset-of-ConvTranspose2d.html" />
+<meta property="og:url" content="https://hasanunlu.github.io/2024/08/03/Kronecker-Product-as-a-Subset-of-ConvTranspose2d.html" />
+<meta property="og:site_name" content="Hasan Unlu’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-08-03T12:46:39-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Kronecker Product as a Subset of ConvTranspose2d" />
+<meta name="google-site-verification" content="YjIAXZxWTp3HTY6PTqnTaBW75iKnjz8lM7W8zfAjgjU" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-08-03T12:46:39-05:00","datePublished":"2024-08-03T12:46:39-05:00","description":"It seems that torch.kron is just a subset of ConvTranspose2d with the kernel size equal to the stride. I did a simple benchmark for the following tensor: torch.kron took 41 us, while ConvTranspose2d took 26 us. torch.kron could be replaced with ConvTranspose2d.","headline":"Kronecker Product as a Subset of ConvTranspose2d","mainEntityOfPage":{"@type":"WebPage","@id":"https://hasanunlu.github.io/2024/08/03/Kronecker-Product-as-a-Subset-of-ConvTranspose2d.html"},"url":"https://hasanunlu.github.io/2024/08/03/Kronecker-Product-as-a-Subset-of-ConvTranspose2d.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://hasanunlu.github.io/feed.xml" title="Hasan Unlu&apos;s Blog" /></head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-title" href="/">Hasan Unlu&#39;s Blog</a>
+      <nav class="site-nav"><a href="/about/">About</a><a href="/feed.xml">RSS</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+  });
+</script>
+
+<article class="container post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kronecker Product as a Subset of ConvTranspose2d </h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2024-08-03T12:46:39-05:00" itemprop="datePublished">
+        August 3, 2024
+      </time>
+    </p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>It seems that torch.kron is just a subset of ConvTranspose2d with the kernel size equal to the stride. I did a simple benchmark for the following tensor: torch.kron took 41 us, while ConvTranspose2d took 26 us. torch.kron could be replaced with ConvTranspose2d.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+
+<span class="n">k_s</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">x_s</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>
+
+<span class="n">weights</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">k_s</span><span class="p">)</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">x_s</span><span class="p">)</span>
+
+<span class="n">out_from_kron</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">kron</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+
+<span class="n">out_from_convtranspose2d</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">conv_transpose2d</span><span class="p">(</span><span class="n">inputs</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">x_s</span><span class="p">),</span> <span class="n">weights</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">k_s</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="n">k_s</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">out_from_kron</span><span class="p">,</span> <span class="n">out_from_convtranspose2d</span><span class="p">))</span>
+</code></pre></div></div>
+
+
+  </div>
+
+  <nav class="post-nav">
+    <a class="post-nav__back" href="/">← All posts</a>
+      <a href="/2024/02/10/Optimizing-Two-Pass-Softmax-Algorithm.html">← Optimizing Two-Pass Softmax Algorithm</a>
+  </nav>
+
+  <a class="u-url" href="/2024/08/03/Kronecker-Product-as-a-Subset-of-ConvTranspose2d.html" hidden></a>
+</article>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div>
+        © 2026 Hasan Unlu&#39;s Blog
+      </div>
+      <div><a href="https://github.com/hasanunlu">GitHub</a><a href="https://twitter.com/hasanunlu9">Twitter</a><a href="mailto:hasanunlu9@gmail.com">Email</a></div>
+    </div>
+  </footer>
+</body>
+</html>

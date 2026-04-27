@@ -1,0 +1,35 @@
+---
+layout: default
+---
+
+<div class="container">
+  <section class="intro">
+    <p class="intro__kicker">Notes &amp; experiments</p>
+    <h1 class="intro__title">{{ site.title | escape }}</h1>
+    <p class="intro__lede">
+      Hardware, low-level software, and the occasional math detour —
+      writing about the things I build for fun.
+    </p>
+  </section>
+
+  {{ content }}
+
+  <h2 class="post-list-heading">Writing</h2>
+
+  {%- assign posts_by_year = site.posts | group_by_exp: "p", "p.date | date: '%Y'" -%}
+  {%- for year in posts_by_year -%}
+    <h3 class="post-year">{{ year.name }}</h3>
+    <ul class="post-list">
+      {%- for post in year.items -%}
+        <li class="post-list__item">
+          <time class="post-list__date" datetime="{{ post.date | date_to_xmlschema }}">
+            {{ post.date | date: "%b %-d" }}
+          </time>
+          <h3 class="post-list__title">
+            <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+          </h3>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endfor -%}
+</div>

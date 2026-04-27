@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- seo -%}
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  {%- feed_meta -%}
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title | escape }}</a>
+      <nav class="site-nav">
+        {%- assign pages = site.pages | where_exp: "p", "p.title" | sort: "title" -%}
+        {%- for p in pages -%}
+          <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
+        {%- endfor -%}
+        <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {{ content }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div>
+        © {{ 'now' | date: "%Y" }} {{ site.title | escape }}
+      </div>
+      <div>
+        {%- if site.github_username -%}
+          <a href="https://github.com/{{ site.github_username }}">GitHub</a>
+        {%- endif -%}
+        {%- if site.twitter_username -%}
+          <a href="https://twitter.com/{{ site.twitter_username }}">Twitter</a>
+        {%- endif -%}
+        {%- if site.email -%}
+          <a href="mailto:{{ site.email }}">Email</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
