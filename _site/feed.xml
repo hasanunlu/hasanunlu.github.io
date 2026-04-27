@@ -1,4 +1,140 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://hasanunlu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://hasanunlu.github.io/" rel="alternate" type="text/html" /><updated>2026-04-27T15:57:32-05:00</updated><id>https://hasanunlu.github.io/feed.xml</id><title type="html">Hasan Unlu’s Blog</title><entry><title type="html">Kronecker Product as a Subset of ConvTranspose2d</title><link href="https://hasanunlu.github.io/2024/08/03/Kronecker-Product-as-a-Subset-of-ConvTranspose2d.html" rel="alternate" type="text/html" title="Kronecker Product as a Subset of ConvTranspose2d" /><published>2024-08-03T12:46:39-05:00</published><updated>2024-08-03T12:46:39-05:00</updated><id>https://hasanunlu.github.io/2024/08/03/Kronecker-Product-as-a-Subset-of-ConvTranspose2d</id><content type="html" xml:base="https://hasanunlu.github.io/2024/08/03/Kronecker-Product-as-a-Subset-of-ConvTranspose2d.html"><![CDATA[<p>It seems that torch.kron is just a subset of ConvTranspose2d with the kernel size equal to the stride. I did a simple benchmark for the following tensor: torch.kron took 41 us, while ConvTranspose2d took 26 us. torch.kron could be replaced with ConvTranspose2d.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://hasanunlu.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://hasanunlu.github.io/" rel="alternate" type="text/html" /><updated>2026-04-27T16:08:49-05:00</updated><id>https://hasanunlu.github.io/feed.xml</id><title type="html">Hasan Unlu’s Blog</title><entry><title type="html">The GOTO That Refused to Die</title><link href="https://hasanunlu.github.io/2026/04/27/The-GOTO-That-Refused-to-Die.html" rel="alternate" type="text/html" title="The GOTO That Refused to Die" /><published>2026-04-27T12:46:39-05:00</published><updated>2026-04-27T12:46:39-05:00</updated><id>https://hasanunlu.github.io/2026/04/27/The-GOTO-That-Refused-to-Die</id><content type="html" xml:base="https://hasanunlu.github.io/2026/04/27/The-GOTO-That-Refused-to-Die.html"><![CDATA[<p>Goto has been declared dead many times. Dijkstra wrote his famous letter in 1968, structured programming took over, and most people today assume the debate ended decades ago. The real story is more interesting. Removing goto, or trying to, has produced some of the more illuminating successes and failures in language design.</p>
+
+<h2 id="dijkstras-letter">Dijkstra’s Letter</h2>
+
+<p>In 1968, Edsger Dijkstra wrote a short note to <em>Communications of the ACM</em> titled “A Case Against the GO TO Statement.” The editor, Niklaus Wirth, retitled it to “Go To Statement Considered Harmful,” and the new title outlived most of the languages it critiqued.</p>
+
+<p>The actual argument is more subtle than the title suggests. Dijkstra was not claiming goto is morally evil. He was making a claim about human cognition: our ability to reason about a program’s state depends on a small, understandable relationship between the text of the program and its execution. With <code class="language-plaintext highlighter-rouge">if</code>, <code class="language-plaintext highlighter-rouge">while</code>, and <code class="language-plaintext highlighter-rouge">for</code>, you can look at any point in the code and roughly know where you are. With <code class="language-plaintext highlighter-rouge">goto</code>, you cannot. A label is a portal that can be entered from anywhere.</p>
+
+<p>The reaction was immediate. Frank Rubin wrote “‘GOTO Considered Harmful’ Considered Harmful” in 1987. Someone wrote a third-level rebuttal after that. The argument never quite ended.</p>
+
+<h2 id="pascal-removal-by-replacement">Pascal: Removal by Replacement</h2>
+
+<p>Pascal, designed by Niklaus Wirth, was the first mainstream language to take the position that goto was unnecessary. Pascal had <code class="language-plaintext highlighter-rouge">goto</code>, technically, but the culture around the language treated using it as a confession of failure. Programmers taught with Pascal in the 70s and 80s learned not to reach for it.</p>
+
+<p>This worked. Pascal programs were on average more readable than the Fortran and assembly-flavored C that came before. The structured programming vocabulary it championed (blocks, scopes, nested conditionals) is what every modern language now takes for granted.</p>
+
+<p>You can sometimes remove a feature not by deleting it but by building such good alternatives that nobody wants it.</p>
+
+<h2 id="java-the-reserved-word-that-does-nothing">Java: The Reserved Word That Does Nothing</h2>
+
+<p>Java does not have goto. It does have <code class="language-plaintext highlighter-rouge">goto</code> listed as a reserved word, which means you cannot use it as an identifier. Write <code class="language-plaintext highlighter-rouge">int goto = 5;</code> and the compiler rejects it.</p>
+
+<p>James Gosling reserved the keyword so future Java versions could potentially add goto, and so programmers migrating from C could not accidentally use <code class="language-plaintext highlighter-rouge">goto</code> as a variable name. Java never added it. The reservation is a small monument to a feature that exists only as an absence.</p>
+
+<p>Java programmers eventually wanted goto anyway and invented workarounds: labeled breaks, labeled continues, and the “break out of nested loops” pattern.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">outer:</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">found</span><span class="o">)</span> <span class="k">break</span> <span class="n">outer</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>This is structured goto with a costume on.</p>
+
+<h2 id="php-late-addition">PHP: Late Addition</h2>
+
+<p>PHP did not have goto for its first dozen years. Then in 2009, PHP 5.3 added it because people kept asking for it. PHP’s goto is restricted, you cannot jump into a loop or switch statement, only out of or within them. Almost no well-written PHP code uses it.</p>
+
+<h2 id="go-tasteful-inclusion">Go: Tasteful Inclusion</h2>
+
+<p>Go, released in 2009, includes <code class="language-plaintext highlighter-rouge">goto</code>. This surprised many people, because Go was designed by Ken Thompson, Rob Pike, and Robert Griesemer, who all knew the literature.</p>
+
+<p>Their reasoning was pragmatic. In hand-written state machines, in generated code, and in certain error-handling patterns, goto is the cleanest tool. Go’s goto has constraints (you cannot jump over variable declarations, you cannot jump into a block) that eliminate most of the worst scenarios. In practice, Go programmers almost never write goto, but when they need it, it is there.</p>
+
+<h2 id="the-apple-goto-fail-bug">The Apple goto fail Bug</h2>
+
+<p>In 2014, a bug was found in Apple’s SSL/TLS implementation. The relevant code is roughly:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">((</span><span class="n">err</span> <span class="o">=</span> <span class="n">SSLHashSHA1</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="o">&amp;</span><span class="n">hashCtx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">signedParams</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">goto</span> <span class="n">fail</span><span class="p">;</span>
+    <span class="k">goto</span> <span class="n">fail</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">((</span><span class="n">err</span> <span class="o">=</span> <span class="n">SSLHashSHA1</span><span class="p">.</span><span class="n">final</span><span class="p">(</span><span class="o">&amp;</span><span class="n">hashCtx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hashOut</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">goto</span> <span class="n">fail</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>There are two <code class="language-plaintext highlighter-rouge">goto fail;</code> lines after the first <code class="language-plaintext highlighter-rouge">if</code>. The second one is unconditional. It always jumps to the cleanup code, skipping the actual signature verification. For years, Apple devices accepted invalid SSL certificates without complaint.</p>
+
+<p>This bug became the poster child for “goto considered harmful” all over again. The honest reading is more nuanced. The bug was not really about goto. It was about the lack of mandatory braces after <code class="language-plaintext highlighter-rouge">if</code>. You could write the same bug with early <code class="language-plaintext highlighter-rouge">return</code> followed by another unconditional statement. The actual cause is C’s syntax letting an unbraced block look like a braced one. Goto was just the witness.</p>
+
+<h2 id="everything-is-goto-in-assembly">Everything Is Goto in Assembly</h2>
+
+<p>At the machine level, everything is goto. Every <code class="language-plaintext highlighter-rouge">if</code>, every <code class="language-plaintext highlighter-rouge">while</code>, every function call, every exception, every <code class="language-plaintext highlighter-rouge">await</code> compiles down to conditional and unconditional jumps. The CPU does not know what a block is. It does not know what a function is. It has a program counter and a set of instructions that either increment it or overwrite it.</p>
+
+<p>Here is a simple if/else in x86-64:</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nf">cmp</span>  <span class="nb">eax</span><span class="p">,</span> <span class="mi">10</span>        <span class="c1">; compare eax to 10</span>
+    <span class="nf">jle</span>  <span class="nv">.else_branch</span>   <span class="c1">; jump if less-or-equal</span>
+    <span class="nf">mov</span>  <span class="nb">ebx</span><span class="p">,</span> <span class="mi">1</span>         <span class="c1">; then-branch body</span>
+    <span class="nf">jmp</span>  <span class="nv">.end</span>
+<span class="nl">.else_branch:</span>
+    <span class="nf">mov</span>  <span class="nb">ebx</span><span class="p">,</span> <span class="mi">2</span>         <span class="c1">; else-branch body</span>
+<span class="nl">.end:</span>
+</code></pre></div></div>
+
+<p>Those <code class="language-plaintext highlighter-rouge">jle</code> and <code class="language-plaintext highlighter-rouge">jmp</code> instructions are pure unrestricted goto. The labels <code class="language-plaintext highlighter-rouge">.else_branch</code> and <code class="language-plaintext highlighter-rouge">.end</code> are exactly the kind of portals Dijkstra warned about. There is no scope, no block, no structure, just addresses and jumps.</p>
+
+<p>A while loop is the same thing with the jumps arranged slightly differently.</p>
+
+<div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">.loop_top:</span>
+    <span class="nf">cmp</span>  <span class="nb">eax</span><span class="p">,</span> <span class="mi">100</span>
+    <span class="nf">jge</span>  <span class="nv">.loop_end</span>
+    <span class="c1">; loop body here</span>
+    <span class="nf">inc</span>  <span class="nb">eax</span>
+    <span class="nf">jmp</span>  <span class="nv">.loop_top</span>
+<span class="nl">.loop_end:</span>
+</code></pre></div></div>
+
+<p>Two gotos: one conditional forward jump to exit, one unconditional backward jump to continue. That is all a while is. C, Haskell, and Python all compile down to this same shape, just via more or less scenic routes.</p>
+
+<p>x86-64 alone has <code class="language-plaintext highlighter-rouge">jmp</code>, <code class="language-plaintext highlighter-rouge">je</code>, <code class="language-plaintext highlighter-rouge">jne</code>, <code class="language-plaintext highlighter-rouge">jg</code>, <code class="language-plaintext highlighter-rouge">jge</code>, <code class="language-plaintext highlighter-rouge">jl</code>, <code class="language-plaintext highlighter-rouge">jle</code>, <code class="language-plaintext highlighter-rouge">ja</code>, <code class="language-plaintext highlighter-rouge">jae</code>, <code class="language-plaintext highlighter-rouge">jb</code>, <code class="language-plaintext highlighter-rouge">jbe</code>, <code class="language-plaintext highlighter-rouge">jo</code>, <code class="language-plaintext highlighter-rouge">jno</code>, <code class="language-plaintext highlighter-rouge">js</code>, <code class="language-plaintext highlighter-rouge">jns</code>, <code class="language-plaintext highlighter-rouge">jp</code>, <code class="language-plaintext highlighter-rouge">jnp</code>, <code class="language-plaintext highlighter-rouge">jcxz</code>, and more. Each is a specialized goto. The structured programming we enjoy in high-level languages is an illusion running on top of a machine that only speaks in jumps.</p>
+
+<p>Once you see assembly, Dijkstra’s letter reads differently. He was not saying jumps are bad. He knew the CPU runs on jumps. He was saying that the source code you write should not look like assembly. The compiler’s job is to translate structured intent into unstructured jumps. When you write <code class="language-plaintext highlighter-rouge">goto</code> in a high-level language, you skip that translation and hand the CPU’s view of the world directly back to the human reader.</p>
+
+<h2 id="goto-in-the-linux-kernel">Goto in the Linux Kernel</h2>
+
+<p>The Linux kernel still has thousands of <code class="language-plaintext highlighter-rouge">goto</code> statements in its C code. Kernel code sits close enough to the metal that pretending goto does not exist would be a kind of lie. The classic pattern, <code class="language-plaintext highlighter-rouge">goto cleanup</code> for error handling, is universal in systems C.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">do_stuff</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">acquire_lock</span><span class="p">())</span>    <span class="k">goto</span> <span class="n">err_lock</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">allocate_buffer</span><span class="p">())</span> <span class="k">goto</span> <span class="n">err_buffer</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">start_device</span><span class="p">())</span>    <span class="k">goto</span> <span class="n">err_device</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="nl">err_device:</span>
+    <span class="n">free_buffer</span><span class="p">();</span>
+<span class="nl">err_buffer:</span>
+    <span class="n">release_lock</span><span class="p">();</span>
+<span class="nl">err_lock:</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This is goto used well. Each label corresponds to a specific recovery point. The jumps are all forward, all into a single cleanup cascade. It is a hand-rolled <code class="language-plaintext highlighter-rouge">try</code>/<code class="language-plaintext highlighter-rouge">finally</code>, written this way because C does not have one. It also maps cleanly onto the assembly that will execute, so little is lost in translation.</p>
+
+<h2 id="renamed-not-removed">Renamed, Not Removed</h2>
+
+<p>We did not really get rid of goto. We renamed it.</p>
+
+<p>Exception handling is a goto that unwinds the stack. Early <code class="language-plaintext highlighter-rouge">return</code> is a limited goto. <code class="language-plaintext highlighter-rouge">break</code> and <code class="language-plaintext highlighter-rouge">continue</code> are gotos. Coroutines, generators, and async/await are structured non-local control flow.</p>
+
+<p>Rust’s <code class="language-plaintext highlighter-rouge">?</code> operator is goto for error propagation. Python’s <code class="language-plaintext highlighter-rouge">yield</code> is goto for iteration. JavaScript’s <code class="language-plaintext highlighter-rouge">async</code> is goto for I/O waiting. None of these are called goto, but the underlying mechanism (jumping somewhere that is not the next instruction) is the same. What changed is that each of these jumps has a defined source, a defined destination, and a type system that keeps the whole thing sane.</p>
+
+<p>Dijkstra was not wrong. Unrestricted goto does make programs harder to reason about. But the story is not really “goto is evil.” It is “non-local control flow is powerful, and we need to categorize and constrain it to use it safely.”</p>
+
+<p>Every language that tried to remove goto entirely either failed (Java, with its labeled breaks), added it back (PHP), or succeeded by inventing replacements so good nobody missed it (Pascal). Every language that kept it in some form (C, Go, Perl) relies on cultural taboo to keep it sequestered. Every modern feature that programmers love (exceptions, async, generators, early returns) is a constrained descendant of the same mechanism Dijkstra warned us about.</p>
+
+<p>The goto did not die. It got several new jobs under assumed names.</p>
+
+<p><strong>References</strong></p>
+<ul>
+  <li>Dijkstra, E. W. (March 1968). “Go To Statement Considered Harmful.” <em>Communications of the ACM</em>.</li>
+  <li>Rubin, F. (March 1987). “‘GOTO Considered Harmful’ Considered Harmful.” <em>Communications of the ACM</em>.</li>
+  <li><a href="https://www.imperialviolet.org/2014/02/22/applebug.html">Apple goto fail; bug analysis (ImperialViolet)</a></li>
+  <li><a href="https://lwn.net/Articles/16721/">Linux kernel goto usage discussion (LWN)</a></li>
+</ul>]]></content><author><name></name></author><summary type="html"><![CDATA[Goto has been declared dead many times. Dijkstra wrote his famous letter in 1968, structured programming took over, and most people today assume the debate ended decades ago. The real story is more interesting. Removing goto, or trying to, has produced some of the more illuminating successes and failures in language design.]]></summary></entry><entry><title type="html">Kronecker Product as a Subset of ConvTranspose2d</title><link href="https://hasanunlu.github.io/2024/08/03/Kronecker-Product-as-a-Subset-of-ConvTranspose2d.html" rel="alternate" type="text/html" title="Kronecker Product as a Subset of ConvTranspose2d" /><published>2024-08-03T12:46:39-05:00</published><updated>2024-08-03T12:46:39-05:00</updated><id>https://hasanunlu.github.io/2024/08/03/Kronecker-Product-as-a-Subset-of-ConvTranspose2d</id><content type="html" xml:base="https://hasanunlu.github.io/2024/08/03/Kronecker-Product-as-a-Subset-of-ConvTranspose2d.html"><![CDATA[<p>It seems that torch.kron is just a subset of ConvTranspose2d with the kernel size equal to the stride. I did a simple benchmark for the following tensor: torch.kron took 41 us, while ConvTranspose2d took 26 us. torch.kron could be replaced with ConvTranspose2d.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
@@ -1084,190 +1220,4 @@ Reading MPU6050
 Experiment setup
 </div>
 
-<p>Full source code is <a href="https://github.com/hasanunlu/i2c_demo_for_HiFive1">here</a>.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[The HiFive-1 represents the initial Risc-V board compatible with Arduino. Regrettably, it is only equipped with PWM, UART, and SPI hardware. During the past weekend, I developed a bit-bang I2C implementation that clocks up to 400KHz for my HiFive-1 board. The demonstration involves reading data from an MPU6050 sensor for all axes and displaying the Z-axis value in g.]]></summary></entry><entry><title type="html">Basic 3D Engine in Arduino</title><link href="https://hasanunlu.github.io/2018/05/07/Basic-3D-Engine-in-Arduino.html" rel="alternate" type="text/html" title="Basic 3D Engine in Arduino" /><published>2018-05-07T23:46:39-05:00</published><updated>2018-05-07T23:46:39-05:00</updated><id>https://hasanunlu.github.io/2018/05/07/Basic-3D-Engine-in-Arduino</id><content type="html" xml:base="https://hasanunlu.github.io/2018/05/07/Basic-3D-Engine-in-Arduino.html"><![CDATA[<p>In this experiment, fundamental 3D computer graphics operations, such as rotation, is displayed in LCD using 2D projection of the original object. The frame rate is 45 frames per second, although the display refresh rate is significantly slower than the actual data throughput.</p>
-
-<p>Check out the video.</p>
-<div class="video-holder">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/3_ugKHDYY54" frameborder="0" allowfullscreen=""></iframe>
-</div>
-<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*********************************************************************
-This is simple 3D object rotation and 2D projection example.
-It uses 64x48 oled display with SSD1306 controller.
-Driving to oled display, Adafruit_SSD1306(this is not original library
-64x48 support added by https://github.com/mcauser/Adafruit_SSD1306)
-and Adafruit_GFX libraries are used.
-*********************************************************************/</span>
-<span class="cp">#include</span> <span class="cpf">&lt;Adafruit_GFX.h&gt;</span><span class="cp">
-#include</span> <span class="cpf">&lt;Adafruit_SSD1306.h&gt;</span><span class="cp">
-</span>
-<span class="cp">#define OLED_RESET 4  // PIN4
-</span><span class="n">Adafruit_SSD1306</span> <span class="nf">display</span><span class="p">(</span><span class="n">OLED_RESET</span><span class="p">);</span>
-
-<span class="kt">float</span> <span class="n">cube</span><span class="p">[</span><span class="mi">8</span><span class="p">][</span><span class="mi">3</span><span class="p">];</span>
-<span class="kt">uint8_t</span> <span class="n">point_conn</span><span class="p">[</span><span class="mi">8</span><span class="p">][</span><span class="mi">8</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-<span class="kt">float</span> <span class="n">rad_X</span> <span class="o">=</span> <span class="n">PI</span> <span class="o">/</span> <span class="mi">4</span><span class="p">;</span>
-<span class="kt">float</span> <span class="n">rad_Y</span> <span class="o">=</span> <span class="n">PI</span> <span class="o">/</span> <span class="mi">3</span><span class="p">;</span>
-<span class="kt">float</span> <span class="n">rad_Z</span> <span class="o">=</span> <span class="n">PI</span> <span class="o">/</span> <span class="mi">8</span><span class="p">;</span>
-<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">t1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="kt">double</span> <span class="n">fps</span><span class="p">;</span>
-
-<span class="kt">void</span> <span class="nf">setup</span><span class="p">(){</span>  
-  <span class="n">display</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">SSD1306_SWITCHCAPVCC</span><span class="p">,</span> <span class="mh">0x3C</span><span class="p">);</span>  
-  <span class="n">display</span><span class="p">.</span><span class="n">setTextSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-  <span class="n">display</span><span class="p">.</span><span class="n">setTextColor</span><span class="p">(</span><span class="n">WHITE</span><span class="p">);</span>
-  <span class="n">display</span><span class="p">.</span><span class="n">clearDisplay</span><span class="p">();</span>
-
-  <span class="n">createConn</span><span class="p">(</span><span class="n">point_conn</span><span class="p">);</span>
-<span class="p">}</span>
-
-
-<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span> <span class="p">{</span>
-  <span class="cm">/* Define cube corner coordinates */</span>
-  <span class="cm">/* Every loop cube needs to start from first shape, otherwise floating point */</span>
-  <span class="cm">/* numbers will saturate or go zero */</span>
-  <span class="n">createCube</span><span class="p">(</span><span class="n">cube</span><span class="p">);</span>
- 
-  <span class="n">t1</span> <span class="o">=</span> <span class="n">micros</span><span class="p">();</span>
-    
-  <span class="n">display</span><span class="p">.</span><span class="n">clearDisplay</span><span class="p">();</span>
-
-  <span class="cm">/* 3D rotation in world coords */</span>
-  <span class="n">rotate_X</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">rad_X</span><span class="p">);</span>
-  <span class="n">rotate_Y</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">rad_X</span><span class="p">);</span>
-  <span class="n">rotate_Z</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">rad_Z</span><span class="p">);</span>
-  
-  <span class="n">filldispbuffer</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">point_conn</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
-
-  <span class="cm">/* Print FPS */</span>
-  <span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">40</span><span class="p">);</span>
-  <span class="n">display</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">fps</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  
-  <span class="n">display</span><span class="p">.</span><span class="n">display</span><span class="p">();</span>
-
-  <span class="cm">/* random rotation */</span>
-  <span class="n">rad_X</span> <span class="o">+=</span> <span class="mi">0</span><span class="p">.</span><span class="mo">06</span><span class="p">;</span>
-  <span class="n">rad_Y</span> <span class="o">+=</span> <span class="mi">0</span><span class="p">.</span><span class="mo">06</span><span class="p">;</span>
-  <span class="n">rad_Z</span> <span class="o">+=</span> <span class="mi">0</span><span class="p">.</span><span class="mo">04</span><span class="p">;</span>
-
-  <span class="n">fps</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)(</span><span class="n">micros</span><span class="p">()</span> <span class="o">-</span> <span class="n">t1</span><span class="p">);</span>
-  <span class="n">fps</span> <span class="o">=</span> <span class="mi">1000000</span> <span class="o">/</span> <span class="n">fps</span><span class="p">;</span>
-  
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">filldispbuffer</span><span class="p">(</span><span class="kt">float</span> <span class="n">obj</span><span class="p">[][</span><span class="mi">3</span><span class="p">],</span> <span class="kt">uint8_t</span> <span class="n">edges</span><span class="p">[][</span><span class="mi">8</span><span class="p">],</span> <span class="kt">uint8_t</span> <span class="n">num_point</span><span class="p">){</span>
-
-  <span class="kt">uint16_t</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">;</span>
-  <span class="kt">uint16_t</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">;</span>
-     
-  <span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]){</span>
-
-        <span class="c1">// Simple 2D projection</span>
-        <span class="n">x1</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint16_t</span><span class="p">)(</span><span class="n">obj</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">26</span><span class="p">)</span> <span class="o">+</span> <span class="mi">24</span><span class="p">;</span>
-        <span class="n">y1</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint16_t</span><span class="p">)(</span><span class="n">obj</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="mi">26</span><span class="p">)</span> <span class="o">+</span> <span class="mi">24</span><span class="p">;</span>
-
-        <span class="n">x2</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint16_t</span><span class="p">)(</span><span class="n">obj</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">26</span><span class="p">)</span> <span class="o">+</span> <span class="mi">24</span><span class="p">;</span>
-        <span class="n">y2</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint16_t</span><span class="p">)(</span><span class="n">obj</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="mi">26</span><span class="p">)</span> <span class="o">+</span> <span class="mi">24</span><span class="p">;</span>
-
-        <span class="n">display</span><span class="p">.</span><span class="n">drawLine</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">WHITE</span><span class="p">);</span>
-      <span class="p">}</span>  
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">rotate_X</span><span class="p">(</span><span class="kt">float</span> <span class="n">result</span><span class="p">[][</span><span class="mi">3</span><span class="p">],</span> <span class="kt">uint8_t</span> <span class="n">num_point</span><span class="p">,</span> <span class="kt">float</span> <span class="n">rad</span><span class="p">){</span>
-  <span class="kt">float</span> <span class="n">temp</span><span class="p">;</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_point</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">cos</span><span class="p">(</span><span class="n">rad</span><span class="p">)</span> <span class="o">-</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">sin</span><span class="p">(</span><span class="n">rad</span><span class="p">);</span>
-    <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">sin</span><span class="p">(</span><span class="n">rad</span><span class="p">)</span> <span class="o">+</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">cos</span><span class="p">(</span><span class="n">rad</span><span class="p">);</span>
-    <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>    
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">rotate_Y</span><span class="p">(</span><span class="kt">float</span> <span class="n">result</span><span class="p">[][</span><span class="mi">3</span><span class="p">],</span> <span class="kt">uint8_t</span> <span class="n">num_point</span><span class="p">,</span> <span class="kt">float</span> <span class="n">rad</span><span class="p">){</span>
-  <span class="kt">float</span> <span class="n">temp</span><span class="p">;</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_point</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">cos</span><span class="p">(</span><span class="n">rad</span><span class="p">)</span> <span class="o">+</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">sin</span><span class="p">(</span><span class="n">rad</span><span class="p">);</span>
-    <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=-</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">sin</span><span class="p">(</span><span class="n">rad</span><span class="p">)</span> <span class="o">+</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">cos</span><span class="p">(</span><span class="n">rad</span><span class="p">);</span>
-    <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>    
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">rotate_Z</span><span class="p">(</span><span class="kt">float</span> <span class="n">result</span><span class="p">[][</span><span class="mi">3</span><span class="p">],</span> <span class="kt">uint8_t</span> <span class="n">num_point</span><span class="p">,</span> <span class="kt">float</span> <span class="n">rad</span><span class="p">){</span>
-  <span class="kt">float</span> <span class="n">temp</span><span class="p">;</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_point</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">cos</span><span class="p">(</span><span class="n">rad</span><span class="p">)</span> <span class="o">-</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">sin</span><span class="p">(</span><span class="n">rad</span><span class="p">);</span>
-    <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=-</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">sin</span><span class="p">(</span><span class="n">rad</span><span class="p">)</span> <span class="o">+</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">cos</span><span class="p">(</span><span class="n">rad</span><span class="p">);</span>
-    <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>    
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="cm">/* manual definition for cube corner coordinates */</span>
-<span class="kt">void</span> <span class="nf">createCube</span><span class="p">(</span><span class="kt">float</span> <span class="n">obj</span><span class="p">[][</span><span class="mi">3</span><span class="p">]){</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-
-    <span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-
-    <span class="n">obj</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-
-    <span class="n">obj</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-
-    <span class="n">obj</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-
-    <span class="n">obj</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-
-    <span class="n">obj</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-
-    <span class="n">obj</span><span class="p">[</span><span class="mi">7</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">7</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
-    <span class="n">obj</span><span class="p">[</span><span class="mi">7</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>   
-<span class="p">};</span>
-
-<span class="cm">/* manual definition for edge connectivity */</span>
-<span class="kt">void</span> <span class="nf">createConn</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">edges</span><span class="p">[][</span><span class="mi">8</span><span class="p">]){</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  
-   <span class="n">edges</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  
-   <span class="n">edges</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  
-   <span class="n">edges</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  
-   <span class="n">edges</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  
-   <span class="n">edges</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-
-   <span class="n">edges</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-
-   <span class="n">edges</span><span class="p">[</span><span class="mi">7</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">7</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-   <span class="n">edges</span><span class="p">[</span><span class="mi">7</span><span class="p">][</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[In this experiment, fundamental 3D computer graphics operations, such as rotation, is displayed in LCD using 2D projection of the original object. The frame rate is 45 frames per second, although the display refresh rate is significantly slower than the actual data throughput.]]></summary></entry></feed>
+<p>Full source code is <a href="https://github.com/hasanunlu/i2c_demo_for_HiFive1">here</a>.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[The HiFive-1 represents the initial Risc-V board compatible with Arduino. Regrettably, it is only equipped with PWM, UART, and SPI hardware. During the past weekend, I developed a bit-bang I2C implementation that clocks up to 400KHz for my HiFive-1 board. The demonstration involves reading data from an MPU6050 sensor for all axes and displaying the Z-axis value in g.]]></summary></entry></feed>
