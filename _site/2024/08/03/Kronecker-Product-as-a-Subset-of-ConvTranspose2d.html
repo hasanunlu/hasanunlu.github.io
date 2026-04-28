@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Kronecker Product as a Subset of ConvTranspose2d | Hasan Unlu’s Blog</title>
 <meta name="generator" content="Jekyll v4.3.2" />
 <meta property="og:title" content="Kronecker Product as a Subset of ConvTranspose2d" />
@@ -21,7 +21,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-08-03T12:46:39-05:00","datePublished":"2024-08-03T12:46:39-05:00","description":"It seems that torch.kron is just a subset of ConvTranspose2d with the kernel size equal to the stride. I did a simple benchmark for the following tensor: torch.kron took 41 us, while ConvTranspose2d took 26 us. torch.kron could be replaced with ConvTranspose2d.","headline":"Kronecker Product as a Subset of ConvTranspose2d","mainEntityOfPage":{"@type":"WebPage","@id":"https://hasanunlu.github.io/2024/08/03/Kronecker-Product-as-a-Subset-of-ConvTranspose2d.html"},"url":"https://hasanunlu.github.io/2024/08/03/Kronecker-Product-as-a-Subset-of-ConvTranspose2d.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://hasanunlu.github.io/feed.xml" title="Hasan Unlu&apos;s Blog" /></head>
+<link rel="stylesheet" href="/assets/css/style.css?v=1777334478"><link type="application/atom+xml" rel="alternate" href="https://hasanunlu.github.io/feed.xml" title="Hasan Unlu&apos;s Blog" /></head>
 <body>
   <header class="site-header">
     <div class="site-header__inner">

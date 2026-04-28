@@ -75,14 +75,22 @@ img, svg, video {
 .container {
   max-width: var(--measure);
   margin: 0 auto;
-  padding-left: max(1.5rem, env(safe-area-inset-left));
-  padding-right: max(1.5rem, env(safe-area-inset-right));
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .container--wide {
   max-width: var(--wide);
 }
 
+/* Upgrade to safe-area-aware padding only where supported,
+   so a broken env()/max() never zeroes out the gutter. */
+@supports (padding: max(0px)) {
+  .container {
+    padding-left: max(1.5rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1.5rem, env(safe-area-inset-right, 0px));
+  }
+}
 /* ---------- Header ---------- */
 .site-header {
   border-bottom: 1px solid var(--rule);
@@ -92,10 +100,7 @@ img, svg, video {
 .site-header__inner {
   max-width: var(--wide);
   margin: 0 auto;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-  padding-left: max(1.5rem, env(safe-area-inset-left));
-  padding-right: max(1.5rem, env(safe-area-inset-right));
+  padding: 1.5rem;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -103,6 +108,12 @@ img, svg, video {
   flex-wrap: wrap;
 }
 
+@supports (padding: max(0px)) {
+  .site-header__inner {
+    padding-left: max(1.5rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1.5rem, env(safe-area-inset-right, 0px));
+  }
+}
 .site-title {
   font-family: var(--font-sans);
   font-size: 1.05rem;
@@ -145,14 +156,20 @@ img, svg, video {
 .site-footer__inner {
   max-width: var(--wide);
   margin: 0 auto;
-  padding-left: max(1.5rem, env(safe-area-inset-left));
-  padding-right: max(1.5rem, env(safe-area-inset-right));
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 1rem;
 }
 
+@supports (padding: max(0px)) {
+  .site-footer__inner {
+    padding-left: max(1.5rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1.5rem, env(safe-area-inset-right, 0px));
+  }
+}
 .site-footer a {
   color: var(--text-muted);
   text-decoration: none;
@@ -395,6 +412,20 @@ th {
 @media (max-width: 640px) {
   body {
     font-size: 17px;
+  }
+  .container,
+  .site-header__inner,
+  .site-footer__inner {
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+  }
+  @supports (padding: max(0px)) {
+    .container,
+    .site-header__inner,
+    .site-footer__inner {
+      padding-left: max(1.75rem, env(safe-area-inset-left, 0px));
+      padding-right: max(1.75rem, env(safe-area-inset-right, 0px));
+    }
   }
   .intro {
     padding: 2.5rem 0 0.5rem;
