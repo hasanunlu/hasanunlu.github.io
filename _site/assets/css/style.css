@@ -311,7 +311,8 @@ th {
 
 /* ---------- Home page ---------- */
 .intro {
-  padding: 3.5rem 0 1rem;
+  padding-top: 3.5rem;
+  padding-bottom: 1rem;
 }
 
 .intro__kicker {
@@ -428,7 +429,8 @@ th {
     }
   }
   .intro {
-    padding: 2.5rem 0 0.5rem;
+    padding-top: 2.5rem;
+    padding-bottom: 0.5rem;
   }
   .intro__title {
     font-size: 2rem;
@@ -437,7 +439,8 @@ th {
     font-size: 1.05rem;
   }
   .post {
-    padding: 2rem 0 0.5rem;
+    padding-top: 2rem;
+    padding-bottom: 0.5rem;
   }
   .post-title {
     font-size: 1.7rem;
@@ -471,7 +474,8 @@ th {
 }
 /* ---------- Post (article) ---------- */
 .post {
-  padding: 3rem 0 1rem;
+  padding-top: 3rem;
+  padding-bottom: 1rem;
 }
 
 .post-header {
@@ -721,7 +725,8 @@ th {
 
 /* ---------- Page (about, etc.) ---------- */
 .page {
-  padding: 3rem 0 1rem;
+  padding-top: 3rem;
+  padding-bottom: 1rem;
 }
 
 .page-title {

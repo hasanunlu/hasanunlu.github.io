@@ -256,7 +256,8 @@ th { font-weight: 600; color: var(--text-muted); }
 
 /* ---------- Home page ---------- */
 .intro {
-  padding: 3.5rem 0 1rem;
+  padding-top: 3.5rem;
+  padding-bottom: 1rem;
 }
 .intro__kicker {
   font-family: var(--font-sans);
@@ -363,11 +364,11 @@ th { font-weight: 600; color: var(--text-muted); }
     }
   }
 
-  .intro { padding: 2.5rem 0 0.5rem; }
+  .intro { padding-top: 2.5rem; padding-bottom: 0.5rem; }
   .intro__title { font-size: 2rem; }
   .intro__lede  { font-size: 1.05rem; }
 
-  .post { padding: 2rem 0 0.5rem; }
+  .post { padding-top: 2rem; padding-bottom: 0.5rem; }
   .post-title { font-size: 1.7rem; }
 
   .post-list-heading { margin-top: 3rem; }
@@ -385,7 +386,8 @@ th { font-weight: 600; color: var(--text-muted); }
 
 /* ---------- Post (article) ---------- */
 .post {
-  padding: 3rem 0 1rem;
+  padding-top: 3rem;
+  padding-bottom: 1rem;
 }
 .post-header { margin-bottom: 2.5rem; }
 .post-title {
@@ -548,7 +550,8 @@ th { font-weight: 600; color: var(--text-muted); }
 
 /* ---------- Page (about, etc.) ---------- */
 .page {
-  padding: 3rem 0 1rem;
+  padding-top: 3rem;
+  padding-bottom: 1rem;
 }
 .page-title {
   font-family: var(--font-sans);
